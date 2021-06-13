@@ -1,37 +1,830 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/128x128.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="企业架构维基百科、百度百科 国家企业信用公示系统：http:&#x2F;&#x2F;www.gsxt.gov.cn&#x2F;index.html 天眼查：https:&#x2F;&#x2F;www.tianyancha.com&#x2F; 企查查：https:&#x2F;&#x2F;www.qichacha.com&#x2F; Whois与反查http:&#x2F;&#x2F;whois.chinaz.com&#x2F;https:&#x2F;&#x2F;whois.aizhan.com&#x2F; 证书Chrome点开证书-&gt;详细信息">
+<meta property="og:type" content="article">
+<meta property="og:title" content="资产搜集方式总结">
+<meta property="og:url" content="http://laker.xyz/2020/03/06/%E8%B5%84%E4%BA%A7%E6%90%9C%E9%9B%86%E6%96%B9%E5%BC%8F%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="laker&#39;s Blog">
+<meta property="og:description" content="企业架构维基百科、百度百科 国家企业信用公示系统：http:&#x2F;&#x2F;www.gsxt.gov.cn&#x2F;index.html 天眼查：https:&#x2F;&#x2F;www.tianyancha.com&#x2F; 企查查：https:&#x2F;&#x2F;www.qichacha.com&#x2F; Whois与反查http:&#x2F;&#x2F;whois.chinaz.com&#x2F;https:&#x2F;&#x2F;whois.aizhan.com&#x2F; 证书Chrome点开证书-&gt;详细信息">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://laker.xyz/2020/03/06/%E8%B5%84%E4%BA%A7%E6%90%9C%E9%9B%86%E6%96%B9%E5%BC%8F%E6%80%BB%E7%BB%93/1583509759599.png">
+<meta property="article:published_time" content="2020-03-06T15:47:03.000Z">
+<meta property="article:modified_time" content="2020-03-06T15:55:50.000Z">
+<meta property="article:author" content="laker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://laker.xyz/2020/03/06/%E8%B5%84%E4%BA%A7%E6%90%9C%E9%9B%86%E6%96%B9%E5%BC%8F%E6%80%BB%E7%BB%93/1583509759599.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://laker.xyz/2020/03/06/资产搜集方式总结/"/>
+
+
+
+
+
+  <title>资产搜集方式总结 | laker's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">laker's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录渗透测试琐事仅仅</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://laker.xyz/2020/03/06/%E8%B5%84%E4%BA%A7%E6%90%9C%E9%9B%86%E6%96%B9%E5%BC%8F%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="laker's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">资产搜集方式总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-06T23:47:03+08:00">
+                2020-03-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="企业架构"><a href="#企业架构" class="headerlink" title="企业架构"></a>企业架构</h1><p>维基百科、百度百科</p>
+<p>国家企业信用公示系统：<a target="_blank" rel="noopener" href="http://www.gsxt.gov.cn/index.html">http://www.gsxt.gov.cn/index.html</a></p>
+<p>天眼查：<a target="_blank" rel="noopener" href="https://www.tianyancha.com/">https://www.tianyancha.com/</a></p>
+<p>企查查：<a target="_blank" rel="noopener" href="https://www.qichacha.com/">https://www.qichacha.com/</a></p>
+<h1 id="Whois与反查"><a href="#Whois与反查" class="headerlink" title="Whois与反查"></a>Whois与反查</h1><p><a target="_blank" rel="noopener" href="http://whois.chinaz.com/">http://whois.chinaz.com/</a><br><a target="_blank" rel="noopener" href="https://whois.aizhan.com/">https://whois.aizhan.com/</a></p>
+<h1 id="证书"><a href="#证书" class="headerlink" title="证书"></a>证书</h1><p>Chrome点开证书-&gt;详细信息-&gt;使用者可选名称</p>
+<p><img src="/2020/03/06/%E8%B5%84%E4%BA%A7%E6%90%9C%E9%9B%86%E6%96%B9%E5%BC%8F%E6%80%BB%E7%BB%93/1583509759599.png" alt="1583509759599"></p>
+<p><a target="_blank" rel="noopener" href="https://certspotter.com/api/v0/certs">https://certspotter.com/api/v0/certs</a><br><a target="_blank" rel="noopener" href="https://crt.sh/">https://crt.sh</a><br>crtFetch -d example.com</p>
+<h1 id="Google-hack语法"><a href="#Google-hack语法" class="headerlink" title="Google hack语法"></a>Google hack语法</h1><h2 id="敏感文件"><a href="#敏感文件" class="headerlink" title="敏感文件"></a>敏感文件</h2><p>site:xxx.com (filetype:doc OR filetype:ppt OR filetype:pps OR filetype:xls OR filetype:docx OR filetype:pptx OR filetype:ppsx OR filetype:xlsx OR filetype:odt OR filetype:ods OR filetype:odg OR filetype:odp OR filetype:pdf OR filetype:wpd OR filetype:svg OR filetype:svgz OR filetype:indd OR filetype:rdp OR filetype:sql OR filetype:xml OR filetype:db OR filetype:mdb OR filetype:sqlite)</p>
+<h2 id="后台"><a href="#后台" class="headerlink" title="后台"></a>后台</h2><ul>
+<li>site:xxx.xxx admin|login|system|管理|登录|内部|系统|邮件|email|mail|qq|群|微信|腾讯|</li>
+<li>site:xxx.com inurl:login|admin|manage|admin_login|system|user|auth|dev|test</li>
+<li>site:xxx.com intitle:后台|管理|内部|登录|系统</li>
+</ul>
+<h3 id="备案号搜索"><a href="#备案号搜索" class="headerlink" title="备案号搜索"></a>备案号搜索</h3><ul>
+<li><p>copyright信息查询</p>
+</li>
+<li><p>intext:”Tesla 双击查看原图 2020”</p>
+</li>
+<li><p>intext:”京ICP备11041704号-15”</p>
+<h2 id="可以正则的形式"><a href="#可以正则的形式" class="headerlink" title="可以正则的形式"></a>可以正则的形式</h2><p>site:dev.<em>.</em>/signin<br>site:*/recover-pass<br>site:smtp.*.*/login<br>site:/com:*<br>site:/216.75.*.*</p>
+</li>
+</ul>
+<h1 id="Fofa语法"><a href="#Fofa语法" class="headerlink" title="Fofa语法"></a>Fofa语法</h1><p>org:”Tesla”<br>ssl:”Tesla”<br>http.component:”Drupal”<br>http.title:”Login”<br>http.favicon.hash:81586312<br>os:”windows” port:”3389” net:”107.160.1.0/24”<br>Apache city:”Hong Kong” port:”8080”  product:”Apache Tomcat/Coyote JSP engine”</p>
+<h1 id="域名是否存活可利用httprobe工具确定-自写的工具"><a href="#域名是否存活可利用httprobe工具确定-自写的工具" class="headerlink" title="域名是否存活可利用httprobe工具确定/自写的工具"></a>域名是否存活可利用httprobe工具确定/自写的工具</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat domain.txt | httprobe &gt; domain-alive.txt </span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="域名搜集"><a href="#域名搜集" class="headerlink" title="域名搜集"></a>域名搜集</h1><p>gobuster dns -t 30 -w  sub_name.txt -i  -q –wildcard -d api.example.com| tee  domains-active.txt</p>
+<h1 id="公众号相关"><a href="#公众号相关" class="headerlink" title="公众号相关"></a>公众号相关</h1><p><a target="_blank" rel="noopener" href="https://weixin.sogou.com/weixin?type=1&amp;ie=utf8&amp;query=%E4%BA%AC%E4%B8%9C">https://weixin.sogou.com/weixin?type=1&amp;ie=utf8&amp;query=%E4%BA%AC%E4%B8%9C</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python gongzhonghao.py -d &quot;目标公司&quot;</span><br></pre></td></tr></table></figure>
+<p>工具所在链接<a target="_blank" rel="noopener" href="https://github.com/3stoneBrother/personalTools/blob/master/scripts/gongzhonghao.py">https://github.com/3stoneBrother/personalTools/blob/master/scripts/gongzhonghao.py</a></p>
+<h1 id="资产段"><a href="#资产段" class="headerlink" title="资产段"></a>资产段</h1><p>确定企业的IP段，可基于<a target="_blank" rel="noopener" href="https://bgp.he.net/%E7%AB%99%E7%82%B9%E8%BF%9B%E8%A1%8C%E6%94%B6%E9%9B%86%E3%80%82">https://bgp.he.net/站点进行收集。</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat aa.txt| grep -Eo &quot;\&lt;td\&gt;.*?td\&gt;&quot;| grep &quot;href&quot;| grep -Eo &quot;([0-9]&#123;1,3&#125;[\.])&#123;3&#125;[0-9]&#123;1,3&#125;\/*[0-9]&#123;0,2&#125;&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="基于备案"><a href="#基于备案" class="headerlink" title="基于备案"></a>基于备案</h1><p>点击反查，可看到该公司的其他备案域名信息：<br><a target="_blank" rel="noopener" href="http://www.beianbeian.com/search-1/example.html">http://www.beianbeian.com/search-1/example.html</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl http://www.beianbeian.com/search-1/example.html | grep &quot;&lt;/a&gt;&lt;br&gt;&lt;/td&gt;&quot; |  grep -o &quot;www\.\\w*\.\\w*&quot; | sort | uniq |sed &quot;s/www.//g&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="基于APP"><a href="#基于APP" class="headerlink" title="基于APP"></a>基于APP</h1><p>从以往APP抓包、反编译以往APP</p>
+<h1 id="从响应过程"><a href="#从响应过程" class="headerlink" title="从响应过程"></a>从响应过程</h1><p>CSP、CORS、出站链接、Burp爬虫spider</p>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+    
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdn.bootcss.com/sweetalert/2.1.2/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/sweetalert/1.1.2/sweetalert.min.css">
+
+  <p><span>本文标题:</span>资产搜集方式总结</a></p>
+  <p><span>文章作者:</span></a></p>
+  <p><span>发布时间:</span>2020年03月06日 - 23:47:03</p>
+  <p><span>最后更新:</span>2020年03月06日 - 23:55:50</p>
+  <p><span>原始链接:</span><a href="/2020/03/06/%E8%B5%84%E4%BA%A7%E6%90%9C%E9%9B%86%E6%96%B9%E5%BC%8F%E6%80%BB%E7%BB%93/" title="资产搜集方式总结">http://laker.xyz/2020/03/06/%E8%B5%84%E4%BA%A7%E6%90%9C%E9%9B%86%E6%96%B9%E5%BC%8F%E6%80%BB%E7%BB%93/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://laker.xyz/2020/03/06/%E8%B5%84%E4%BA%A7%E6%90%9C%E9%9B%86%E6%96%B9%E5%BC%8F%E6%80%BB%E7%BB%93/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/17/%E4%B8%80%E4%BA%9B%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9A%84%E4%BA%86%E8%A7%A3/" rel="next" title="一些面试题的了解">
+                <i class="fa fa-chevron-left"></i> 一些面试题的了解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/" rel="prev" title="内网命令记录">
+                内网命令记录 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.th3wind.xyz" title="th3wind" target="_blank">th3wind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://damit5.com/" title="damit5" target="_blank">damit5</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BC%81%E4%B8%9A%E6%9E%B6%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">企业架构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Whois%E4%B8%8E%E5%8F%8D%E6%9F%A5"><span class="nav-number">2.</span> <span class="nav-text">Whois与反查</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AF%81%E4%B9%A6"><span class="nav-number">3.</span> <span class="nav-text">证书</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Google-hack%E8%AF%AD%E6%B3%95"><span class="nav-number">4.</span> <span class="nav-text">Google hack语法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%8F%E6%84%9F%E6%96%87%E4%BB%B6"><span class="nav-number">4.1.</span> <span class="nav-text">敏感文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E5%8F%B0"><span class="nav-number">4.2.</span> <span class="nav-text">后台</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%87%E6%A1%88%E5%8F%B7%E6%90%9C%E7%B4%A2"><span class="nav-number">4.2.1.</span> <span class="nav-text">备案号搜索</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AF%E4%BB%A5%E6%AD%A3%E5%88%99%E7%9A%84%E5%BD%A2%E5%BC%8F"><span class="nav-number">4.3.</span> <span class="nav-text">可以正则的形式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Fofa%E8%AF%AD%E6%B3%95"><span class="nav-number">5.</span> <span class="nav-text">Fofa语法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%9F%E5%90%8D%E6%98%AF%E5%90%A6%E5%AD%98%E6%B4%BB%E5%8F%AF%E5%88%A9%E7%94%A8httprobe%E5%B7%A5%E5%85%B7%E7%A1%AE%E5%AE%9A-%E8%87%AA%E5%86%99%E7%9A%84%E5%B7%A5%E5%85%B7"><span class="nav-number">6.</span> <span class="nav-text">域名是否存活可利用httprobe工具确定&#x2F;自写的工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%9F%E5%90%8D%E6%90%9C%E9%9B%86"><span class="nav-number">7.</span> <span class="nav-text">域名搜集</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AC%E4%BC%97%E5%8F%B7%E7%9B%B8%E5%85%B3"><span class="nav-number">8.</span> <span class="nav-text">公众号相关</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B5%84%E4%BA%A7%E6%AE%B5"><span class="nav-number">9.</span> <span class="nav-text">资产段</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E5%A4%87%E6%A1%88"><span class="nav-number">10.</span> <span class="nav-text">基于备案</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8EAPP"><span class="nav-number">11.</span> <span class="nav-text">基于APP</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%8E%E5%93%8D%E5%BA%94%E8%BF%87%E7%A8%8B"><span class="nav-number">12.</span> <span class="nav-text">从响应过程</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">laker</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+    <br>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

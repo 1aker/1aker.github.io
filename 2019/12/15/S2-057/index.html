@@ -1,37 +1,915 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/128x128.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="代码审计," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="0x01 环境创建我使用IDEA进行Struts2的环境创建，这其中有坑。 首先便是Struts2必要jar包获取，最终采用了用解压的Struts-Blank.war部署在tomcat服务器的方式。这其中注意事项（也就是我踩过的坑）  JAVA环境变量的JAVA_HOME和JRE_HOME必须设置好且正确，tomcat的startup.bat才不会报错  IDEA创建Struts2项目后，正确配置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="S2-057">
+<meta property="og:url" content="http://laker.xyz/2019/12/15/S2-057/index.html">
+<meta property="og:site_name" content="laker&#39;s Blog">
+<meta property="og:description" content="0x01 环境创建我使用IDEA进行Struts2的环境创建，这其中有坑。 首先便是Struts2必要jar包获取，最终采用了用解压的Struts-Blank.war部署在tomcat服务器的方式。这其中注意事项（也就是我踩过的坑）  JAVA环境变量的JAVA_HOME和JRE_HOME必须设置好且正确，tomcat的startup.bat才不会报错  IDEA创建Struts2项目后，正确配置">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://laker.xyz/2019/12/15/S2-057/1574602211700.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/15/S2-057/1574602366031.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/15/S2-057/1574602452641.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/15/S2-057/1574602643216.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/15/S2-057/1574824039070.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/15/S2-057/1574823539921.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/15/S2-057/1574823600298.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/15/S2-057/1574823673569.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/15/S2-057/1574823846537.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/15/S2-057/1574824760967.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/15/S2-057/1574844367174.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/15/S2-057/1574844798241.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/15/S2-057/1574845450229.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/15/S2-057/1574847016917.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/15/S2-057/1574847239800.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/15/S2-057/1574847379519.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/15/S2-057/1574847630911.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/15/S2-057/1574847769047.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/15/S2-057/1574848072357.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/15/S2-057/1574848238718.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/15/S2-057/1574848364426.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/15/S2-057/1574860920812.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/15/S2-057/1574860990012.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/15/S2-057/1574861111565.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/15/S2-057/1574861845393.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/15/S2-057/1574861930644.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/15/S2-057/1574862318352.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/15/S2-057/1574862748988.png">
+<meta property="article:published_time" content="2019-12-15T02:33:12.000Z">
+<meta property="article:modified_time" content="2019-12-31T06:10:16.000Z">
+<meta property="article:author" content="laker">
+<meta property="article:tag" content="代码审计">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://laker.xyz/2019/12/15/S2-057/1574602211700.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://laker.xyz/2019/12/15/S2-057/"/>
+
+
+
+
+
+  <title>S2-057 | laker's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">laker's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录渗透测试琐事仅仅</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://laker.xyz/2019/12/15/S2-057/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="laker's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">S2-057</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-12-15T10:33:12+08:00">
+                2019-12-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="0x01-环境创建"><a href="#0x01-环境创建" class="headerlink" title="0x01 环境创建"></a>0x01 环境创建</h1><p>我使用IDEA进行Struts2的环境创建，这其中有坑。</p>
+<p>首先便是Struts2必要jar包获取，最终采用了用解压的Struts-Blank.war部署在tomcat服务器的方式。这其中注意事项（也就是我踩过的坑）</p>
+<ol>
+<li><p>JAVA环境变量的JAVA_HOME和JRE_HOME必须设置好且正确，tomcat的startup.bat才不会报错</p>
+</li>
+<li><p>IDEA创建Struts2项目后，正确配置JDK和Tomcat服务于IDEA，并且导包后是不行的，这里不会进行报错，但是IDEA中Tomcat日志会报错</p>
+<blockquote>
+<p><code>java.lang.ClassNotFoundException: org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</code></p>
+</blockquote>
+<p><img src="/2019/12/15/S2-057/1574602211700.png" alt="1574602211700"></p>
+</li>
+</ol>
+<p>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter是S2的核心过滤器，其配置在web.xml中</p>
+<p>在第三方包环境是有这个java文件的：</p>
+<p><img src="/2019/12/15/S2-057/1574602366031.png" alt="1574602366031"></p>
+<p>百度得以解决，在IDEA中的WEB-INF中新建lib文件夹并再拷一份第三方lib过去</p>
+<p><img src="/2019/12/15/S2-057/1574602452641.png" alt="1574602452641"></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/lihuan6656/article/details/53502842">https://blog.csdn.net/lihuan6656/article/details/53502842</a></p>
+<p>然后自己简单写了点demo跑起来之后看着这里的一个错误的demo配置<a target="_blank" rel="noopener" href="https://www.freebuf.com/column/208925.html">https://www.freebuf.com/column/208925.html</a></p>
+<p><img src="/2019/12/15/S2-057/1574602643216.png" alt="1574602643216"></p>
+<p>环境已经搭建完成。</p>
+<h1 id="0x02-进还是不进？"><a href="#0x02-进还是不进？" class="headerlink" title="0x02 进还是不进？"></a>0x02 进还是不进？</h1><p>在调试过程中多次遇到一个包进不去的情况，原因是因为该包没有被导入该对象属于tomcat底层对象如<strong>request</strong></p>
+<p><img src="/2019/12/15/S2-057/1574824039070.png" alt="1574824039070"></p>
+<p>若在对request.setAttribut()使用了F7将进入org.apache.catalina这个包，可是我们只能看到Frame界面其行数但是游标不会进入该包，也看不到其代码。</p>
+<p><strong>解决：</strong></p>
+<p><img src="/2019/12/15/S2-057/1574823539921.png" alt="1574823539921"></p>
+<p>可以看到，其归属于tomcat的lib包，在执行过程中tomcat能够进行解析，这就是为什么能执行但是IDEA无法跟进的原因。同样jdk的jar包也是一样，不过只要有该jar导入了IDEA便能让IDEA去反编译它。因此，<strong>调试过程中即使使用pom构建方式千万别忘了导入JDK和tomcat的lib包</strong>：</p>
+<p><img src="/2019/12/15/S2-057/1574823600298.png" alt="1574823600298"></p>
+<p><img src="/2019/12/15/S2-057/1574823673569.png" alt="1574823673569"></p>
+<p><img src="/2019/12/15/S2-057/1574823846537.png" alt="1574823846537"></p>
+<p>这样便能跟进tomcat层的jar包了</p>
+<p>PS：只能用该种该方式导入，否则如果是在pom库找到的jar包会因版本和代码不一致等问题产生编译错误，IDEA优先选择导入的jar包。程序运行就会报错。</p>
+<p>TIPS:除了跟进。还有一种很好的方式可以避免该错误：<strong>不进</strong>，如果不需要跟到tomcat层的问题。也就是该漏洞不由tomcat产生。推荐使用这种方式。思考有两种实现方式：</p>
+<ol>
+<li>在request的方法同时不要使用F7而使用F8，这样将不会进入方法体或者下断点使用F9</li>
+<li>在调试器设置选择绕过一些jar包（推荐）：</li>
+</ol>
+<p><img src="/2019/12/15/S2-057/1574824760967.png" alt="1574824760967"></p>
+<h3 id="0x03开始调试"><a href="#0x03开始调试" class="headerlink" title="0x03开始调试"></a>0x03开始调试</h3><p>根据漏洞描述将端点打在了struts2-core-2.3.24-sources.jar!\org\apache\struts2\dispatcher\mapper\DefaultActionMapper.java#parseNameAndNamespace    ↓</p>
+<p><img src="/2019/12/15/S2-057/1574844367174.png" alt="1574844367174"></p>
+<center>由于设置了不进入tomcat底层类，可以使用F7调试、不过千万不能忘记从哪里进去的，这样找不到出口还可以用断点+F9补救   ↑</center>
+
+
+
+<p>恶意数据存入namespace和mapping     ↓</p>
+<p><img src="/2019/12/15/S2-057/1574844798241.png" alt="1574844798241"></p>
+<p>继续F7下去  到达#getMapping方法，其调用的刚刚断点的#parseNameAndNamespace方法：   ↓</p>
+<p><img src="/2019/12/15/S2-057/1574845450229.png" alt="1574845450229"></p>
+<p>我们看到这个#handleSpecialParameters方法，考虑是否跟进，语义  处理特殊参数  可跟可不跟，无法确定这个特殊参数会不会处理我们的表达式。节省时间下个断点在265行，再下个在266行，不调用跟踪先。然后F9直接跳断点忽略该方法的跟进。    ↑</p>
+<p>然后是266的parseActionName，明显是指引action名字，简单看一下，因为我们如果又要使用断点跳过，在return还要通过useage得到返回    ↓</p>
+<p><img src="/2019/12/15/S2-057/1574847016917.png" alt="1574847016917"></p>
+<center>parseActionName处理看一下有！的情况    ↑</center>
+
+<p>然后返回，上一级继续Return到达了org\apache\struts2\dispatcher\ng\PrepareOperations.java#findActionMapping    ↓</p>
+<p><img src="/2019/12/15/S2-057/1574847239800.png" alt="1574847239800"></p>
+<p>这个#findActionMapping就是查看了下前文mapping取到了没，没取到就在值栈中去取，值栈的知识不再赘述的，其是Struts的上下文。    ↓</p>
+<p><img src="/2019/12/15/S2-057/1574847379519.png" alt="1574847379519"></p>
+<p>传入三参数的#findActionMapping，F7一下回到了org\apache\struts2\dispatcher\ng\filter\StrutsPrepareFilter.java#doFilter这里是过滤器处理的类，就在之前调用了#findActionMapping，所以#findActionMapping结束回到了#doFilter       ↓</p>
+<p><img src="/2019/12/15/S2-057/1574847630911.png" alt="1574847630911"></p>
+<center>下一步必然执行chain.doFilter（FilterChain） F7一下     ↑</center>
+
+<p><img src="/2019/12/15/S2-057/1574847769047.png" alt="1574847769047"></p>
+<p><del>遗憾的来到了这个catalina（tomcat底层包），刚刚那个Step设置有待商榷，解救一下，断点F9</del></p>
+<center>目前位于D:\environment\apache-tomcat-7.0.96\lib\catalina.jar!\org\apache\catalina\core\ApplicationFilterChain.class#doFilter      ↑</center>  
+
+<p>这里不是我们想看的内容，几次F8一下，我们到了struts2-core-2.3.24-sources.jar!\org\apache\struts2\dispatcher\ServletActionRedirectResult.java#execute      ↓</p>
+<p><img src="/2019/12/15/S2-057/1574848072357.png" alt="1574848072357"></p>
+<center>actionName = conditionalParse(actionName, invocation);//使用F8一下,因为actionName和invocation没有我们的ognl表达式    ↑</center>
+
+
+<p>下面便调了namespace = invocation.getProxy().getNamespace();去取namespace      ↓</p>
+<p><img src="/2019/12/15/S2-057/1574848238718.png" alt="1574848238718"></p>
+<p>下面一点，这里不确定是不是，语义分析或者去实现类看下或者F7进去看一下两种方式排查一下并不是执行ognl的地方     ↓</p>
+<p><img src="/2019/12/15/S2-057/1574848364426.png" alt="1574848364426"></p>
+<p>我选择了F7跟进的方式，178和180跟完了都不是     ↓</p>
+<p><img src="/2019/12/15/S2-057/1574860920812.png" alt="1574860920812"></p>
+<center>跟入父类execute执行方法，传入invocation      ↑</center>
+
+<p><img src="/2019/12/15/S2-057/1574860990012.png" alt="1574860990012"></p>
+<p>再调父类     ↑</p>
+<p>org\apache\struts2\dispatcher\StrutsResultSupport.java#execute最终执行，传入invocation参数     ↓</p>
+<p><img src="/2019/12/15/S2-057/1574861111565.png" alt="1574861111565"></p>
+<p>再F7跟进一下，到达本类的#conditionalParse方法：    ↓</p>
+<p><img src="/2019/12/15/S2-057/1574861845393.png" alt="1574861845393"></p>
+<center>传入了param参数，跟进下TextParseUtil.translateVariables      ↑</center>
+
+<p><img src="/2019/12/15/S2-057/1574861930644.png" alt="1574861930644"></p>
+<center>调了新的#translateVariables方法，构造了一个数组进去，然后又是一个重调用同名不同参函数，传了个最大值进去。     ↑</center>
+
+<p><img src="/2019/12/15/S2-057/1574862318352.png" alt="1574862318352"></p>
+<center>然后在171行，evaluate有点可疑，跟进下进了com\opensymphony\xwork2\util\OgnlTextParser.java#evaluate，在前面下个断点别跟丢了     ↑</center>
+
+<p>执行了几步，这里就是OGNL值执行地（OgnlTextParser#evaluate）     ↓</p>
+<p><img src="/2019/12/15/S2-057/1574862748988.png" alt="1574862748988"></p>
+<p>至此，传入的ognl表达式被com\opensymphony\xwork2\util\OgnlTextParser.java#evaluate予以解析。</p>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+    
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdn.bootcss.com/sweetalert/2.1.2/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/sweetalert/1.1.2/sweetalert.min.css">
+
+  <p><span>本文标题:</span>S2-057</a></p>
+  <p><span>文章作者:</span></a></p>
+  <p><span>发布时间:</span>2019年12月15日 - 10:33:12</p>
+  <p><span>最后更新:</span>2019年12月31日 - 14:10:16</p>
+  <p><span>原始链接:</span><a href="/2019/12/15/S2-057/" title="S2-057">http://laker.xyz/2019/12/15/S2-057/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://laker.xyz/2019/12/15/S2-057/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" rel="tag"># 代码审计</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/19/SSTI%E5%AD%A6%E4%B9%A0/" rel="next" title="SSTI学习">
+                <i class="fa fa-chevron-left"></i> SSTI学习
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/19/Wireshark%E8%BF%87%E6%BB%A4%E5%99%A8%E4%BD%BF%E7%94%A8/" rel="prev" title="Wireshark过滤器使用">
+                Wireshark过滤器使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.th3wind.xyz" title="th3wind" target="_blank">th3wind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://damit5.com/" title="damit5" target="_blank">damit5</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0x01-%E7%8E%AF%E5%A2%83%E5%88%9B%E5%BB%BA"><span class="nav-number">1.</span> <span class="nav-text">0x01 环境创建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x02-%E8%BF%9B%E8%BF%98%E6%98%AF%E4%B8%8D%E8%BF%9B%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">0x02 进还是不进？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#0x03%E5%BC%80%E5%A7%8B%E8%B0%83%E8%AF%95"><span class="nav-number">2.0.1.</span> <span class="nav-text">0x03开始调试</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">laker</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+    <br>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

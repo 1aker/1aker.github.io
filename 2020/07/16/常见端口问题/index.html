@@ -1,37 +1,875 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/128x128.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1、远程管理端口 22 端口（SSH） 1安全攻击：弱口令、暴力猜解、用户名枚举利用方式：1、通过用户名枚举可以判断某个用户名是否存在于目标主机中，2、利用弱口令&#x2F;暴力破解，获取目标主机权限。  23 端口（Telnet） 1安全漏洞：弱口令、明文传输利用方式：1、通过弱口令或暴力破解，获取目标主机权限。2、嗅探抓取telnet明文账户密码。  3389 端口（RDP） 1安全漏洞：暴力破解利用方">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常见端口问题">
+<meta property="og:url" content="http://laker.xyz/2020/07/16/%E5%B8%B8%E8%A7%81%E7%AB%AF%E5%8F%A3%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="laker&#39;s Blog">
+<meta property="og:description" content="1、远程管理端口 22 端口（SSH） 1安全攻击：弱口令、暴力猜解、用户名枚举利用方式：1、通过用户名枚举可以判断某个用户名是否存在于目标主机中，2、利用弱口令&#x2F;暴力破解，获取目标主机权限。  23 端口（Telnet） 1安全漏洞：弱口令、明文传输利用方式：1、通过弱口令或暴力破解，获取目标主机权限。2、嗅探抓取telnet明文账户密码。  3389 端口（RDP） 1安全漏洞：暴力破解利用方">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-07-16T02:08:57.000Z">
+<meta property="article:modified_time" content="2020-07-16T02:11:14.000Z">
+<meta property="article:author" content="laker">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://laker.xyz/2020/07/16/常见端口问题/"/>
+
+
+
+
+
+  <title>常见端口问题 | laker's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">laker's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录渗透测试琐事仅仅</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://laker.xyz/2020/07/16/%E5%B8%B8%E8%A7%81%E7%AB%AF%E5%8F%A3%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="laker's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">常见端口问题</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-07-16T10:08:57+08:00">
+                2020-07-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>1、远程管理端口</strong></p>
+<p><strong>22 端口（SSH）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全攻击：弱口令、暴力猜解、用户名枚举利用方式：1、通过用户名枚举可以判断某个用户名是否存在于目标主机中，2、利用弱口令/暴力破解，获取目标主机权限。</span><br></pre></td></tr></table></figure>
+
+<p><strong>23 端口（Telnet）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：弱口令、明文传输利用方式：1、通过弱口令或暴力破解，获取目标主机权限。2、嗅探抓取telnet明文账户密码。</span><br></pre></td></tr></table></figure>
+
+<p><strong>3389 端口（RDP）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：暴力破解利用方式：通过弱口令或暴力破解，获取目标主机权限。</span><br></pre></td></tr></table></figure>
+
+<p><strong>5632 端口（Pcanywhere）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：弱口令、暴力破解利用方式：通过弱口令或暴力破解，获取目标主机权限</span><br></pre></td></tr></table></figure>
+
+<p><strong>5900 端口（VNC）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：弱口令、暴力破解利用方式：通过弱口令或暴力破解，获取目标主机权限。</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>2、Web中间件/服务端口</strong></p>
+<p><strong>1090/1099 端口（RMI）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：JAVA RMI 反序列化远程命令执行漏洞利用方式：使用nmap检测端口信息。端口信息：1099/1090    Java-rmi    Java RMI Registry检测工具：attackRMI.jar</span><br></pre></td></tr></table></figure>
+
+<p><strong>7001 端口（Weblogic）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：弱口令、SSRF、反序列化漏洞利用方式：1、控制台弱口令上传war木马2、SSRF内网探测3、反序列化远程代码执行等</span><br></pre></td></tr></table></figure>
+
+<p><strong>8000 端口（jdwp）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：JDWP 远程命令执行漏洞端口信息：      8000             jdwp           java Debug Wire Protocol检测工具：https://github.com/IOActive/jdwp-shellifier</span><br></pre></td></tr></table></figure>
+
+<p><strong>8080 端口（Tomcat）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：弱口令、示例目录利用方式：通过弱口令登录控制台，上传war包。</span><br></pre></td></tr></table></figure>
+
+<p><strong>8080 端口（Jboss）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：未授权访问、反序列化。利用方式：1、未授权访问控制台，远程部署木马2、反序列化导致远程命令执行等。检测工具：https://github.com/joaomatosf/jexboss</span><br></pre></td></tr></table></figure>
+
+<p><strong>8080 端口（Resin）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：目录遍历、远程文件读取利用方式：通过目录遍历/远程文件读取获取敏感信息，为进一步攻击提供必要的信息。任意文件读取POC：payload1 = &quot;/resin-doc/resource/tutorial/jndi-appconfig/test?inputFile=/etc/passwd&quot;payload2 = &quot;/resin-doc/examples/jndi-appconfig/test?inputFile=../../../../../../../../../../etc/passwd&quot;payload3 = &quot;/ ..\\\\web-inf&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>8080 端口（Jetty）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：远程共享缓冲区泄漏利用方式：攻击者可以通过精心构造headers值来触发异常并偏移到共享缓冲区，其中包含了之前其他用户提交的请求，服务器会根据攻击者的payload返回特定位置的数据。检测工具：https://github.com/GDSSecurity/Jetleak-Testing-Script</span><br></pre></td></tr></table></figure>
+
+<p><strong>8080 端口（GlassFish）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：弱口令、任意文件读取利用方式：1、弱口令admin/admin，直接部署shell2、任意文件读取获取服务器敏感配置信息</span><br></pre></td></tr></table></figure>
+
+<p><strong>8080 端口（Jenkins）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：未授权访问 、远程代码执行利用方式：访问如下url，可以执行脚本命令，反弹shell，写入webshell等。http://&lt;target&gt;:8080/managehttp://&lt;target&gt;:8080/script</span><br></pre></td></tr></table></figure>
+
+<p><strong>8161 端口（ActiveMQ）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：弱口令、任意文件写入、反序列化利用方式：默认密码admin/admin登陆控制台、写入webshell、上传ssh key等方式。</span><br></pre></td></tr></table></figure>
+
+<p><em><strong>*9043 端口（webSphere）*</strong></em></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：控制台弱口令、远程代码执行后台地址：https://:9043/ibm/console/logon.jsp</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>*</em>***50000 端口 （SAP）*****</strong>*</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：远程代码执行利用方式：攻击者通过构造url请求，实现远程代码执行。POC:http://&lt;target&gt;:50000/ctc/servlet/com.sap.ctc.util.ConfigServlet?param=com.sap.ctc.util.FileSystemConfig;EXECUTE_CMD;CMDLINE=cmd.exe /c ipconfig /all</span><br></pre></td></tr></table></figure>
+
+<p><strong>50070 端口（hadoop）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：未授权访问利用方式：攻击者可以通过命令行操作多个目录下的数据，如进行删除操作。curl -i -X DELETE “http://ip:50070/webhdfs/v1/tmp?op=DELETE&amp;recursive=true“curl -i -X PUT “http://ip:50070/webhdfs/v1/NODATA4U_SECUREYOURSHIT?op=MKDIRS“</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>3、数据库端口</strong></p>
+<p><strong>389 端口（ldap）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：未授权访问 、弱口令利用方式：通过LdapBrowser工具直接连入。</span><br></pre></td></tr></table></figure>
+
+<p><strong>1433 端口（Mssql）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：弱口令、暴力破解利用方式：差异备份getshell、SA账户提权等</span><br></pre></td></tr></table></figure>
+
+<p><strong>1521 端口（Oracle）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：弱口令、暴力破解利用方式：通过弱口令/暴力破解进行入侵。</span><br></pre></td></tr></table></figure>
+
+<p><strong>3306 端口（MySQL）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：弱口令、暴力破解利用方式：利用日志写入webshell、udf提权、mof提权等。</span><br></pre></td></tr></table></figure>
+
+<p><strong>5432 端口（ PostgreSQL）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：弱口令、高权限命令执行利用方式：攻击者通过弱口令获取账号信息，连入postgres中，可执行系统命令。。PoC参考：    DROP TABLE IF EXISTS cmd_exec;    CREATE TABLE cmd_exec(cmd_output text);    COPY cmd_exec FROM PROGRAM &#x27;id&#x27;;    SELECT * FROM cmd_exec;</span><br></pre></td></tr></table></figure>
+
+<p><strong>5984 端口（CouchDB）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：垂直权限绕过、任意命令执行利用方式：通过构造数据创建管理员用户，使用管理员用户登录，构造恶意请求触发任意命令执行。后台访问：http://&lt;target&gt;:5984/_utils</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>6379 端口（Redis）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：未授权访问利用方式：绝对路径写webshell 、利用计划任务执行命令反弹shell、公私钥认证获取root权限、主从复制RCE等。</span><br></pre></td></tr></table></figure>
+
+<p><strong>9200 端口（elasticsearch）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：未授权访问、命令执行检测方式：1、直接访问如下url，获取相关敏感信息。  http://&lt;target&gt;:9200/_nodes  查看节点数据  http://&lt;target&gt;:9200/_river  查看数据库敏感信息2、通过构造特定的数据包，执行任意命令。</span><br></pre></td></tr></table></figure>
+
+<p><strong>11211 端口（MemCache）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：未授权访问检测方式：无需用户名密码，可以直接连接memcache 服务的11211端口。nc -vv &lt;target&gt; 11211</span><br></pre></td></tr></table></figure>
+
+<p><strong>27017 端口（Mongodb）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：未授权访问、弱口令利用方式：未授权访问/弱口令，远程连入数据库，导致敏感信息泄露。</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>4、常见协议端口</strong></p>
+<p><strong>21 端口（FTP)</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：1、配置不当    2、明文传输    3、第三方软件提权利用方式：1、匿名登录或弱口令2、嗅探ftp用户名和密码3、Serv-U权限较大的账号可导致系统命令执行。FTP提权命令：  # 增加系统用户   Quote site exec net user 4567 4567 /add  # 提升到管理员权限   Quote site exec net localgroup administrators 4567 /add</span><br></pre></td></tr></table></figure>
+
+<p><strong>25 端口（SMTP）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">攻击方式：1、匿名发送邮件 2、弱口令 3、SMTP用户枚举利用方式：1、SMTP服务器配置不当，攻击者可以使用任意用户发送邮件。2、SMTP弱口令扫描，获取用户账号密码，发送邮件钓鱼。3、通过SMTP用户枚举获取用户名：   nmap -p 25 -smtp-enum-users.nse &lt;target&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>53 端口（DNS）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全攻击：1、DNS域传送漏洞、DNS欺骗、DNS缓存投毒检测方式：1、DNS域传送漏洞，Windows下检测使用nslookup命令，Linux下检测使用dig命令，通过执行命令可以清楚的看到域名解析情况。2、DNS欺骗就是攻击者冒充域名服务器的一种欺骗行为。3、DNS缓存投毒是攻击者欺骗DNS服务器相信伪造的DNS响应的真实性。</span><br></pre></td></tr></table></figure>
+
+<p><strong>161 端口（SNMP）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：默认团体名/弱口令访问利用方式：通过nmap自带的审计脚本进行检测，可能导致敏感信息泄露。。1、弱口令检测：nmap –sU –p161 –script=snmp-brute &lt;target&gt;2、获取系统信息：nmap –sU –p161 –script=snmp-sysdescr &lt;target&gt;3、获取用户信息：nmap -sU -p161 --script=snmp-win32-user &lt;target&gt;4、获取网络端口状态：nmap -sU -p161 --script=snmp-netstat &lt;target&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>443 端口（SSL）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：OpenSSL 心脏出血利用方式：攻击者可以远程读取存在漏洞版本的openssl服务器内存中长大64K的数据。扫描脚本：nmap -sV --script=ssl-heartbleed &lt;target&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>445 端口（SMB）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：信息泄露、远程代码执行利用方式：可利用共享获取敏感信息、缓冲区溢出导致远程代码执行，如ms17010。</span><br></pre></td></tr></table></figure>
+
+<p><strong>873 端口（Rsync）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：匿名访问、弱口令利用方式：攻击者可以执行下载/上传等操作，也可以尝试上传webshell。1、下载：#rsync -avz a.b.c.d::path/file path/filiname  2、上传：#rsync -avz path/filename a.b.c.d::path/file</span><br></pre></td></tr></table></figure>
+
+<p><strong>2181 端口（Zookeeper）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：未授权访问检测方式：攻击者可通过执行envi命令获得系统大量的敏感信息，包括系统名称、Java环境。 echo envi | nc ip port</span><br></pre></td></tr></table></figure>
+
+<p><strong>2375 端口（Docker）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安全漏洞：未授权方式检测方式：通过docker daemon api 执行docker命令。#列出容器信息，效果与docker ps -a 一致。 curl http://&lt;target&gt;:2375/containers/json docker -H tcp://&lt;target&gt;:2375 start &lt;Container Id&gt;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    <div>
+    
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdn.bootcss.com/sweetalert/2.1.2/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/sweetalert/1.1.2/sweetalert.min.css">
+
+  <p><span>本文标题:</span>常见端口问题</a></p>
+  <p><span>文章作者:</span></a></p>
+  <p><span>发布时间:</span>2020年07月16日 - 10:08:57</p>
+  <p><span>最后更新:</span>2020年07月16日 - 10:11:14</p>
+  <p><span>原始链接:</span><a href="/2020/07/16/%E5%B8%B8%E8%A7%81%E7%AB%AF%E5%8F%A3%E9%97%AE%E9%A2%98/" title="常见端口问题">http://laker.xyz/2020/07/16/%E5%B8%B8%E8%A7%81%E7%AB%AF%E5%8F%A3%E9%97%AE%E9%A2%98/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://laker.xyz/2020/07/16/%E5%B8%B8%E8%A7%81%E7%AB%AF%E5%8F%A3%E9%97%AE%E9%A2%98/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/10/F5%20BIG-IP%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%EF%BC%88CVE-2020-5902%EF%BC%89/" rel="next" title="F5 BIG-IP远程代码执行（CVE-2020-5902）">
+                <i class="fa fa-chevron-left"></i> F5 BIG-IP远程代码执行（CVE-2020-5902）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/07/16/%E5%88%A9%E7%94%A8XServer%E8%A7%A3%E5%AF%86APP/" rel="prev" title="利用XServer解密APP">
+                利用XServer解密APP <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.th3wind.xyz" title="th3wind" target="_blank">th3wind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://damit5.com/" title="damit5" target="_blank">damit5</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">laker</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+    <br>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

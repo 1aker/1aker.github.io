@@ -1,37 +1,913 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/128x128.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="代码审计," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="首先是一些JAVA审计中很重要的知识，其与JAVA的基础知识关系不大。 RMI的调用流程、RMI注册表以及动态加载类RMI的调用流程，从我之前写过的 真实环境下的FastJson1.2.47反序列化 参考，首先POST到服务器一串Payload 该Payload有我们的恶意class的服务器地址和恶意路径。 受害者服务器访问该链接去调取恶意class。并执行。 其中Exploit.class由Ex">
+<meta property="og:type" content="article">
+<meta property="og:title" content="读他人知识获得的一些知识">
+<meta property="og:url" content="http://laker.xyz/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/index.html">
+<meta property="og:site_name" content="laker&#39;s Blog">
+<meta property="og:description" content="首先是一些JAVA审计中很重要的知识，其与JAVA的基础知识关系不大。 RMI的调用流程、RMI注册表以及动态加载类RMI的调用流程，从我之前写过的 真实环境下的FastJson1.2.47反序列化 参考，首先POST到服务器一串Payload 该Payload有我们的恶意class的服务器地址和恶意路径。 受害者服务器访问该链接去调取恶意class。并执行。 其中Exploit.class由Ex">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://laker.xyz/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/1575430860323.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/1575432491296.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/1575436071395.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/1575438375514.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/1575438394677.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/1575441023028.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/1575441696645.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/1575442572538.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/1575443059434.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/1575447960527.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/1575448290193.png">
+<meta property="og:image" content="http://laker.xyz/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/1575448327451.png">
+<meta property="article:published_time" content="2019-12-20T11:37:52.000Z">
+<meta property="article:modified_time" content="2019-12-31T06:14:56.000Z">
+<meta property="article:author" content="laker">
+<meta property="article:tag" content="代码审计">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://laker.xyz/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/1575430860323.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://laker.xyz/2019/12/20/读他人知识获得的一些知识/"/>
+
+
+
+
+
+  <title>读他人知识获得的一些知识 | laker's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">laker's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录渗透测试琐事仅仅</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://laker.xyz/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="laker's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">读他人知识获得的一些知识</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-12-20T19:37:52+08:00">
+                2019-12-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>首先是一些JAVA审计中很重要的知识，其与JAVA的基础知识关系不大。</p>
+<h2 id="RMI的调用流程、RMI注册表以及动态加载类"><a href="#RMI的调用流程、RMI注册表以及动态加载类" class="headerlink" title="RMI的调用流程、RMI注册表以及动态加载类"></a>RMI的调用流程、RMI注册表以及动态加载类</h2><p>RMI的调用流程，从我之前写过的 真实环境下的FastJson1.2.47反序列化 参考，首先POST到服务器一串Payload</p>
+<p>该Payload有我们的恶意class的服务器地址和恶意路径。</p>
+<p>受害者服务器访问该链接去调取恶意class。并执行。</p>
+<p>其中Exploit.class由Exploit.java生成如图所示：</p>
+<p><img src="/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/1575430860323.png" alt="1575430860323"></p>
+<p>而这里的<strong>Exploit.class即为远程对象</strong>。</p>
+<p>而远程方法调用则是<strong>技术</strong>，其中可选用<strong>rmi和ldap</strong></p>
+<h3 id="1-2-远程对象"><a href="#1-2-远程对象" class="headerlink" title="1.2 远程对象"></a>1.2 远程对象</h3><p>使用<strong>远程方法调用</strong>，必然会涉及<strong>参数的传递和执行结果的返回</strong>。参数或者返回值可以是基本数据类型，当然也有可能是对象的引用。所以这些需要被传输的对象必须可以被序列化（实现java.io.Serializable 接口），并且客户端的serialVersionUID字段要与服务器端保持一致。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">serialVersionUID：</span><br><span class="line">	serialVersionUID适用于java序列化机制。</span><br><span class="line">	简单来说，JAVA序列化的机制是通过判断类的serialVersionUID来验证的版本一致的。</span><br><span class="line">	在进行反序列化时，JVM会把传来的字节流中的serialVersionUID于本地相应实体类的serialVersionUID进行比较。如果相同说明是一致的，可以进行反序列化，否则会出现反序列化版本一致的异常，即是InvalidCastException。</span><br></pre></td></tr></table></figure>
+
+<p>对RMI而言：任何可以被远程调用方法的对象需要实现下列三种情形的一种</p>
+<ol>
+<li>实现 java.rmi.Remote 接口</li>
+<li>远程对象的实现类必须继承UnicastRemoteObject类。</li>
+<li>手工初始化远程对象，并在远程对象的构造方法的调用UnicastRemoteObject.exportObject()静态方法。</li>
+</ol>
+<p>如下是三种情形示范：</p>
+<p>第一种实现 java.rmi.Remote 接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.rmi.Remote;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloRmi</span> <span class="keyword">implements</span> <span class="title">Remote</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	<span class="comment">// write your code here</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>第二种远程对象的实现类必须继承UnicastRemoteObject类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> <span class="keyword">extends</span> <span class="title">UnicastRemoteObject</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="title">Main</span><span class="params">()</span> <span class="keyword">throws</span> RemoteException </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	<span class="comment">// write your code here</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>第三种手工初始化远程对象，并在远程对象的构造方法的调用UnicastRemoteObject.exportObject()静态方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloImpl</span> <span class="keyword">implements</span> <span class="title">IHello</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="title">HelloImpl</span><span class="params">()</span> <span class="keyword">throws</span> RemoteException </span>&#123;</span><br><span class="line">        UnicastRemoteObject.exportObject(<span class="keyword">this</span>, <span class="number">0</span>);<span class="comment">//此处为远程对象的构造方法</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">sayHello</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        System.out.println(name);</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 在JVM之间通信时，RMI对远程对象和非远程对象的处理方式不一样， 它并没有直接把远程对象复制一份传递给客户端，而是传递了**一个远程对象的Stub **。</p>
+<p>Stub:</p>
+<p>Stub基本上相当于是远程对象的<strong>引用或者代理</strong>。Stub对开发者是透明的，客户端可以像调用本地方法一样直接通过它来调用远程方法。</p>
+<p>Stub中包含了远程对象的定位信息，如Socket端口、服务端主机地址等等，并实现了远程调用过程中具体的底层网络通信细节 </p>
+<p><img src="/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/1575432491296.png" alt="1575432491296"></p>
+<p>因此，Stub对于RMI通信至关重要，前面提到了其对开发者是透明的。如何获取Stub的方式值得考虑。</p>
+<p>常见的方法是调用某个远程服务上的方法，向远程服务获取 。</p>
+<p> JDK提供了一个RMI注册表（RMIRegistry）， RMIRegistry也是一个远程对象，默认监听在传说中的1099端口上，可以使用代码启动RMIRegistry，也可以使用rmiregistry命令。 </p>
+<p><img src="/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/1575436071395.png" alt="1575436071395"></p>
+<p>同时，在之前文章中遇到了rmi无法执行而ldap可以执行的情况。其原因应该就在于使用rmi的时候使用的远程对象（恶意服务器获取恶意服务器上的HTTP远程对象（也就是那个恶意的class））是没有实现三种rmi远程对象的要求的任意一种的：</p>
+<p><img src="/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/1575438375514.png" alt="1575438375514"></p>
+<p><img src="/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/1575438394677.png" alt="1575438394677"></p>
+<p><img src="/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/1575441023028.png" alt="1575441023028"></p>
+<h2 id="动态类加载"><a href="#动态类加载" class="headerlink" title="动态类加载"></a>动态类加载</h2><ol>
+<li>RMI核心特点之一就是<strong>动态类加载</strong>，如果当前<strong>JVM中没有某个类</strong>的定义，它可以从远程URL去下载这个类的class。</li>
+<li><strong>JVM中没有某个类</strong>的定义解释：启动时将相关类的class加载入JVM中，位于JAVA文件的第三个生命周期。</li>
+<li>动态加载的对象class文件可以使用Web服务的方式进行托管。这可以动态的扩展远程应用的功能，RMI注册表上可以动态的加载绑定多个RMI应用。 </li>
+<li>对于客户端而言，服务端返回值也可能是一些子类的对象实例，而客户端并没有这些子类的class文件，如果需要客户端正确调用这些子类中被重写的方法，则同样需要有运行时动态加载额外类的能力。客户端使用了与RMI注册表相同的机制。RMI服务端将URL传递给客户端，客户端通过HTTP请求下载这些类。 </li>
+<li> JNDI注入的利用方法中也借助了动态加载类的思路 </li>
+</ol>
+<p><img src="/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/1575441696645.png" alt="1575441696645"></p>
+<p>第一步：RMIServer注册1099的Registry服务</p>
+<p>第二步：RMIClient想要与RMIServer通信</p>
+<p>第三部：RMIClient通过注册表获取与Server通信的Stub连接并要求获取某个Object</p>
+<p>第四步：RMIServer通过HTTP协议拿到WebServer的RMIClient想要的Object对象并在第五步通过Stub返回给RMIClient</p>
+<h3 id="JNDI注入"><a href="#JNDI注入" class="headerlink" title="JNDI注入"></a>JNDI注入</h3><p>JNDI底层支持RMI远程对象，RMI注册的服务可以通过JNDI接口来访问和调用。</p>
+<p>JNDI接口在初始化时，可以将RMI URL作为参数传入 </p>
+<p>在JNDI服务中，RMI服务端除了直接绑定远程对象之外，还 **可以通过References类来绑定一个外部的远程对象（当前名称目录系统之外的对象）。绑定了Reference之后，服务端会先通过Referenceable.getReference()获取绑定对象的引用，并且在目录中保存。当客户端在lookup()查找这个远程对象时，客户端会获取相应的object factory，最终通过factory类将reference转换为具体的对象实例。 **</p>
+<p>因此在原本的rmiServer.java中多了一步</p>
+<p><img src="/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/1575442572538.png" alt="1575442572538"></p>
+<p>整个利用流程如下：</p>
+<ol>
+<li>目标代码中调用了InitialContext.lookup(URI)，且URI为用户可控（<strong>也就是RCE的唯一条件</strong>，后面都是攻击者设计的路）；</li>
+<li>攻击者控制URI参数为恶意的RMI服务地址，如：rmi://hacker_rmi_server//name；</li>
+<li>攻击者RMI服务器向目标返回一个Reference对象，Reference对象中指定某个精心构造的Factory类；</li>
+<li>目标在进行lookup()操作时，会<strong>动态加载并实例化Factory类</strong>，接着调用factory.**getObjectInstance()**获取外部远程对象实例；</li>
+<li>攻击者可以在Factory类文件的**构造方法、静态代码块、getObjectInstance()**方法等处写入恶意代码，达到RCE的效果；</li>
+</ol>
+<p><img src="/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/1575443059434.png" alt="1575443059434"></p>
+<p>同时上文提供了三种可执行代码的区块分别是：  <strong>构造方法、静态代码块、getObjectInstance()</strong></p>
+<p>Fastjson对于JDNI的调用链：</p>
+<ul>
+<li>-&gt; RegistryContext.decodeObject()<ul>
+<li>-&gt; NamingManager.getObjectInstance()<ul>
+<li>-&gt; factory.getObjectInstance()</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p> Spring框架的spring-tx.jar调用链</p>
+<ul>
+<li>JtaTransactionManager.readObject()<ul>
+<li>InitialContext.lookup(URL) </li>
+</ul>
+</li>
+</ul>
+<p> com.sun.rowset.JdbcRowSetImpl类的execute() 调用链</p>
+<ul>
+<li>-&gt; JdbcRowSetImpl.execute()<ul>
+<li>-&gt; JdbcRowSetImpl.prepare()<ul>
+<li>-&gt; JdbcRowSetImpl.connect()<ul>
+<li>-&gt; InitialContext.lookup(dataSource)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>有 jdk 版本要求</p>
+<p>需要 target 主机上面的 jdk 版本有严格的要求：</p>
+<p><img src="/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/1575447960527.png" alt="1575447960527"></p>
+<p>具体是在新版本的JDK中trustURLCodebase值为false</p>
+<p>导致Java\jdk8u202\jre\lib\rt.jar!\com\sun\jndi\rmi\registry\RegistryContext.class#354行抛出了异常：</p>
+<p><img src="/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/1575448290193.png" alt="1575448290193"></p>
+<p>该异常调用栈为</p>
+<p><img src="/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/1575448327451.png" alt="1575448327451"></p>
+<p>因此也造成了JDK自带的修复。而LDAP修复更晚，也就是说，尽量使用ldap来使用此攻击链（能用RMI必然能用LDAP）</p>
+<hr>
+<h1 id="Java反序列化：基于CommonsCollections4的Gadget分析"><a href="#Java反序列化：基于CommonsCollections4的Gadget分析" class="headerlink" title="Java反序列化：基于CommonsCollections4的Gadget分析"></a>Java反序列化：基于CommonsCollections4的Gadget分析</h1><p>在反序列化漏洞的利用过程中，攻击者会构造一系列的调用链以完成其攻击行为。如何高效的生成符合条件且可以稳定利用的攻击Payload成为了攻击链条中的重要一环，当前已经有很多现成的工具帮助我们完成Payload的生成工作如 ysoserial </p>
+<p>基于PriorityQueue类的序列化对象的构造，另一方面是PriorityQueue对象在反序列化过程中恶意代码的触发原理</p>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+    
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdn.bootcss.com/sweetalert/2.1.2/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/sweetalert/1.1.2/sweetalert.min.css">
+
+  <p><span>本文标题:</span>读他人知识获得的一些知识</a></p>
+  <p><span>文章作者:</span></a></p>
+  <p><span>发布时间:</span>2019年12月20日 - 19:37:52</p>
+  <p><span>最后更新:</span>2019年12月31日 - 14:14:56</p>
+  <p><span>原始链接:</span><a href="/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/" title="读他人知识获得的一些知识">http://laker.xyz/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://laker.xyz/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" rel="tag"># 代码审计</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/19/Wireshark%E8%BF%87%E6%BB%A4%E5%99%A8%E4%BD%BF%E7%94%A8/" rel="next" title="Wireshark过滤器使用">
+                <i class="fa fa-chevron-left"></i> Wireshark过滤器使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/25/JAVA%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%AD%E4%BA%A7%E7%94%9F%E7%9A%84%E4%B8%80%E4%BA%9B%E7%96%91%E9%97%AE/" rel="prev" title="JAVA反序列化中产生的一些疑问">
+                JAVA反序列化中产生的一些疑问 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.th3wind.xyz" title="th3wind" target="_blank">th3wind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://damit5.com/" title="damit5" target="_blank">damit5</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#RMI%E7%9A%84%E8%B0%83%E7%94%A8%E6%B5%81%E7%A8%8B%E3%80%81RMI%E6%B3%A8%E5%86%8C%E8%A1%A8%E4%BB%A5%E5%8F%8A%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E7%B1%BB"><span class="nav-number">1.</span> <span class="nav-text">RMI的调用流程、RMI注册表以及动态加载类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E8%BF%9C%E7%A8%8B%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.1.</span> <span class="nav-text">1.2 远程对象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E7%B1%BB%E5%8A%A0%E8%BD%BD"><span class="nav-number">2.</span> <span class="nav-text">动态类加载</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JNDI%E6%B3%A8%E5%85%A5"><span class="nav-number">2.1.</span> <span class="nav-text">JNDI注入</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%EF%BC%9A%E5%9F%BA%E4%BA%8ECommonsCollections4%E7%9A%84Gadget%E5%88%86%E6%9E%90"><span class="nav-number"></span> <span class="nav-text">Java反序列化：基于CommonsCollections4的Gadget分析</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">laker</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+    <br>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

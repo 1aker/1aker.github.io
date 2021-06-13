@@ -1,37 +1,873 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/128x128.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="杂项," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="文章复制、参考： https:&#x2F;&#x2F;segmentfault.com&#x2F;a&#x2F;1190000018910384 https:&#x2F;&#x2F;blog.csdn.net&#x2F;u012123511&#x2F;article&#x2F;details&#x2F;86526669 12345678系统证书路径：&#x2F;system&#x2F;etc&#x2F;security&#x2F;cacerts&#x2F;证书cer转换pem：openssl x509 -inform der -in Fiddl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安卓手机微信7.0.4调试小程序抓包https请求失败问题和解决">
+<meta property="og:url" content="http://laker.xyz/2020/01/14/%E5%AE%89%E5%8D%93%E6%89%8B%E6%9C%BA%E5%BE%AE%E4%BF%A17-0-4%E8%B0%83%E8%AF%95%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85https%E8%AF%B7%E6%B1%82%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E5%92%8C%E8%A7%A3%E5%86%B3/index.html">
+<meta property="og:site_name" content="laker&#39;s Blog">
+<meta property="og:description" content="文章复制、参考： https:&#x2F;&#x2F;segmentfault.com&#x2F;a&#x2F;1190000018910384 https:&#x2F;&#x2F;blog.csdn.net&#x2F;u012123511&#x2F;article&#x2F;details&#x2F;86526669 12345678系统证书路径：&#x2F;system&#x2F;etc&#x2F;security&#x2F;cacerts&#x2F;证书cer转换pem：openssl x509 -inform der -in Fiddl">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-01-14T03:00:24.000Z">
+<meta property="article:modified_time" content="2020-01-16T07:18:18.000Z">
+<meta property="article:author" content="laker">
+<meta property="article:tag" content="杂项">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://laker.xyz/2020/01/14/安卓手机微信7-0-4调试小程序抓包https请求失败问题和解决/"/>
+
+
+
+
+
+  <title>安卓手机微信7.0.4调试小程序抓包https请求失败问题和解决 | laker's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">laker's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录渗透测试琐事仅仅</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://laker.xyz/2020/01/14/%E5%AE%89%E5%8D%93%E6%89%8B%E6%9C%BA%E5%BE%AE%E4%BF%A17-0-4%E8%B0%83%E8%AF%95%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85https%E8%AF%B7%E6%B1%82%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E5%92%8C%E8%A7%A3%E5%86%B3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="laker's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">安卓手机微信7.0.4调试小程序抓包https请求失败问题和解决</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-01-14T11:00:24+08:00">
+                2020-01-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>文章复制、参考：</p>
+<p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000018910384">https://segmentfault.com/a/1190000018910384</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u012123511/article/details/86526669">https://blog.csdn.net/u012123511/article/details/86526669</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">系统证书路径：/system/etc/security/cacerts/</span><br><span class="line">证书cer转换pem：</span><br><span class="line">openssl x509 -inform der -<span class="keyword">in</span> FiddlerRoot.cer -out FiddlerRoot.pem</span><br><span class="line">证书计算文件名：</span><br><span class="line">openssl x509 -subject_hash_old -<span class="keyword">in</span> FiddlerRoot.pem | head -1</span><br><span class="line">赋权：</span><br><span class="line">chmod 644 /system/etc/security/cacerts/*.0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/21382e28ba41">https://www.jianshu.com/p/21382e28ba41</a></p>
+<hr>
+<blockquote>
+<p>注意：阅读本文需要一台已经root的安卓手机！</p>
+</blockquote>
+<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">系统：MacOS 10.13.6</span><br><span class="line">手机：小米6（已root）</span><br><span class="line">抓包工具：Charles</span><br><span class="line">微信版本：7.0.4</span><br></pre></td></tr></table></figure>
+
+<h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><p>安卓手机无法通过Charles代理抓包https请求，我前天（2019年04月16日）用的7.0.3不知道为什么能抓到，昨天手残更新到7.0.4就不行了。而iOS（iPhone5S 12.1.4）没有问题。</p>
+<p>查找相关资料，都说微信升级到版本7之后就限制了用户证书凭据。根据网上较多的推荐方案，建议把证书放在系统证书存放目录下，那这就<strong>需要Root手机</strong>了，如果没有，以下内容不适合阅读。</p>
+<p>接下来，我尝试将Charles生成的证书放在手机的系统证书中，并没有那么顺利，很失败！我慢慢来讲解一下。</p>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><h3 id="生成Charles证书"><a href="#生成Charles证书" class="headerlink" title="生成Charles证书"></a>生成Charles证书</h3><blockquote>
+<p>我们要生成一个可以存放在系统证书目录下的可被识别的证书。</p>
+</blockquote>
+<p>手机代理设置好了后，手机访问：&lt;chls.pro/ssl&gt;下载下来证书，名称是这样的<code>charles-proxy-ssl-proxying-certificate.pem</code>（你把这个文件搞到电脑上，假设该证书存在电脑的路径：<code>~/charles-proxy-ssl-proxying-certificate.pem</code>）。</p>
+<p>在你的电脑<strong>终端</strong>通过这个命令生成一个hash值：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 -subject_hash_old -in ~/charles-proxy-ssl-proxying-certificate.pem</span><br></pre></td></tr></table></figure>
+
+<p>可以看到输出了类似如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">P750TM:webs whidy$ openssl x509 -subject_hash_old -in ~/certificate.pem </span><br><span class="line">07e87b3d</span><br><span class="line">-----BEGIN CERTIFICATE-----</span><br><span class="line">MIIFYjCCBEqgAwIBAgIGAWeQpfWHMA...</span><br><span class="line">....</span><br><span class="line">77JclxPc0UdJHi5rOf7w+LU8YZFPdMTLa/c2JjMlspt08UeQVDE=</span><br><span class="line">-----END CERTIFICATE-----</span><br></pre></td></tr></table></figure>
+
+<p>将证书更名<code>07e87b3d.0</code>注意后缀！</p>
+<p>接下来你可以用任意手段将该文件拷贝至手机的<code>/system/etc/security/cacerts/</code>目录，如果成功则再次尝试抓包，如果失败，请继续看。</p>
+<h3 id="超级终端操作"><a href="#超级终端操作" class="headerlink" title="超级终端操作"></a>超级终端操作</h3><p>如果不嫌麻烦的话，你完全可以在安卓手机上面的超级终端（自行下载的工具）进行以下操作，但是我没有这样，我在MacOSX中启用adb连接操作手机，如果你正有此意，请按照我的方式操作。</p>
+<p>电脑终端执行以下命令（这里不介绍brew，不理解的自行学习）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew cask install android-platform-tools</span><br></pre></td></tr></table></figure>
+
+<p>装好后，数据线连上手机，测试一下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb devices</span><br></pre></td></tr></table></figure>
+
+<p>没报错，且大概出现以下信息则正常：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List of devices attached</span><br><span class="line">* daemon not running; starting now at tcp:5037</span><br><span class="line">* daemon started successfully</span><br><span class="line">fa8a05fd    device</span><br></pre></td></tr></table></figure>
+
+<p>然后获取root权限，尝试将文件<code>07e87b3d.0</code>拷贝到<code>/system/etc/security/cacerts/</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb root</span><br></pre></td></tr></table></figure>
+
+<p>获得权限后，直接执行下面命令将证书放入系统目录。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">push ~/07e87b3d.0 /system/etc/security/cacerts/</span><br></pre></td></tr></table></figure>
+
+<p>如果成功了，请尝试抓包。如果提示失败，比如权限不足，只读啥的，反正大概错误信息如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">P750TM:/ whidy$ adb push ~/07e87b3d.0 /system/etc/security/cacerts/</span><br><span class="line">adb: error: failed to copy &#x27;/Users/whidy/07e87b3d.0&#x27; to &#x27;/system/etc/security/cacerts/07e87b3d.0&#x27;: remote couldn&#x27;t create file: Read-only file system</span><br><span class="line">/Users/whidy/07e87b3d.0: 0 files pushed. 0.0 MB/s (1947 bytes in 0.119s)</span><br></pre></td></tr></table></figure>
+
+<p>那就要继续折腾了。网上抄到的chmod 777目前是不管用的。要通过mount的相关操作来解决这个问题。</p>
+<h3 id="装载可写的system目录"><a href="#装载可写的system目录" class="headerlink" title="装载可写的system目录"></a>装载可写的system目录</h3><p>查看当前system目录挂载在哪里<code>mount</code>，可以得到大致如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">rootfs on / type rootfs (ro,seclabel,size=2828452k,nr_inodes=707113)</span><br><span class="line">tmpfs on /dev type tmpfs (rw,seclabel,nosuid,relatime,size=2912600k,nr_inodes=728150,mode=755)</span><br><span class="line">devpts on /dev/pts type devpts (rw,seclabel,relatime,mode=600)</span><br><span class="line">proc on /proc type proc (rw,relatime,gid=3009,hidepid=2)</span><br><span class="line">sysfs on /sys type sysfs (rw,seclabel,relatime)</span><br><span class="line">selinuxfs on /sys/fs/selinux type selinuxfs (rw,relatime)</span><br><span class="line">/dev/block/dm-0 on /system type ext4 (ro,seclabel,relatime,discard,data=ordered)</span><br><span class="line">debugfs on /sys/kernel/debug type debugfs (rw,seclabel,relatime)</span><br><span class="line">none on /acct type cgroup (rw,relatime,cpuacct)</span><br><span class="line">none on /dev/stune type cgroup (rw,relatime,schedtune)</span><br><span class="line">tmpfs on /mnt type tmpfs (rw,seclabel,relatime,size=2912600k,nr_inodes=728150,mode=755,gid=1000)</span><br><span class="line">none on /config type configfs (rw,relatime)</span><br><span class="line">none on /dev/memcg type cgroup (rw,relatime,memory)</span><br></pre></td></tr></table></figure>
+
+<p>注意到<code>/dev/block/dm-0 on /system type ext4 (ro,seclabel,relatime,discard,data=ordered)</code>这一行，后面括号有个ro，代表readonly！</p>
+<p>接下来尝试修改为可写（<code>rw</code>）状态：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mount -o rw,remount /dev/block/dm-0 /system</span><br></pre></td></tr></table></figure>
+
+<p>如果成功了，就试试将文件拷贝进去，失败了，例如提示：<code>&#39;/dev/block/dm-0&#39; is read-only</code>，请继续阅读。</p>
+<p>这里参考<a target="_blank" rel="noopener" href="https://android.stackexchange.com/a/186736">Android O, failed to mount /system, /dev/block/dm-0 is read only</a>，一顿操作！我这边是这样的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adb disable-verity</span><br><span class="line">adb reboot</span><br></pre></td></tr></table></figure>
+
+<p>关闭验证是要重启设备的。执行重启后，继续：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">adb root</span><br><span class="line">adb remount</span><br><span class="line">adb shell</span><br></pre></td></tr></table></figure>
+
+<p>再执行<code>mount</code>发现结果跟刚才不一样了，找到有system的那一行发现这样的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/dev/block/sde43 on /system type ext4 (rw,seclabel,relatime,discard,data=ordered)</span><br></pre></td></tr></table></figure>
+
+<p>已经可写了，我试试拷贝进去。执行<code>adb push ~/07e87b3d.0 /system/etc/security/cacerts/</code>，出现以下结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">P750TM:/ whidy$ adb push ~/07e87b3d.0 /system/etc/security/cacerts/</span><br><span class="line">/Users/whidy/07e87b3d.0: 1 file pushed. 0.1 MB/s (1947 bytes in 0.022s)</span><br></pre></td></tr></table></figure>
+
+<p>应该就完成了。再去我的小米6手机里面的<code>设置 &gt; 更多设置 &gt; 系统安全 &gt; 加密与凭据 &gt; 信任的凭据 &gt; 系统</code>里面看看，滚到最低部，ok，证书导入成功了。再去抓包看看~</p>
+<p>我这文章是边写边记录的，现在可以看到https请求的抓包已经Ok啦~</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p><del>为了手机安全，我建议最后还原一下之前操作过的<code>disable-verity</code>命令，执行</del>（如果你不再测试抓包了请执行）下面命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">adb root</span><br><span class="line">adb enable-verity</span><br><span class="line">adb reboot</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：我以为证书是存好了，把这个重新打开，提高安全性，结构发现打开后，重启，证书又没了。。。所以可能，要想抓包，这个就不能重新开启了</p>
+</blockquote>
+<p>行了差不多就这些了。</p>
+<p>写文本有参考阅读的相关文章：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://testerhome.com/topics/17746">听说安卓微信 7.0 不能抓 https?</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/28009716/how-can-i-remount-my-android-system-as-read-write-in-a-bash-script-using-adb">How can I remount my Android/system as read-write in a bash script using adb?</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/tabactivity/article/details/12629873">android使用mount挂载/system/app为读写权限，删除或替换系统应用</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+    
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdn.bootcss.com/sweetalert/2.1.2/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/sweetalert/1.1.2/sweetalert.min.css">
+
+  <p><span>本文标题:</span>安卓手机微信7.0.4调试小程序抓包https请求失败问题和解决</a></p>
+  <p><span>文章作者:</span></a></p>
+  <p><span>发布时间:</span>2020年01月14日 - 11:00:24</p>
+  <p><span>最后更新:</span>2020年01月16日 - 15:18:18</p>
+  <p><span>原始链接:</span><a href="/2020/01/14/%E5%AE%89%E5%8D%93%E6%89%8B%E6%9C%BA%E5%BE%AE%E4%BF%A17-0-4%E8%B0%83%E8%AF%95%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85https%E8%AF%B7%E6%B1%82%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E5%92%8C%E8%A7%A3%E5%86%B3/" title="安卓手机微信7.0.4调试小程序抓包https请求失败问题和解决">http://laker.xyz/2020/01/14/%E5%AE%89%E5%8D%93%E6%89%8B%E6%9C%BA%E5%BE%AE%E4%BF%A17-0-4%E8%B0%83%E8%AF%95%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85https%E8%AF%B7%E6%B1%82%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E5%92%8C%E8%A7%A3%E5%86%B3/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://laker.xyz/2020/01/14/%E5%AE%89%E5%8D%93%E6%89%8B%E6%9C%BA%E5%BE%AE%E4%BF%A17-0-4%E8%B0%83%E8%AF%95%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85https%E8%AF%B7%E6%B1%82%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E5%92%8C%E8%A7%A3%E5%86%B3/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E6%9D%82%E9%A1%B9/" rel="tag"># 杂项</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/01/08/JAVA%E7%9B%B8%E5%85%B3%E5%AE%B9%E5%99%A8%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0/" rel="next" title="JAVA相关容器序列化漏洞学习">
+                <i class="fa fa-chevron-left"></i> JAVA相关容器序列化漏洞学习
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/01/14/Redis%E9%85%8D%E7%BD%AE-Ubuntu/" rel="prev" title="毕设环境-Redis配置-Ubuntu">
+                毕设环境-Redis配置-Ubuntu <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.th3wind.xyz" title="th3wind" target="_blank">th3wind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://damit5.com/" title="damit5" target="_blank">damit5</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%B4%E6%98%8E"><span class="nav-number">1.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%B0%E8%B1%A1"><span class="nav-number">2.</span> <span class="nav-text">现象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4"><span class="nav-number">3.</span> <span class="nav-text">步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E6%88%90Charles%E8%AF%81%E4%B9%A6"><span class="nav-number">3.1.</span> <span class="nav-text">生成Charles证书</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B6%85%E7%BA%A7%E7%BB%88%E7%AB%AF%E6%93%8D%E4%BD%9C"><span class="nav-number">3.2.</span> <span class="nav-text">超级终端操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A3%85%E8%BD%BD%E5%8F%AF%E5%86%99%E7%9A%84system%E7%9B%AE%E5%BD%95"><span class="nav-number">3.3.</span> <span class="nav-text">装载可写的system目录</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E5%90%8E"><span class="nav-number">4.</span> <span class="nav-text">最后</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">laker</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+    <br>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

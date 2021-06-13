@@ -1,37 +1,803 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/128x128.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="[转载文章] 首先下载tomcat源码** 下载地址如下： http:&#x2F;&#x2F;archive.apache.org&#x2F;dist&#x2F;tomcat&#x2F;tomcat-8&#x2F;v8.5.46&#x2F;src&#x2F; http:&#x2F;&#x2F;archive.apache.org&#x2F;dist&#x2F;tomcat&#x2F;tomcat-8&#x2F;v8.5.46&#x2F;src&#x2F;apache-tomcat-8.5.46-src.tar.gz 测试8.5.61不可用该方法  解压压">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tomcat源码编译-IDEA">
+<meta property="og:url" content="http://laker.xyz/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/index.html">
+<meta property="og:site_name" content="laker&#39;s Blog">
+<meta property="og:description" content="[转载文章] 首先下载tomcat源码** 下载地址如下： http:&#x2F;&#x2F;archive.apache.org&#x2F;dist&#x2F;tomcat&#x2F;tomcat-8&#x2F;v8.5.46&#x2F;src&#x2F; http:&#x2F;&#x2F;archive.apache.org&#x2F;dist&#x2F;tomcat&#x2F;tomcat-8&#x2F;v8.5.46&#x2F;src&#x2F;apache-tomcat-8.5.46-src.tar.gz 测试8.5.61不可用该方法  解压压">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://laker.xyz/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608626347822.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608626362118.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608626427817.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608626400423.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608626449910.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608626467325.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608626503950.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608626528340.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608626585546.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608626676618.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2019093017284951.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM1MjYyNDA1,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="http://laker.xyz/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608626713672.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608626747217.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190930173213480.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM1MjYyNDA1,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="http://laker.xyz/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608626775169.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608626854212.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608627099617.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608628686832.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608628702353.png">
+<meta property="article:published_time" content="2020-12-22T08:35:17.000Z">
+<meta property="article:modified_time" content="2021-01-04T06:35:48.000Z">
+<meta property="article:author" content="laker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://laker.xyz/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608626347822.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://laker.xyz/2020/12/22/Tomcat源码编译-IDEA/"/>
+
+
+
+
+
+  <title>Tomcat源码编译-IDEA | laker's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">laker's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录渗透测试琐事仅仅</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://laker.xyz/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="laker's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Tomcat源码编译-IDEA</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-12-22T16:35:17+08:00">
+                2020-12-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>[转载文章]</p>
+<p>首先下载tomcat源码**</p>
+<p>下载地址如下：</p>
+<p><a target="_blank" rel="noopener" href="http://archive.apache.org/dist/tomcat/tomcat-8/v8.5.46/src/">http://archive.apache.org/dist/tomcat/tomcat-8/v8.5.46/src/</a></p>
+<p><a target="_blank" rel="noopener" href="http://archive.apache.org/dist/tomcat/tomcat-8/v8.5.46/src/apache-tomcat-8.5.46-src.tar.gz">http://archive.apache.org/dist/tomcat/tomcat-8/v8.5.46/src/apache-tomcat-8.5.46-src.tar.gz</a></p>
+<p>测试8.5.61不可用该方法</p>
+<ol>
+<li><strong>解压压缩包</strong></li>
+</ol>
+<p>注意将压缩包解压到一个空的文件夹中，这里解压到了tomcat-8.5.61-source文件夹中<br><img src="/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608626347822.png" alt="1608626347822"></p>
+<ol>
+<li><strong>创建实例文件夹</strong></li>
+</ol>
+<p>创建一个catalina-home文件夹，这个文件夹存放着真正运行的tomcat实例<br><img src="/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608626362118.png" alt="1608626362118"></p>
+<ol>
+<li><strong>拷贝文件及创建文件夹</strong></li>
+</ol>
+<p>将解压的文件夹中的conf和webapps文件夹拷贝到实例文件夹中<br><img src="/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608626427817.png" alt="1608626427817"><br><img src="/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608626400423.png" alt="1608626400423"><br>在实例文件夹中接着创建lib、logs和temp文件夹（空的文件夹就可以了）<br><img src="/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608626449910.png" alt="1608626449910"></p>
+<ol>
+<li><strong>创建pom文件</strong></li>
+</ol>
+<p>首先在最外层的文件夹中，也就是tomcat-8.5.61-source文件夹中创建pom.xml文件<br><img src="/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608626467325.png" alt="1608626467325"><br>内容如下</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>gxf<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span>    </span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>apache-tomcat-8<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span>    </span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>apache-tomcat-8-source<span class="tag">&lt;/<span class="name">name</span>&gt;</span>    </span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span>    </span><br><span class="line">    <span class="tag">&lt;<span class="name">packaging</span>&gt;</span>pom<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">modules</span>&gt;</span>    </span><br><span class="line">        <span class="tag">&lt;<span class="name">module</span>&gt;</span>apache-tomcat-8.5.61-src<span class="tag">&lt;/<span class="name">module</span>&gt;</span>    </span><br><span class="line">    <span class="tag">&lt;/<span class="name">modules</span>&gt;</span>    </span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>注意这个module标签的内容就是解压后的文件夹的名字<br><img src="/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608626503950.png" alt="1608626503950"><br>接着在解压后的文件夹中创建pom.xml文件<br><img src="/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608626528340.png" alt="1608626528340"><br>内容如下</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.tomcat<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>Tomcat8.5.46<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>Tomcat8.5.46<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>8.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">build</span>&gt;</span>    </span><br><span class="line">        <span class="tag">&lt;<span class="name">finalName</span>&gt;</span>Tomcat8.0<span class="tag">&lt;/<span class="name">finalName</span>&gt;</span>    </span><br><span class="line">        <span class="tag">&lt;<span class="name">sourceDirectory</span>&gt;</span>java<span class="tag">&lt;/<span class="name">sourceDirectory</span>&gt;</span>    </span><br><span class="line"><span class="comment">&lt;!--        &lt;testSourceDirectory&gt;test&lt;/testSourceDirectory&gt;    --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">resources</span>&gt;</span>    </span><br><span class="line">            <span class="tag">&lt;<span class="name">resource</span>&gt;</span>    </span><br><span class="line">                <span class="tag">&lt;<span class="name">directory</span>&gt;</span>java<span class="tag">&lt;/<span class="name">directory</span>&gt;</span>    </span><br><span class="line">            <span class="tag">&lt;/<span class="name">resource</span>&gt;</span>    </span><br><span class="line">        <span class="tag">&lt;/<span class="name">resources</span>&gt;</span>    </span><br><span class="line"><span class="comment">&lt;!--        &lt;testResources&gt;    --&gt;</span></span><br><span class="line"><span class="comment">&lt;!--            &lt;testResource&gt;    --&gt;</span></span><br><span class="line"><span class="comment">&lt;!--                &lt;directory&gt;test&lt;/directory&gt;    --&gt;</span></span><br><span class="line"><span class="comment">&lt;!--            &lt;/testResource&gt;    --&gt;</span></span><br><span class="line"><span class="comment">&lt;!--        &lt;/testResources&gt;    --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">plugins</span>&gt;</span>    </span><br><span class="line">            <span class="tag">&lt;<span class="name">plugin</span>&gt;</span>    </span><br><span class="line">                <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span>    </span><br><span class="line">                <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-compiler-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span>    </span><br><span class="line">                <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.0.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span>    </span><br><span class="line">    </span><br><span class="line">                <span class="tag">&lt;<span class="name">configuration</span>&gt;</span>    </span><br><span class="line">                    <span class="tag">&lt;<span class="name">encoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">encoding</span>&gt;</span>    </span><br><span class="line">                    <span class="tag">&lt;<span class="name">source</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">source</span>&gt;</span>    </span><br><span class="line">                    <span class="tag">&lt;<span class="name">target</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">target</span>&gt;</span>    </span><br><span class="line">                <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span>    </span><br><span class="line">            <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span>    </span><br><span class="line">        <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span>    </span><br><span class="line">    <span class="tag">&lt;/<span class="name">build</span>&gt;</span>    </span><br><span class="line"></span><br><span class="line">   <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.easymock<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>easymock<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span>  </span><br><span class="line">  </span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span>    </span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span>    </span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span>    </span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.12<span class="tag">&lt;/<span class="name">version</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span>    </span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span>    </span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span>    </span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>ant<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span>    </span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>ant<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span>    </span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.7.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span>    </span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span>    </span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span>    </span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>wsdl4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span>    </span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>wsdl4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span>    </span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.6.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span>    </span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span>    </span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span>    </span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.xml<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span>    </span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jaxrpc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span>    </span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span>    </span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span>    </span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span>    </span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.eclipse.jdt.core.compiler<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span>    </span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>ecj<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span>    </span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.6.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span>    </span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span>    </span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br><span class="line">1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>使用Idea导入项目</strong><br>选中最外层文件夹中的pom文件导入就可以了<br><img src="/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608626585546.png" alt="1608626585546"></li>
+</ol>
+<p>设置Source 文件夹：</p>
+<p><img src="/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608626676618.png" alt="1608626676618"></p>
+<ol>
+<li><strong>配置项目入口</strong></li>
+</ol>
+<p>打开配置页面<br><img src="https://img-blog.csdnimg.cn/2019093017284951.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM1MjYyNDA1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>选择application<br><img src="/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608626713672.png" alt="1608626713672"><br>这里的Main class选择解压后的文件夹中的java文件夹中的<code>org.apache.catalina.startup.Bootstrap</code><br><img src="/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608626747217.png" alt="1608626747217"><br><img src="https://img-blog.csdnimg.cn/20190930173213480.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM1MjYyNDA1,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>添加JVM参数，参数如下</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-Dcatalina.home=catalina-home</span><br><span class="line">-Dcatalina.base=catalina-home</span><br><span class="line">-Djava.endorsed.dirs=catalina-home/endorsed</span><br><span class="line">-Djava.io.tmpdir=catalina-home/temp</span><br><span class="line">-Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager</span><br><span class="line">-Djava.util.logging.config.file=catalina-home/conf/logging.properties</span><br><span class="line">123456</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608626775169.png" alt="1608626775169"><br>Use classpath of module这里选择Tomcat8.5.46</p>
+<ol>
+<li><strong>删除test文件夹</strong></li>
+</ol>
+<p>在idea中删除解压后的文件夹中的test文件夹，否则在构建项目的时候会报错</p>
+<ol>
+<li><strong>手动加载jsp</strong></li>
+</ol>
+<p>org.apache.catalina.startup.ContextConfig#webConfig   779行</p>
+<p>我们直接启动org.apache.catalina.startup.Bootstrap的时候没有加载org.apache.jasper.servlet.JasperInitializer，从而无法编译JSP。这在Tomcat6/7是没有这个问题的。解决办法是在tomcat的源码org.apache.catalina.startup.ContextConfig中手动将JSP解析器初始化。</p>
+<p><img src="/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608626854212.png" alt="1608626854212"></p>
+<p>添加</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">context.addServletContainerInitializer(new JasperInitializer(), null);</span><br></pre></td></tr></table></figure>
+
+<p>修改目标发行版</p>
+<p><img src="/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608627099617.png" alt="1608627099617"></p>
+<p><img src="/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608628686832.png" alt="1608628686832"></p>
+<p><img src="/2020/12/22/Tomcat%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91-IDEA/1608628702353.png" alt="1608628702353"></p>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+    
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/12/17/LinuxSSH%E5%90%8E%E9%97%A8%E7%9B%B8%E5%85%B3/" rel="next" title="LinuxSSH后门相关">
+                <i class="fa fa-chevron-left"></i> LinuxSSH后门相关
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/12/28/%E5%85%8D%E6%9D%80%E7%9B%B8%E5%85%B3%E6%80%9D%E8%80%83/" rel="prev" title="免杀相关思考">
+                免杀相关思考 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.th3wind.xyz" title="th3wind" target="_blank">th3wind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://damit5.com/" title="damit5" target="_blank">damit5</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">laker</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+    <br>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

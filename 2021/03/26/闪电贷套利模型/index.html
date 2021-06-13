@@ -1,37 +1,833 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/128x128.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="模型1 使用交易所原本差价参见之前的文章 模型2 使用抵押品不足未爆仓–头寸健康度Bzx事件（ 0xb5c8bd9430b6cc87a0e2fe110ece6bf527fa4f170a4bc8cd032f768fc5219838 ） 攻击流程：1234[BTC吸筹]第一步，从dYdX中借出了10,000个ETH。第二步，当“攻击者”拿到10,000个ETH后，它将其中5,500个ETH存入Comp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="闪电贷套利模型">
+<meta property="og:url" content="http://laker.xyz/2021/03/26/%E9%97%AA%E7%94%B5%E8%B4%B7%E5%A5%97%E5%88%A9%E6%A8%A1%E5%9E%8B/index.html">
+<meta property="og:site_name" content="laker&#39;s Blog">
+<meta property="og:description" content="模型1 使用交易所原本差价参见之前的文章 模型2 使用抵押品不足未爆仓–头寸健康度Bzx事件（ 0xb5c8bd9430b6cc87a0e2fe110ece6bf527fa4f170a4bc8cd032f768fc5219838 ） 攻击流程：1234[BTC吸筹]第一步，从dYdX中借出了10,000个ETH。第二步，当“攻击者”拿到10,000个ETH后，它将其中5,500个ETH存入Comp">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://laker.xyz/2021/03/26/%E9%97%AA%E7%94%B5%E8%B4%B7%E5%A5%97%E5%88%A9%E6%A8%A1%E5%9E%8B/1616746978201.png">
+<meta property="og:image" content="http://laker.xyz/2021/03/26/%E9%97%AA%E7%94%B5%E8%B4%B7%E5%A5%97%E5%88%A9%E6%A8%A1%E5%9E%8B/1616747010642.png">
+<meta property="og:image" content="http://laker.xyz/2021/03/26/%E9%97%AA%E7%94%B5%E8%B4%B7%E5%A5%97%E5%88%A9%E6%A8%A1%E5%9E%8B/1616747026364.png">
+<meta property="og:image" content="http://laker.xyz/2021/03/26/%E9%97%AA%E7%94%B5%E8%B4%B7%E5%A5%97%E5%88%A9%E6%A8%A1%E5%9E%8B/1616751966794.png">
+<meta property="og:image" content="http://laker.xyz/2021/03/26/%E9%97%AA%E7%94%B5%E8%B4%B7%E5%A5%97%E5%88%A9%E6%A8%A1%E5%9E%8B/1616752165377.png">
+<meta property="og:image" content="http://laker.xyz/2021/03/26/%E9%97%AA%E7%94%B5%E8%B4%B7%E5%A5%97%E5%88%A9%E6%A8%A1%E5%9E%8B/1616752387274.png">
+<meta property="og:image" content="http://laker.xyz/2021/03/26/%E9%97%AA%E7%94%B5%E8%B4%B7%E5%A5%97%E5%88%A9%E6%A8%A1%E5%9E%8B/1616753014118.png">
+<meta property="og:image" content="http://laker.xyz/2021/03/26/%E9%97%AA%E7%94%B5%E8%B4%B7%E5%A5%97%E5%88%A9%E6%A8%A1%E5%9E%8B/1616985909391.png">
+<meta property="og:image" content="http://laker.xyz/2021/03/26/%E9%97%AA%E7%94%B5%E8%B4%B7%E5%A5%97%E5%88%A9%E6%A8%A1%E5%9E%8B/1616985968455.png">
+<meta property="article:published_time" content="2021-03-26T06:48:15.000Z">
+<meta property="article:modified_time" content="2021-03-29T03:04:32.000Z">
+<meta property="article:author" content="laker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://laker.xyz/2021/03/26/%E9%97%AA%E7%94%B5%E8%B4%B7%E5%A5%97%E5%88%A9%E6%A8%A1%E5%9E%8B/1616746978201.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://laker.xyz/2021/03/26/闪电贷套利模型/"/>
+
+
+
+
+
+  <title>闪电贷套利模型 | laker's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">laker's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录渗透测试琐事仅仅</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://laker.xyz/2021/03/26/%E9%97%AA%E7%94%B5%E8%B4%B7%E5%A5%97%E5%88%A9%E6%A8%A1%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="laker's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">闪电贷套利模型</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-03-26T14:48:15+08:00">
+                2021-03-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="模型1-使用交易所原本差价"><a href="#模型1-使用交易所原本差价" class="headerlink" title="模型1 使用交易所原本差价"></a>模型1 使用交易所原本差价</h3><p>参见之前的<a target="_blank" rel="noopener" href="http://laker.top/2021/03/19/%E9%97%AA%E7%94%B5%E8%B4%B7%E5%A5%97%E5%88%A9/#more">文章</a></p>
+<h3 id="模型2-使用抵押品不足未爆仓–头寸健康度"><a href="#模型2-使用抵押品不足未爆仓–头寸健康度" class="headerlink" title="模型2 使用抵押品不足未爆仓–头寸健康度"></a>模型2 使用抵押品不足未爆仓–头寸健康度</h3><p>Bzx事件（ 0xb5c8bd9430b6cc87a0e2fe110ece6bf527fa4f170a4bc8cd032f768fc5219838 ）</p>
+<h4 id="攻击流程："><a href="#攻击流程：" class="headerlink" title="攻击流程："></a>攻击流程：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[BTC吸筹]</span><br><span class="line">第一步，从dYdX中借出了10,000个ETH。</span><br><span class="line"></span><br><span class="line">第二步，当“攻击者”拿到10,000个ETH后，它将其中5,500个ETH存入Compound作为抵押品，并借出112个wbtc。这112wbtc为后续抛售做准备。</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2021/03/26/%E9%97%AA%E7%94%B5%E8%B4%B7%E5%A5%97%E5%88%A9%E6%A8%A1%E5%9E%8B/1616746978201.png" alt="1616746978201"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[BTC拉升]</span><br><span class="line">第三步，将1,300个ETH存入bZX，发起bZx保证金交易，借入5637.6个ETH，并通过Kyber的Uniswap储备库，兑换获得51.3个wbtc，导致产生极大的滑点。</span><br><span class="line"></span><br><span class="line">第四步，wbtc的价格在Uniswap上被拉高3倍多，然后攻击者将从Compound借来的112wbct抛售，这导致产生6871.4个ETH的回报。</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/03/26/%E9%97%AA%E7%94%B5%E8%B4%B7%E5%A5%97%E5%88%A9%E6%A8%A1%E5%9E%8B/1616747010642.png" alt="1616747010642"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[清算]</span><br><span class="line">第五步，攻击者归还10,000ETH的dYdX闪贷。那么，这时攻击者的余额有71.4ETH。其中的6871.4ETH和未动用的3200ETH，加起来一共是10,071.4ETH。因此，偿还闪贷后，还剩余71.4ETH。此外，攻击者还剩余Compound和bZx的头寸，其中Compound里有5,500WETH抵押品和112wbtc债务，bZx有4337WETH债务和51wbtc的抵押（bZx部分无法提取）。根据市场价格，攻击者可以用大约4300ETH便可兑换出112wbtc，那么，也就是说攻击者归还112wbtc（用4300ETH左右）换回5500WETH，也就是1200ETH，那么加上之前71.4ETH，攻击者大约获利1,271.4个ETH，按照当时ETH280美元左右的价格，攻击者大约获利在35万美元左右。</span><br></pre></td></tr></table></figure>
+
+<p><strong>本步骤如果1300ETH抵押物不足导致bzx爆仓、那么攻击者将不会得到51.3wbtc这么多。按理5倍杠杆，BTC如果下降20%则会爆仓。但这里未在中途爆仓。</strong></p>
+<p><img src="/2021/03/26/%E9%97%AA%E7%94%B5%E8%B4%B7%E5%A5%97%E5%88%A9%E6%A8%A1%E5%9E%8B/1616747026364.png" alt="1616747026364"></p>
+<h4 id="产生原因"><a href="#产生原因" class="headerlink" title="产生原因"></a>产生原因</h4><p> Uniswap中的WBTC/ETH价格是如何被操纵至高达61.4的利润？ ( WBTC/ETH的价格甚至在正常市场价格仅为38左右时==&gt;被推高到了109.8 )</p>
+<p>bzx为何在抵押物不足时仍继续砸盘？</p>
+<p>跟进 _borrowTokenAndUse 函数，如果已质押，则 amountIsADeposit 为true，这时候会调用 _getBorrowAmountAndRate 返回借贷率</p>
+<p><img src="/2021/03/26/%E9%97%AA%E7%94%B5%E8%B4%B7%E5%A5%97%E5%88%A9%E6%A8%A1%E5%9E%8B/1616751966794.png" alt="1616751966794"></p>
+<p> 返回的borrowAmount将会存入sentAmounts[1] ，并更新 sentAmounts[6] </p>
+<p>然后后续进入 _borrowTokenAndUseFinal </p>
+<p><img src="/2021/03/26/%E9%97%AA%E7%94%B5%E8%B4%B7%E5%A5%97%E5%88%A9%E6%A8%A1%E5%9E%8B/1616752165377.png" alt="1616752165377"></p>
+<p>看一下_borrowTokenAndUseFinal ，该方法对 sentAmounts 和 sentAddresses 进行检查后进入 takeOrderFromiToken 来返回借款量</p>
+<p><img src="/2021/03/26/%E9%97%AA%E7%94%B5%E8%B4%B7%E5%A5%97%E5%88%A9%E6%A8%A1%E5%9E%8B/1616752387274.png" alt="1616752387274"></p>
+<p>然后执行部分进入 **bZxContract . takeOrderFromiToken() **</p>
+<p>然而该处的<strong>shouldLiquidate 逻辑错误</strong>导致流动性检查被跳过</p>
+<p><img src="/2021/03/26/%E9%97%AA%E7%94%B5%E8%B4%B7%E5%A5%97%E5%88%A9%E6%A8%A1%E5%9E%8B/1616753014118.png" alt="1616753014118"></p>
+<p>在shouldLiquidate 中使用return返回流动性是否充足。返回false但是却不能阻止require的通过。</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>这是一次利用杠杆抵押率不足检查绕过的漏洞来进行多倍砸盘导致的闪电贷攻击</p>
+<h3 id="模型3-以子之矛、攻子之盾"><a href="#模型3-以子之矛、攻子之盾" class="headerlink" title="模型3 以子之矛、攻子之盾"></a>模型3 以子之矛、攻子之盾</h3><p>Bzx事件2（  0x31e085afd48a1d6e51cc193153d625e8f0514c7f  ）</p>
+<p>（   0x4cb01bd05e4652cbb9f312ae604f4549d2bf2c99  ）</p>
+<h4 id="攻击流程：-1"><a href="#攻击流程：-1" class="headerlink" title="攻击流程："></a>攻击流程：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[sUSD吸筹]</span><br><span class="line">第一步，从bzx中借出了7500个ETH。</span><br><span class="line"></span><br><span class="line">第二步，当“攻击者”拿到7500个ETH后，它将其中900个ETH存入在Kyberswap换出sUSD(156,003个)</span><br><span class="line">(6000-2486)个ETH存入Synthetic Depot换出sUSD(94 3,837个)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/03/26/%E9%97%AA%E7%94%B5%E8%B4%B7%E5%A5%97%E5%88%A9%E6%A8%A1%E5%9E%8B/1616985909391.png" alt="1616985909391"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[以拉升的价值抵押取出原代币]</span><br><span class="line">第三步，100万个 sUSD抵押回bZx，然后向bZx借款6796个 ETH。</span><br><span class="line">目前剩余(7,500—900—6,000)+2,482=3,082 ETH  + 6796ETH =9878个ETH</span><br><span class="line">第四步，将7,500 个ETH归还给bZx，获利2,378 个ETH的利润。</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/03/26/%E9%97%AA%E7%94%B5%E8%B4%B7%E5%A5%97%E5%88%A9%E6%A8%A1%E5%9E%8B/1616985968455.png" alt="1616985968455"></p>
+<h4 id="产生原因-1"><a href="#产生原因-1" class="headerlink" title="产生原因"></a>产生原因</h4><p>(bzx使用 Kyberswap 作为价格更新端)、攻击者使用bzx闪电贷去将源头的价格进行改变。</p>
+<p>进而充分拉升源头sUSD价值、同时进行价格更新后抵押sUSD取出更多的需归还的ETH代币</p>
+<h4 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h4><p>这是一次利用源头价值更新不完整设计缺陷来进行自我砸盘导致的闪电贷攻击，价值更新未完全同步。</p>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+    
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdn.bootcss.com/sweetalert/2.1.2/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/sweetalert/1.1.2/sweetalert.min.css">
+
+  <p><span>本文标题:</span>闪电贷套利模型</a></p>
+  <p><span>文章作者:</span></a></p>
+  <p><span>发布时间:</span>2021年03月26日 - 14:48:15</p>
+  <p><span>最后更新:</span>2021年03月29日 - 11:04:32</p>
+  <p><span>原始链接:</span><a href="/2021/03/26/%E9%97%AA%E7%94%B5%E8%B4%B7%E5%A5%97%E5%88%A9%E6%A8%A1%E5%9E%8B/" title="闪电贷套利模型">http://laker.xyz/2021/03/26/%E9%97%AA%E7%94%B5%E8%B4%B7%E5%A5%97%E5%88%A9%E6%A8%A1%E5%9E%8B/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://laker.xyz/2021/03/26/%E9%97%AA%E7%94%B5%E8%B4%B7%E5%A5%97%E5%88%A9%E6%A8%A1%E5%9E%8B/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/03/19/%E9%97%AA%E7%94%B5%E8%B4%B7%E5%A5%97%E5%88%A9/" rel="next" title="闪电贷套利">
+                <i class="fa fa-chevron-left"></i> 闪电贷套利
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/06/13/hello-world/" rel="prev" title="Hello World">
+                Hello World <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.th3wind.xyz" title="th3wind" target="_blank">th3wind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://damit5.com/" title="damit5" target="_blank">damit5</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B1-%E4%BD%BF%E7%94%A8%E4%BA%A4%E6%98%93%E6%89%80%E5%8E%9F%E6%9C%AC%E5%B7%AE%E4%BB%B7"><span class="nav-number">1.</span> <span class="nav-text">模型1 使用交易所原本差价</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B2-%E4%BD%BF%E7%94%A8%E6%8A%B5%E6%8A%BC%E5%93%81%E4%B8%8D%E8%B6%B3%E6%9C%AA%E7%88%86%E4%BB%93%E2%80%93%E5%A4%B4%E5%AF%B8%E5%81%A5%E5%BA%B7%E5%BA%A6"><span class="nav-number">2.</span> <span class="nav-text">模型2 使用抵押品不足未爆仓–头寸健康度</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%94%BB%E5%87%BB%E6%B5%81%E7%A8%8B%EF%BC%9A"><span class="nav-number">2.1.</span> <span class="nav-text">攻击流程：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%A7%E7%94%9F%E5%8E%9F%E5%9B%A0"><span class="nav-number">2.2.</span> <span class="nav-text">产生原因</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">2.3.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B3-%E4%BB%A5%E5%AD%90%E4%B9%8B%E7%9F%9B%E3%80%81%E6%94%BB%E5%AD%90%E4%B9%8B%E7%9B%BE"><span class="nav-number">3.</span> <span class="nav-text">模型3 以子之矛、攻子之盾</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%94%BB%E5%87%BB%E6%B5%81%E7%A8%8B%EF%BC%9A-1"><span class="nav-number">3.1.</span> <span class="nav-text">攻击流程：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%A7%E7%94%9F%E5%8E%9F%E5%9B%A0-1"><span class="nav-number">3.2.</span> <span class="nav-text">产生原因</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-1"><span class="nav-number">3.3.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">laker</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+    <br>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

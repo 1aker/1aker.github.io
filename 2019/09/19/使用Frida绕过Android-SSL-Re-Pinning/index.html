@@ -1,37 +1,817 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/128x128.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="渗透测试," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="使用Frida绕过Android SSL Re-Pinning在Android应用中可以找到两种SSL Pinning的实现： 自己实现的和官方推荐的。  自己实现：通常使用单个方法，执行所有证书检查（可能使用自定义库），返回一个布尔值来判断是否正常。这意味着我们可以通过识别进行判断的关键函数，然后hook它的返回值来轻松地绕过此方法。针对这种检测方法，可以使用Frida JavaScript脚本">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Frida绕过Android SSL Re-Pinning">
+<meta property="og:url" content="http://laker.xyz/2019/09/19/%E4%BD%BF%E7%94%A8Frida%E7%BB%95%E8%BF%87Android-SSL-Re-Pinning/index.html">
+<meta property="og:site_name" content="laker&#39;s Blog">
+<meta property="og:description" content="使用Frida绕过Android SSL Re-Pinning在Android应用中可以找到两种SSL Pinning的实现： 自己实现的和官方推荐的。  自己实现：通常使用单个方法，执行所有证书检查（可能使用自定义库），返回一个布尔值来判断是否正常。这意味着我们可以通过识别进行判断的关键函数，然后hook它的返回值来轻松地绕过此方法。针对这种检测方法，可以使用Frida JavaScript脚本">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://laker.xyz/2019/09/19/%E4%BD%BF%E7%94%A8Frida%E7%BB%95%E8%BF%87Android-SSL-Re-Pinning/1565611045933.png">
+<meta property="og:image" content="http://laker.xyz/2019/09/19/%E4%BD%BF%E7%94%A8Frida%E7%BB%95%E8%BF%87Android-SSL-Re-Pinning/1565611070309.png">
+<meta property="article:published_time" content="2019-09-19T11:37:52.000Z">
+<meta property="article:modified_time" content="2019-12-31T06:21:06.000Z">
+<meta property="article:author" content="laker">
+<meta property="article:tag" content="渗透测试">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://laker.xyz/2019/09/19/%E4%BD%BF%E7%94%A8Frida%E7%BB%95%E8%BF%87Android-SSL-Re-Pinning/1565611045933.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://laker.xyz/2019/09/19/使用Frida绕过Android-SSL-Re-Pinning/"/>
+
+
+
+
+
+  <title>使用Frida绕过Android SSL Re-Pinning | laker's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">laker's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录渗透测试琐事仅仅</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://laker.xyz/2019/09/19/%E4%BD%BF%E7%94%A8Frida%E7%BB%95%E8%BF%87Android-SSL-Re-Pinning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="laker's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用Frida绕过Android SSL Re-Pinning</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-19T19:37:52+08:00">
+                2019-09-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="使用Frida绕过Android-SSL-Re-Pinning"><a href="#使用Frida绕过Android-SSL-Re-Pinning" class="headerlink" title="使用Frida绕过Android SSL Re-Pinning"></a>使用Frida绕过Android SSL Re-Pinning</h2><p>在Android应用中可以找到两种SSL Pinning的实现：</p>
+<p>自己实现的和官方推荐的。</p>
+<ul>
+<li><p>自己实现：通常使用单个方法，执行所有证书检查（可能使用自定义库），返回一个布尔值来判断是否正常。这意味着我们可以通过识别进行判断的关键函数，然后hook它的返回值来轻松地绕过此方法。针对这种检测方法，可以使用Frida JavaScript脚本，hook关键函数，使他永远返回True, 绕过检查。</p>
+</li>
+<li><p>官方推荐： 当SSL Pinning是根据Android的<a target="_blank" rel="noopener" href="https://developer.android.com/training/articles/security-ssl.html">官方文档</a>实现时，事情变得更加艰难。不过现在还是有很多优秀的解决方案，比如定制的Android图像，底层框架，使socket.relaxsslcheck = yes等等。几乎每个尝试绕过SSL Pinning的方案都是基于操纵SSLContext。我们可以用Frida操纵SSLContext吗？我们想要的是一个通用的方法，我们想用Frida JavaScript脚本来实现这个目的。</p>
+</li>
+</ul>
+<p>本次使用的APP为之前项目遇到的一个无法抓包的蛇皮apk（可反编译）。借此，防止下次再遇到。（<a target="_blank" rel="noopener" href="https://app.taibi.io/down">https://app.taibi.io/down</a>）</p>
+<h2 id="绕过第一种情况"><a href="#绕过第一种情况" class="headerlink" title="绕过第一种情况"></a>绕过第一种情况</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment">   Android SSL Re-pinning frida script v0.2 030417-pier </span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">   $ adb push burpca-cert-der.crt /data/local/tmp/cert-der.crt</span></span><br><span class="line"><span class="comment">   $ frida -U -f it.app.mobile -l frida-android-repinning.js --no-pause</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">   https://techblog.mediaservice.net/2017/07/universal-android-ssl-pinning-bypass-with-frida/</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    Java.perform(<span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">    	<span class="built_in">console</span>.log(<span class="string">&quot;&quot;</span>);</span><br><span class="line">	    <span class="built_in">console</span>.log(<span class="string">&quot;[.] Cert Pinning Bypass/Re-Pinning&quot;</span>);</span><br><span class="line"></span><br><span class="line">	    <span class="keyword">var</span> CertificateFactory = Java.use(<span class="string">&quot;java.security.cert.CertificateFactory&quot;</span>);</span><br><span class="line">	    <span class="keyword">var</span> FileInputStream = Java.use(<span class="string">&quot;java.io.FileInputStream&quot;</span>);</span><br><span class="line">	    <span class="keyword">var</span> BufferedInputStream = Java.use(<span class="string">&quot;java.io.BufferedInputStream&quot;</span>);</span><br><span class="line">	    <span class="keyword">var</span> X509Certificate = Java.use(<span class="string">&quot;java.security.cert.X509Certificate&quot;</span>);</span><br><span class="line">	    <span class="keyword">var</span> KeyStore = Java.use(<span class="string">&quot;java.security.KeyStore&quot;</span>);</span><br><span class="line">	    <span class="keyword">var</span> TrustManagerFactory = Java.use(<span class="string">&quot;javax.net.ssl.TrustManagerFactory&quot;</span>);</span><br><span class="line">	    <span class="keyword">var</span> SSLContext = Java.use(<span class="string">&quot;javax.net.ssl.SSLContext&quot;</span>);</span><br><span class="line"></span><br><span class="line">	    <span class="comment">// Load CAs from an InputStream</span></span><br><span class="line">	    <span class="built_in">console</span>.log(<span class="string">&quot;[+] Loading our CA...&quot;</span>)</span><br><span class="line">	    cf = CertificateFactory.getInstance(<span class="string">&quot;X.509&quot;</span>);</span><br><span class="line">	    </span><br><span class="line">	    <span class="keyword">try</span> &#123;</span><br><span class="line">	    	<span class="keyword">var</span> fileInputStream = FileInputStream.$new(<span class="string">&quot;/data/local/tmp/cert-der.crt&quot;</span>);</span><br><span class="line">	    &#125;</span><br><span class="line">	    <span class="keyword">catch</span>(err) &#123;</span><br><span class="line">	    	<span class="built_in">console</span>.log(<span class="string">&quot;[o] &quot;</span> + err);</span><br><span class="line">	    &#125;</span><br><span class="line">	    </span><br><span class="line">	    <span class="keyword">var</span> bufferedInputStream = BufferedInputStream.$new(fileInputStream);</span><br><span class="line">	  	<span class="keyword">var</span> ca = cf.generateCertificate(bufferedInputStream);</span><br><span class="line">	    bufferedInputStream.close();</span><br><span class="line"></span><br><span class="line">		<span class="keyword">var</span> certInfo = Java.cast(ca, X509Certificate);</span><br><span class="line">	    <span class="built_in">console</span>.log(<span class="string">&quot;[o] Our CA Info: &quot;</span> + certInfo.getSubjectDN());</span><br><span class="line"></span><br><span class="line">	    <span class="comment">// Create a KeyStore containing our trusted CAs</span></span><br><span class="line">	    <span class="built_in">console</span>.log(<span class="string">&quot;[+] Creating a KeyStore for our CA...&quot;</span>);</span><br><span class="line">	    <span class="keyword">var</span> keyStoreType = KeyStore.getDefaultType();</span><br><span class="line">	    <span class="keyword">var</span> keyStore = KeyStore.getInstance(keyStoreType);</span><br><span class="line">	    keyStore.load(<span class="literal">null</span>, <span class="literal">null</span>);</span><br><span class="line">	    keyStore.setCertificateEntry(<span class="string">&quot;ca&quot;</span>, ca);</span><br><span class="line">	    </span><br><span class="line">	    <span class="comment">// Create a TrustManager that trusts the CAs in our KeyStore</span></span><br><span class="line">	    <span class="built_in">console</span>.log(<span class="string">&quot;[+] Creating a TrustManager that trusts the CA in our KeyStore...&quot;</span>);</span><br><span class="line">	    <span class="keyword">var</span> tmfAlgorithm = TrustManagerFactory.getDefaultAlgorithm();</span><br><span class="line">	    <span class="keyword">var</span> tmf = TrustManagerFactory.getInstance(tmfAlgorithm);</span><br><span class="line">	    tmf.init(keyStore);</span><br><span class="line">	    <span class="built_in">console</span>.log(<span class="string">&quot;[+] Our TrustManager is ready...&quot;</span>);</span><br><span class="line"></span><br><span class="line">	    <span class="built_in">console</span>.log(<span class="string">&quot;[+] Hijacking SSLContext methods now...&quot;</span>)</span><br><span class="line">	    <span class="built_in">console</span>.log(<span class="string">&quot;[-] Waiting for the app to invoke SSLContext.init()...&quot;</span>)</span><br><span class="line"></span><br><span class="line">	   	SSLContext.init.overload(<span class="string">&quot;[Ljavax.net.ssl.KeyManager;&quot;</span>, <span class="string">&quot;[Ljavax.net.ssl.TrustManager;&quot;</span>, <span class="string">&quot;java.security.SecureRandom&quot;</span>).implementation = <span class="function"><span class="keyword">function</span>(<span class="params">a,b,c</span>) </span>&#123;</span><br><span class="line">	   		<span class="built_in">console</span>.log(<span class="string">&quot;[o] App invoked javax.net.ssl.SSLContext.init...&quot;</span>);</span><br><span class="line">	   		SSLContext.init.overload(<span class="string">&quot;[Ljavax.net.ssl.KeyManager;&quot;</span>, <span class="string">&quot;[Ljavax.net.ssl.TrustManager;&quot;</span>, <span class="string">&quot;java.security.SecureRandom&quot;</span>).call(<span class="built_in">this</span>, a, tmf.getTrustManagers(), c);</span><br><span class="line">	   		<span class="built_in">console</span>.log(<span class="string">&quot;[+] SSLContext initialized with our custom TrustManager!&quot;</span>);</span><br><span class="line">	   	&#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;,<span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>adb push burpca-cert-der.crt /data/local/tmp/cert-der.crt adb shell &quot;/data/local/tmp/frida-server &amp;&quot; frida -U -f **it.app.mobile** -l frida-android-repinning.js --no-pause</code></p>
+<p>如下图：</p>
+<p><img src="/2019/09/19/%E4%BD%BF%E7%94%A8Frida%E7%BB%95%E8%BF%87Android-SSL-Re-Pinning/1565611045933.png" alt="1565611045933"></p>
+<p>但是</p>
+<p><img src="/2019/09/19/%E4%BD%BF%E7%94%A8Frida%E7%BB%95%E8%BF%87Android-SSL-Re-Pinning/1565611070309.png" alt="1565611070309"></p>
+<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>首先对一个app进行破解抓包，逆向其代码必不可少。</p>
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/86507">https://www.anquanke.com/post/id/86507</a></p>
+<p>除此之外：</p>
+<p>virtualxposed值得推荐：<a target="_blank" rel="noopener" href="https://xposed.appkg.com/tag/virtualxposed">https://xposed.appkg.com/tag/virtualxposed</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+    
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdn.bootcss.com/sweetalert/2.1.2/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/sweetalert/1.1.2/sweetalert.min.css">
+
+  <p><span>本文标题:</span>使用Frida绕过Android SSL Re-Pinning</a></p>
+  <p><span>文章作者:</span></a></p>
+  <p><span>发布时间:</span>2019年09月19日 - 19:37:52</p>
+  <p><span>最后更新:</span>2019年12月31日 - 14:21:06</p>
+  <p><span>原始链接:</span><a href="/2019/09/19/%E4%BD%BF%E7%94%A8Frida%E7%BB%95%E8%BF%87Android-SSL-Re-Pinning/" title="使用Frida绕过Android SSL Re-Pinning">http://laker.xyz/2019/09/19/%E4%BD%BF%E7%94%A8Frida%E7%BB%95%E8%BF%87Android-SSL-Re-Pinning/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://laker.xyz/2019/09/19/%E4%BD%BF%E7%94%A8Frida%E7%BB%95%E8%BF%87Android-SSL-Re-Pinning/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag"># 渗透测试</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/17/SpEL%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B3%A8%E5%85%A5/" rel="next" title="SpEL表达式注入">
+                <i class="fa fa-chevron-left"></i> SpEL表达式注入
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/28/PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0/" rel="prev" title="PHP代码审计学习">
+                PHP代码审计学习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.th3wind.xyz" title="th3wind" target="_blank">th3wind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://damit5.com/" title="damit5" target="_blank">damit5</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Frida%E7%BB%95%E8%BF%87Android-SSL-Re-Pinning"><span class="nav-number">1.</span> <span class="nav-text">使用Frida绕过Android SSL Re-Pinning</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%95%E8%BF%87%E7%AC%AC%E4%B8%80%E7%A7%8D%E6%83%85%E5%86%B5"><span class="nav-number">2.</span> <span class="nav-text">绕过第一种情况</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">3.</span> <span class="nav-text">初始化</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">laker</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+    <br>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

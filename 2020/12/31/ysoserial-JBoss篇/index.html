@@ -1,37 +1,905 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/128x128.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言 ysoserial是一款在Github开源的知名java 反序列化利用工具，里面集合了各种java反序列化payload。该工具涉及大量的序列化与反序列化、反射等安全研究人员所必备的JAVA代码技能，通过对该框架的分析，我们可以个更好的学习该工具，巩固JAVA代码审计的技能树。同时在二次开发和使用该工具时得心应手。 ysoserial目录结构+— appveyor.yml+— assembl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ysoserial--JBoss篇">
+<meta property="og:url" content="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/index.html">
+<meta property="og:site_name" content="laker&#39;s Blog">
+<meta property="og:description" content="前言 ysoserial是一款在Github开源的知名java 反序列化利用工具，里面集合了各种java反序列化payload。该工具涉及大量的序列化与反序列化、反射等安全研究人员所必备的JAVA代码技能，通过对该框架的分析，我们可以个更好的学习该工具，巩固JAVA代码审计的技能树。同时在二次开发和使用该工具时得心应手。 ysoserial目录结构+— appveyor.yml+— assembl">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/1609140925182.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/1609140981855.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/1609141136594.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/1609144548901.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/1609141402939.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/1609141685786.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/1609142758230.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/1609143308050.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/1609143335823.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/1609143486305.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/1609396369906.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/1609143997499.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/1609144389144.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/1609144717230.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/1609144758188.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/1609145278343.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/1609146800322.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/1609147730694.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/1609148218704.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/1609148439068.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/1609148667604.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/1609210960495.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/1609211741100.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/1609317286775.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/1609317311001.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/1609319851618.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/1609320134703.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/1609320320408.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/1609320991916.png">
+<meta property="og:image" content="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/1609384676275.png">
+<meta property="article:published_time" content="2020-12-31T07:13:37.000Z">
+<meta property="article:modified_time" content="2021-01-04T06:31:00.000Z">
+<meta property="article:author" content="laker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/1609140925182.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://laker.xyz/2020/12/31/ysoserial-JBoss篇/"/>
+
+
+
+
+
+  <title>ysoserial--JBoss篇 | laker's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">laker's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录渗透测试琐事仅仅</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="laker's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ysoserial--JBoss篇</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-12-31T15:13:37+08:00">
+                2020-12-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p> ysoserial是一款在<a target="_blank" rel="noopener" href="https://github.com/frohoff/ysoserial/">Github</a>开源的知名java 反序列化利用工具，里面集合了各种java反序列化payload。该工具涉及大量的序列化与反序列化、反射等安全研究人员所必备的JAVA代码技能，通过对该框架的分析，我们可以个更好的学习该工具，巩固JAVA代码审计的技能树。同时在二次开发和使用该工具时得心应手。</p>
+<h1 id="ysoserial目录结构"><a href="#ysoserial目录结构" class="headerlink" title="ysoserial目录结构"></a>ysoserial目录结构</h1><p>+— appveyor.yml<br>+— assembly.xml<br>+— DISCLAIMER.txt<br>+— Dockerfile<br>+— LICENSE.txt<br>+— pom.xml<br>+— README.md<br>+— src<br>|   +— main<br>|   |   +— java<br>|   |   |   +— ysoserial<br>|   |   |   |   +— Deserializer.java<br>|   |   |   |   +— <strong>exploit</strong><br>|   |   |   |   |   +— JBoss.java<br>|   |   |   |   |   +— JenkinsCLI.java<br>|   |   |   |   |   +— JenkinsListener.java<br>|   |   |   |   |   +— JenkinsReverse.java<br>|   |   |   |   |   +— JMXInvokeMBean.java<br>|   |   |   |   |   +— JRMPClassLoadingListener.java<br>|   |   |   |   |   +— JRMPClient.java<br>|   |   |   |   |   +— JRMPListener.java<br>|   |   |   |   |   +— JSF.java<br>|   |   |   |   |   +— RMIRegistryExploit.java<br>|   |   |   |   +— GeneratePayload.java<br>|   |   |   |   +— <strong>payloads</strong><br>|   |   |   |   |   +— annotation<br>|   |   |   |   |   |   +— Authors.java<br>|   |   |   |   |   |   +— Dependencies.java<br>|   |   |   |   |   |   +— PayloadTest.java<br>|   |   |   |   |   +— BeanShell1.java<br>|   |   |   |   |   +— C3P0.java<br>|   |   |   |   |   +— Clojure.java<br>|   |   |   |   |   +— CommonsBeanutils1.java<br>|   |   |   |   |   +— CommonsCollections1.java<br>|   |   |   |   |   +— CommonsCollections2.java<br>|   |   |   |   |   +— CommonsCollections3.java<br>|   |   |   |   |   +— CommonsCollections4.java<br>|   |   |   |   |   +— CommonsCollections5.java<br>|   |   |   |   |   +— CommonsCollections6.java<br>|   |   |   |   |   +— CommonsCollections7.java<br>|   |   |   |   |   +— DynamicDependencies.java<br>|   |   |   |   |   +— FileUpload1.java<br>|   |   |   |   |   +— Groovy1.java<br>|   |   |   |   |   +— Hibernate1.java<br>|   |   |   |   |   +— Hibernate2.java<br>|   |   |   |   |   +— JavassistWeld1.java<br>|   |   |   |   |   +— JBossInterceptors1.java<br>|   |   |   |   |   +— Jdk7u21.java<br>|   |   |   |   |   +— JRMPClient.java<br>|   |   |   |   |   +— JRMPListener.java<br>|   |   |   |   |   +— JSON1.java<br>|   |   |   |   |   +— Jython1.java<br>|   |   |   |   |   +— MozillaRhino1.java<br>|   |   |   |   |   +— MozillaRhino2.java<br>|   |   |   |   |   +— Myfaces1.java<br>|   |   |   |   |   +— Myfaces2.java<br>|   |   |   |   |   +— ObjectPayload.java<br>|   |   |   |   |   +— ReleaseableObjectPayload.java<br>|   |   |   |   |   +— ROME.java<br>|   |   |   |   |   +— Spring1.java<br>|   |   |   |   |   +— Spring2.java<br>|   |   |   |   |   +— URLDNS.java<br>|   |   |   |   |   +— util<br>|   |   |   |   |   |   +— ClassFiles.java<br>|   |   |   |   |   |   +— Gadgets.java<br>|   |   |   |   |   |   +— JavaVersion.java<br>|   |   |   |   |   |   +— PayloadRunner.java<br>|   |   |   |   |   |   +— Reflections.java<br>|   |   |   |   |   +— Vaadin1.java<br>|   |   |   |   |   +— Wicket1.java<br>|   |   |   |   +— secmgr<br>|   |   |   |   |   +— DelegateSecurityManager.java<br>|   |   |   |   |   +— ExecCheckingSecurityManager.java<br>|   |   |   |   +— Serializer.java<br>|   |   |   |   +— Strings.java</p>
+<p>test模块先不放，首先先关注最核心的攻击代码部分：</p>
+<p>|   |   |   |   |   +— JBoss.java<br>|   |   |   |   |   +— JenkinsCLI.java<br>|   |   |   |   |   +— JenkinsListener.java<br>|   |   |   |   |   +— JenkinsReverse.java<br>|   |   |   |   |   +— JMXInvokeMBean.java<br>|   |   |   |   |   +— JRMPClassLoadingListener.java<br>|   |   |   |   |   +— JRMPClient.java<br>|   |   |   |   |   +— JRMPListener.java<br>|   |   |   |   |   +— JSF.java<br>|   |   |   |   |   +— RMIRegistryExploit.java</p>
+<h2 id="正文–JBoss-java"><a href="#正文–JBoss-java" class="headerlink" title="正文–JBoss.java"></a>正文–JBoss.java</h2><p>先来看这个ysoserial/exploit/JBoss.java</p>
+<h4 id="Payload构建阶段"><a href="#Payload构建阶段" class="headerlink" title="Payload构建阶段"></a>Payload构建阶段</h4><p>调用方法</p>
+<p><code>java -cp ysoserial.jar ysoserial.exploit.JBoss</code></p>
+<p><img src="/2020/12/31/ysoserial-JBoss%E7%AF%87/1609140925182.png" alt="1609140925182"></p>
+<p>此处触发参数数量小于3</p>
+<p><img src="/2020/12/31/ysoserial-JBoss%E7%AF%87/1609140981855.png" alt="1609140981855"></p>
+<p>正确的攻击是需要加上URI和可选的其他参数的</p>
+<p>然后108行根据URI构建一个URI对象：</p>
+<p><img src="/2020/12/31/ysoserial-JBoss%E7%AF%87/1609141136594.png" alt="1609141136594"></p>
+<p>这里使用了静态方法create，因此无需实例化，可直接调用传入参数</p>
+<p><img src="/2020/12/31/ysoserial-JBoss%E7%AF%87/1609144548901.png" alt="1609144548901"></p>
+<p>这里出现了<strong>Utils的 makePayloadObject</strong>方法，我们跟进看一下，按住Ctrl点击左键，传入参数为payloadType和payloadArg（示例：”119.23.31.1” “Clojure”）：</p>
+<p><img src="/2020/12/31/ysoserial-JBoss%E7%AF%87/1609141402939.png" alt="1609141402939"></p>
+<p>此处Class用了泛型（限制通配符），该泛型需要继承自ObjectPayload对象，JAVA将错误解决在编译期，若指定的泛型对象不是ObjectPayload的子对象将不会通过。</p>
+<p>通过类中getPayloadClass方法取得类Class对象（clazz）：</p>
+<p><img src="/2020/12/31/ysoserial-JBoss%E7%AF%87/1609141685786.png" alt="1609141685786"></p>
+<p>其中还有两种取得类Class对象的方法，Class.class的方式在JBoss类104行已经使用过了，其区别为：</p>
+<ul>
+<li><code>Class.class</code>的形式会使 JVM 将使用类装载器将类装入内存（前提是类还没有装入内存），不做类的初始化工作，返回 Class 对象。</li>
+<li><code>Class.forName()</code>的形式会装入类并做类的静态初始化，返回 Class 对象。</li>
+<li><code>getClass()</code> 的形式会对类进行静态初始化、非静态初始化，返回引用运行时真正所指的对象（因为子对象的引用可能会赋给父对象的引用变量中）所属的类的 Class 对象。</li>
+</ul>
+<p>因此本处使用了Class.forName的方式提取类class对象，同时进行了异常处理，防止没有找到。并且还进行了类型强制转换。</p>
+<p>当然，如果没有在String中表达出完整的类路径，45行还会帮你进行设置添加Payload生成的包路径给你</p>
+<p><img src="/2020/12/31/ysoserial-JBoss%E7%AF%87/1609142758230.png" alt="1609142758230"></p>
+<p>再找不到就看clazz是否是ObjectPayload的父类（52行），比如说JAVA中的初始类Object，不是则返回null（未找到），是则返回类class对象（猜测是为了兼容父对象）</p>
+<p>继续回到makePayloadObject对象，在获取了类Class对象（以下称clazz）后，判断clazz为空或者不是父类就抛出异常了：</p>
+<p><img src="/2020/12/31/ysoserial-JBoss%E7%AF%87/1609143308050.png" alt="1609143308050"></p>
+<p>在62行，对应：</p>
+<p><img src="/2020/12/31/ysoserial-JBoss%E7%AF%87/1609143335823.png" alt="1609143335823"></p>
+<p>很明显，Class.forName(“aaa”)或者Class.forName(“ysoserial.payloads.aaa”)这种是找不到对象的。</p>
+<p>反之</p>
+<p><img src="/2020/12/31/ysoserial-JBoss%E7%AF%87/1609143486305.png" alt="1609143486305"></p>
+<p>后面使用newInstance来构建clazz的实例化对象，使用父类Object来接，这里是多态的应用，父类型声明对象可以接收子类型实例，但是不类型转化的话只能用父对象的方法了，demo示例：</p>
+<p><img src="/2020/12/31/ysoserial-JBoss%E7%AF%87/1609396369906.png" alt="1609396369906"></p>
+<p><img src="/2020/12/31/ysoserial-JBoss%E7%AF%87/1609143997499.png" alt="1609143997499"></p>
+<p>然后使用ObjectPayload的getObject方法。放置执行的命令。然后返回Object对象：</p>
+<p><img src="/2020/12/31/ysoserial-JBoss%E7%AF%87/1609144389144.png" alt="1609144389144"></p>
+<p>回到JBoss类，开始解析host中的账号信息了：</p>
+<p><img src="/2020/12/31/ysoserial-JBoss%E7%AF%87/1609144717230.png" alt="1609144717230"></p>
+<p>getUserInfo之前没接触过，直接看文档：</p>
+<p><img src="/2020/12/31/ysoserial-JBoss%E7%AF%87/1609144758188.png" alt="1609144758188"></p>
+<p>返回解码的账号密码字符串再分割放入username和password变量，如known:<a href="mailto:&#107;&#x6e;&#x6f;&#x77;&#x6e;&#115;&#101;&#x63;&#64;&#x62;&#x61;&#x69;&#x64;&#117;&#46;&#x63;&#111;&#x6d;">&#107;&#x6e;&#x6f;&#x77;&#x6e;&#115;&#101;&#x63;&#64;&#x62;&#x61;&#x69;&#x64;&#117;&#46;&#x63;&#111;&#x6d;</a></p>
+<h4 id="JBoss连接阶段"><a href="#JBoss连接阶段" class="headerlink" title="JBoss连接阶段"></a>JBoss连接阶段</h4><p>没有问题就进入doRun函数，传入URI对象、原始Object实例（用户传入）、账户、密码</p>
+<p>先声明几个对象，放置日志记录，因此此步没那么重要，就简单带过了：</p>
+<p><img src="/2020/12/31/ysoserial-JBoss%E7%AF%87/1609145278343.png" alt="1609145278343"></p>
+<p>然后初始化OptionMap对象、ConnectionProviderContextImpl对象、ConnectionProvider对象</p>
+<p>最后通过重重组装和HttpUpgradeConnectionProviderFactory().createInstance方法获取了一个实例用ConnectionProvider去接收。这里某些方法不是JAVA的原生方法，而是org.xnio或者org.jboss中的方法。因此需要翻apache的文档因此使用比较陌生比较正常。</p>
+<p>然后构建host和port,实例化InetSocketAddress类，获取连接对象：</p>
+<p><img src="/2020/12/31/ysoserial-JBoss%E7%AF%87/1609146800322.png" alt="1609146800322"></p>
+<p>在JBoss服务正常的情况下并且账号密码正确时将到150行，之前更多的是通过JAVA去登录该JBoss服务。</p>
+<p>而此次更多的是研究ysoserial运行机制因此不做深究。</p>
+<p>然后进去makeVersionedConnection函数，发现在使用反射</p>
+<p>反射第一步 获取类class对象（clazz）</p>
+<p><img src="/2020/12/31/ysoserial-JBoss%E7%AF%87/1609147730694.png" alt="1609147730694"></p>
+<p>利用该对象获取方法（createVersionedConnection方法），此步需要传入该方法参数的对应clazz(类class对象)</p>
+<p>以前一直不理解怎么传，后来知道这里由该方法需要的参数所决定</p>
+<p><img src="/2020/12/31/ysoserial-JBoss%E7%AF%87/1609148218704.png" alt="1609148218704"></p>
+<p>文档对应的说明为，第一个参数为String类型的反射方法名，后面接该方法的参数类型（以声明顺序 来标识方法的 形式参数类型的  类对象 的数组）：</p>
+<p><img src="/2020/12/31/ysoserial-JBoss%E7%AF%87/1609148439068.png" alt="1609148439068"></p>
+<p>因此这里是Channel.class, Map.class, JMXServiceURL.class</p>
+<p>然后设置访问权限：</p>
+<p>反射invoke执行,对方法传入参数为null, c, new HashMap(), new JMXServiceURL(“service:jmx:remoting-jmx://“)</p>
+<p><img src="/2020/12/31/ysoserial-JBoss%E7%AF%87/1609148667604.png" alt="1609148667604"></p>
+<h4 id="Payload发送阶段"><a href="#Payload发送阶段" class="headerlink" title="Payload发送阶段"></a>Payload发送阶段</h4><p>回到doRun函数，接下来用该对象构建一个MBeanServerConnection后便开始攻击了</p>
+<p><img src="/2020/12/31/ysoserial-JBoss%E7%AF%87/1609210960495.png" alt="1609210960495"></p>
+<p>这里的doExploit无非是拿开始的原生对象payloadObject传递后反射注入到MBeanServerConnection实例中去</p>
+<p>同时该注入还需要其他参数，因此对Mbean进行了遍历.将恶意的对象注入后293行执行，在294行返回执行结果</p>
+<p><img src="/2020/12/31/ysoserial-JBoss%E7%AF%87/1609211741100.png" alt="1609211741100"></p>
+<p>然后回到doRun函数，doRun函数结束，回到main函数：</p>
+<p><img src="/2020/12/31/ysoserial-JBoss%E7%AF%87/1609317286775.png" alt="1609317286775"></p>
+<p>在127行释放payload:</p>
+<p><img src="/2020/12/31/ysoserial-JBoss%E7%AF%87/1609317311001.png" alt="1609317311001"></p>
+<p>进入releasePayload，参数有payload的全限定类名和payload类。</p>
+<p>首先还是用开始的getPayloadClass函数获取了clazz,同时进行了未取到的报错处理:</p>
+<p><img src="/2020/12/31/ysoserial-JBoss%E7%AF%87/1609319851618.png" alt="1609319851618"></p>
+<p>利用类class对象创建实例，同时传入同名函数releasePayload，这里使用了相同的参数个数不同的参数类型书写同名方法，体现了JAVA中的重载。</p>
+<p><img src="/2020/12/31/ysoserial-JBoss%E7%AF%87/1609320134703.png" alt="1609320134703"></p>
+<p>然后判断payload是否是ReleaseableObjectPayload的类实例（上一步已经将其实例化）。如果是的话对其使用release方法，当然这里显然不是：</p>
+<p><img src="/2020/12/31/ysoserial-JBoss%E7%AF%87/1609320320408.png" alt="1609320320408"></p>
+<p>如果是的话转化为ReleaseableObjectPayload对象后（该接口声明了一个release空方法）</p>
+<p><img src="/2020/12/31/ysoserial-JBoss%E7%AF%87/1609320991916.png" alt="1609320991916"></p>
+<p>然后将执行payload自身的release方法。因此，如果带入的Payload的恶意的，自身机器将可能被执行恶意命令（重写release方法让其成为恶意的）。</p>
+<p>这里第一次看到<strong>向父类转型父类是Interface</strong>的情况，写了个demo证实向<strong>父接口</strong>强转的确会调用子类的release方法：</p>
+<p><img src="/2020/12/31/ysoserial-JBoss%E7%AF%87/1609384676275.png" alt="1609384676275"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>JBoss模块主要是针对JBoss进行服务注入的攻击模块。其需要登录JBoss后进行恶意的Payload注入攻击，过程中多处使用了反射、多态、重载、泛型等方面的知识，而这些知识又是在漏洞代码审计Review时非常重要的JAVA知识，对该工具代码的理解可加深代码审计人员对JAVA代码审计的认知，同时提高对漏洞的理解。</p>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+    
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdn.bootcss.com/sweetalert/2.1.2/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/sweetalert/1.1.2/sweetalert.min.css">
+
+  <p><span>本文标题:</span>ysoserial--JBoss篇</a></p>
+  <p><span>文章作者:</span></a></p>
+  <p><span>发布时间:</span>2020年12月31日 - 15:13:37</p>
+  <p><span>最后更新:</span>2021年01月04日 - 14:31:00</p>
+  <p><span>原始链接:</span><a href="/2020/12/31/ysoserial-JBoss%E7%AF%87/" title="ysoserial--JBoss篇">http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://laker.xyz/2020/12/31/ysoserial-JBoss%E7%AF%87/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/12/28/%E5%85%8D%E6%9D%80%E7%9B%B8%E5%85%B3%E6%80%9D%E8%80%83/" rel="next" title="免杀相关思考">
+                <i class="fa fa-chevron-left"></i> 免杀相关思考
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/03/19/%E9%97%AA%E7%94%B5%E8%B4%B7%E5%A5%97%E5%88%A9/" rel="prev" title="闪电贷套利">
+                闪电贷套利 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.th3wind.xyz" title="th3wind" target="_blank">th3wind</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://damit5.com/" title="damit5" target="_blank">damit5</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ysoserial%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="nav-number"></span> <span class="nav-text">ysoserial目录结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A3%E6%96%87%E2%80%93JBoss-java"><span class="nav-number">1.</span> <span class="nav-text">正文–JBoss.java</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Payload%E6%9E%84%E5%BB%BA%E9%98%B6%E6%AE%B5"><span class="nav-number">1.0.1.</span> <span class="nav-text">Payload构建阶段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JBoss%E8%BF%9E%E6%8E%A5%E9%98%B6%E6%AE%B5"><span class="nav-number">1.0.2.</span> <span class="nav-text">JBoss连接阶段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Payload%E5%8F%91%E9%80%81%E9%98%B6%E6%AE%B5"><span class="nav-number">1.0.3.</span> <span class="nav-text">Payload发送阶段</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">laker</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+    <br>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
