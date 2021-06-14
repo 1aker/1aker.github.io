@@ -287,139 +287,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://laker.xyz/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="laker's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/" itemprop="url">Apache Dubbo个人复现</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-07-07T09:55:50+08:00">
-                2020-07-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          文件下载首先git上下载包。
-clonelink123git clone https://github.com/apache/dubbo-spring-boot-projectcd dubbo-spring-boot-projectgit checkout 2.7.1 -b b2.7.1
-
-将整个项
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/07/07/Apache-Dubbo%E4%B8%AA%E4%BA%BA%E5%A4%8D%E7%8E%B0/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    <div>
-    
-    </div>
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://laker.xyz/2020/07/03/%E5%86%85%E7%BD%91%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1612,6 +1479,138 @@ https://github.com/jas502n/fastjson-1.2.61-RCE/
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://laker.xyz/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="laker's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/" itemprop="url">读他人知识获得的一些知识</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-12-20T19:37:52+08:00">
+                2019-12-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          首先是一些JAVA审计中很重要的知识，其与JAVA的基础知识关系不大。
+RMI的调用流程、RMI注册表以及动态加载类RMI的调用流程，从我之前写过的 真实环境下的FastJson1.2.47反序列化 参考，首先POST到服务器一串Payload
+该Payload有我们的恶意class的服务器地址和恶
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/12/20/%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9F%A5%E8%AF%86%E8%8E%B7%E5%BE%97%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    <div>
+    
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -1662,7 +1661,7 @@ https://github.com/jas502n/fastjson-1.2.61-RCE/
               
                 <a href="/archives/%20%7C%7C%20archive">
               
-                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-count">43</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
